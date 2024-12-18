@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
         slide.innerHTML = `
           <div class="swiper-slide__block">
             <a href="${link}" target="_blank"><h3>${title}</h3></a>
-            ${removeFigures(truncateText(content, 200))}
+            ${truncateText(removeFigures(content), 100)}
             <a href="${link}" target="_blank">Read more</a>
           </div>
           <div class="swiper-slide__img">
