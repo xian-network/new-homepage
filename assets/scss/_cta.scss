@@ -1,0 +1,87 @@
+.cta {
+  margin-top: 4.1875rem;
+  .container {
+    .cta-block {
+      padding: 3.875rem 2.5rem 3.1875rem 4.75rem;
+      color: $black_v2;
+      border-radius: 15px;
+      border: 0.0625rem solid rgba(255, 255, 255, 0.47);
+      background: $cyan;
+      backdrop-filter: blur(3.125rem);
+
+      h2 {
+        font-size: 36px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 130%;
+        /* 46.8px */
+      }
+      .buttons-wrap {
+        margin-top: 3.375rem;
+        width: 100%;
+        justify-content: flex-start;
+        .main-button {
+          width: auto;
+          max-width: none;
+          border-color: $black_v2;
+          color: $black_v2;
+          &:first-child {
+            background: #fff;
+            @media (hover:hover) {
+              &:hover {
+                background: transparent;
+
+              }
+            }
+  
+            @media (hover:none) {
+              &:active {
+                background: transparent;
+
+              }
+            }
+          }
+          @media (hover:hover) {
+            &:hover {
+              background: #fff;
+            }
+          }
+
+          @media (hover:none) {
+            &:active {
+              background: #fff;
+            }
+          }
+        }
+      }
+      @media (width < 48em) {
+        .buttons-wrap {
+          flex-direction: column;
+          align-items: center;
+          row-gap: 1rem;
+          .main-button {
+            max-width: 18.75rem;
+            width: 100%;
+          }
+        }
+      }
+    }
+    @media (width < 30em) {
+     .cta-block {
+      padding: 1.25rem 1.25rem 2.25rem 1.25rem;
+      .buttons-wrap {
+        margin-top: 1.375rem;
+        .main-button {
+          padding-left: 1.25rem;
+          padding-right: 1.25rem;
+        }
+      }
+     }
+    }
+  }
+}
+@media (width < 30em) {
+  .cta {
+    margin-top: 3.75rem;
+  }
+}

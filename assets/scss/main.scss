@@ -1,0 +1,284 @@
+@use "./_variables.scss" as *;
+@use "./mixins.scss" as *;
+@import "./header.scss";
+@import "./_footer.scss";
+@import "./_hero.scss";
+@import "./_null.scss";
+@import "./_why.scss";
+@import "./_builders.scss";
+@import "./_core.scss";
+@import "./_meet.scss";
+@import "./_cta.scss";
+@import "./_roadmap.scss";
+@import "./_news.scss";
+@import "./_join.scss";
+@import "./_empower.scss";
+
+
+
+
+
+
+
+
+
+
+
+
+// ==============================================================================================================================================================================================================================================================================
+.container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0px 30px;
+}
+
+@media (width <= 62em) {
+    .container {
+        padding: 0px 60px;
+    }
+}
+
+@media (width <= 56.25em) {
+    .container {
+        padding: 0px 20px;
+    }
+}
+
+@media (max-width: 992px) {
+    .burger.active {
+        transform: rotate(90deg);
+
+        .line {
+            &.middle {
+                display: none;
+            }
+
+            &.top {
+                transform: translateY(2px) rotate(44deg);
+            }
+
+            &.bottom {
+                transform: translateY(-5px) rotate(-45deg);
+            }
+        }
+    }
+
+    .line {
+        width: 100%;
+        height: 2px;
+        background-color: #fff;
+    }
+}
+
+.iti {
+    --iti-path-flags-1x: url("../images/flags.png");
+    --iti-path-flags-2x: url("../images/flags@2x.png");
+    --iti-path-globe-1x: url("../images/globe.png");
+    --iti-path-globe-2x: url("../images/globe@2x.png");
+}
+
+.valid-msg {
+    margin-top: 5px;
+    color: #03c809;
+    font-size: 16px;
+}
+
+.error-msg {
+    margin-top: 5px;
+    font-size: 16px;
+    color: red;
+}
+
+.main-button {
+    max-width: 160px;
+    width: 100%;
+    border-radius: 0.625rem;
+    border: 0.0625rem solid #FFF;
+    font-size: 1rem;
+    padding: 0.6875rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 100%; /* 16px */
+    color: $white;
+    @media (hover:hover) {
+        &:hover {
+            border-color: transparent;
+            background: $cyan;
+            color: $black;
+        }
+    }
+
+    @media (hover:none) {
+        &:active {
+            border-color: transparent;
+            background: $cyan;
+            color: $black;
+        }
+    }
+    &.bg-color {
+        max-width: 9.75rem;
+        border-color:transparent;
+        padding: 1.25rem;
+        background: $cyan;
+        color: #000;
+
+        @media (hover:hover) {
+            &:hover {
+                border-color: #fff;
+                background: transparent;
+                color: $white;
+            }
+        }
+    
+        @media (hover:none) {
+            &:active {
+                border-color: #fff;
+                background: transparent;
+                color: $white;
+            }
+        }
+    }
+}
+
+.buttons-wrap {
+    margin-top: 1.25rem;
+    column-gap: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .main-button {
+        max-width: 9.75rem;
+        padding: 1.25rem;
+    }
+    
+}
+@media (width <= 30em) {
+    .buttons-wrap {
+        flex-direction: column;
+        gap: 2rem;
+    }
+}
+
+.blue-planet {
+    position: absolute;
+    top: -41rem;
+    right: 0;
+    z-index: 0;
+  }
+  @media (width <= 62em) {
+    .blue-planet {
+        top: -41rem;
+        right: -7rem;
+    }
+  }
+  @media (width <= 48em) {
+    .blue-planet {
+        top: -34rem;
+        right: -7rem;
+    }
+  }
+
+  @media (width <= 30em) {
+    .blue-planet {
+        width: 100%;
+        top: -28rem;
+        height: auto;
+        right: 0;
+        z-index: -1;
+        picture {
+            display: block;
+            width: 100%;
+        }
+        img {
+            width: 100%;
+            max-width: none;
+        }
+       
+    }
+  }
+
+
+
+
+
+
+.main-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 0.625rem;
+    margin-bottom: 3.4375rem;
+
+    h2 {
+      text-align: center;
+      font-size: 2.25rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 130%;
+    }
+
+    p {
+      text-align: center;
+      font-size: 1rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%;
+      /* 24px */
+    }
+  }
+
+  .ui-sortable-helper {
+    opacity: 1 !important; 
+    background-color: inherit; 
+    z-index: 1000; 
+  }
+
+
+  .main-gradient {
+    position: absolute;
+    bottom: 100px;
+    left: 0;
+    z-index: -1;
+  }
+  @media (width <= 62em) {
+    .main-gradient {
+        top: 40%;
+        
+    }
+    @media (width <= 30em) {
+        .main-gradient {
+            width: 100%;
+            top: 28%;
+            picture {
+              
+                display: block;
+                img {
+                    max-width: none;
+                    width: 100%;
+                   
+                }
+            }
+            
+        }
+    }
+  }
+
+  .main-gradient-right {
+    display: none;
+    z-index: -1;
+  }
+  @media (width <= 30em) {
+    .main-gradient-right {
+        display: block;
+        position: absolute;
+        width: 100%;
+        top: 19%;
+        right: 0;
+        img {
+            max-width: none;
+            width: 100%;
+        }
+    }
+  }
