@@ -78,6 +78,23 @@ if ($(window).width() <= 992) {
   }
 
 });
+
+  // Helper function to extract the thumbnail URL from the description
+  function extractThumbnail(description) {
+    const match = description.match(/<img[^>]*src="([^"]*)"/);
+    return match ? match[1] : "./assets/img/news-img.png"; // Default image if no thumbnail
+  }
+
+  // Helper function to truncate text
+  function truncateText(text, maxLength) {
+    return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+  }
+
+  // Helper function to remove figures from the description
+  function removeFigures(description) {
+    return description.replace(/<figure>.*<\/figure>/, "");
+  }
+
 // drag and drop
 document.addEventListener('DOMContentLoaded', () => {
   const containers = document.querySelectorAll('.roadmap-item__tasks'); // All containers with tasks
@@ -161,6 +178,40 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   };
+
+  const rssFeedUrl = "https://corsproxy.io/?url=https://xiannetwork.medium.com/feed";
+  const newsContainer = document.getElementById("news-container");
+
+  fetch(rssFeedUrl)
+    .then(response => response.text())
+    .then(data => {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(data, "application/xml");
+      const items = xmlDoc.querySelectorAll("item");
+
+      items.forEach((item, index) => {
+        if (index >= 3) return; // Limit to 8 posts
+        const title = item.querySelector("title").textContent;
+        const link = item.querySelector("link").textContent;
+        const content = item.querySelector("content\\:encoded, encoded").textContent;
+        const thumbnail = extractThumbnail(content);
+        const slide = document.createElement("div");
+        slide.classList.add("swiper-slide");
+
+        slide.innerHTML = `
+          <div class="swiper-slide__block">
+            <a href="${link}" target="_blank"><h3>${title}</h3></a>
+            ${removeFigures(truncateText(content, 200))}
+            <a href="${link}" target="_blank">Read more</a>
+          </div>
+          <div class="swiper-slide__img">
+            <img src="${thumbnail}" alt="News Thumbnail" onerror="this.src='./assets/img/news-img.png'">
+          </div>
+        `;
+        newsContainer.appendChild(slide);
+      });
+    })
+    .catch(error => console.error("Error fetching Medium RSS feed:", error));
 
   updateDragAndDropState();
 
