@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     })
     .catch(error => console.error("Error fetching Medium RSS feed:", error));
-
+swiper.update();
   updateDragAndDropState();
 
   window.addEventListener('resize', updateDragAndDropState);
@@ -224,7 +224,7 @@ const swiper = new Swiper('.news-slider', {
   slidesPerView: 2,
   spaceBetween: 90,
   allowTouchMove: true,
-  loop: true,
+  loop: false,
   breakpoints: {
     992: {
       slidesPerView: 2,
