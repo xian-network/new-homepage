@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  const rssFeedUrl = "https://corsproxy.io/?url=https://xiannetwork.medium.com/feed";
+  const rssFeedUrl = "https://thingproxy.freeboard.io/fetch/https://xiannetwork.medium.com/feed";
   const newsContainer = document.getElementById("news-container");
 
   fetch(rssFeedUrl)
