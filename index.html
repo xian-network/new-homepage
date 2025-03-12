@@ -284,7 +284,7 @@
 <span class="py-decorator">@export</span>
 <span class="py-keyword">def</span> <span class="py-identifier">withdraw</span>(amount: <span class="py-builtin">float</span>):
     <span class="py-keyword">assert</span> <span class="py-builtin">safe</span>[<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>] >= amount, <span class="py-string">'insufficient funds'</span>
-    <span class="py-builtin">currency</span>.<span class="py-identifier">transfer</span>(amount, <span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>)
+    <span class="py-builtin">currency</span>.<span class="py-identifier">transfer</span>(amount=amount, to=<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>)
     <span class="py-builtin">safe</span>[<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>] -= amount
 </code></pre>
 </div>
