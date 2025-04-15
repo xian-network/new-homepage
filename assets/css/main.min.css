@@ -57,3 +57,54 @@
   margin-top: auto; 
   /* pushes button to the bottom for consistent alignment if you have a lot of text */
 }
+.get-started {
+  margin-top: 6rem;
+  position: relative;
+}
+
+
+.step-card:hover {
+  transform: translateY(-4px);
+}
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: 2rem;
+}
+
+.step-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  background: rgba(11, 11, 15, 0.7);
+  backdrop-filter: blur(50px);
+  border: 1px solid rgba(255, 255, 255, 0.47);
+  border-radius: 15px;
+  padding: 1.5rem;
+}
+
+.step-number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #06e6cb;
+  margin-bottom: 0.75rem;
+}
+
+.step-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.step-card p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.step-card .main-button {
+  margin-top: auto;
+  align-self: flex-start; /* or center if you prefer centered buttons */
+}

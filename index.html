@@ -16,7 +16,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./assets/js/slider/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="./assets/css/main.min.css?v=1.0.1" />
+    <link rel="stylesheet" href="./assets/css/main.min.css?v=1.0.2" />
 
     <!-- ==========
          THREE SETS of <title> and <meta name="description">
@@ -140,6 +140,12 @@
     line-height: 100%;
       }
 
+      @media (max-width: 480px) {
+        .language-select {
+          margin-left: 0;
+        }
+      }
+
      #language-select-mobile{
       margin-left: 0;
      }
@@ -171,18 +177,15 @@
             <div class="header-wrapper">
               <ul class="header-menu">
                 <li>
-                  <a
-                    href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/"
-                    target="_blank"
-                  >
-                    <span class="lang-en">Wallet</span>
-                    <span class="lang-zh">钱包</span>
-                    <span class="lang-ru">Кошелек</span>
+                  <a href="#get-started">
+                    <span class="lang-en">Getting Started</span>
+                    <span class="lang-zh">开始使用</span>
+                    <span class="lang-ru">Начало работы</span>
                   </a>
                 </li>
                 <li>
                   <a href="https://docs.xian.org/" target="_blank">
-                    <span class="lang-en">Documentation</span>
+                    <span class="lang-en">Docs</span>
                     <span class="lang-zh">文档</span>
                     <span class="lang-ru">Документация</span>
                   </a>
@@ -201,13 +204,7 @@
                     <span class="lang-ru">Мост</span>
                   </a>
                 </li>
-                <li>
-                  <a href="#showcase">
-                    <span class="lang-en">Showcase</span>
-                    <span class="lang-zh">应用示例</span>
-                    <span class="lang-ru">Примеры</span>
-                  </a>
-                </li>
+               
               </ul>
 
               <div class="header-links">
@@ -255,10 +252,11 @@
                     </svg>
                   </a>
                 </div>
-                <a href="#builders" class="main-button">
-                  <span class="lang-en">Get Involved</span>
-                  <span class="lang-zh">参与</span>
-                  <span class="lang-ru">Присоединиться</span>
+                <a href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/"
+                target="_blank" class="main-button">
+                  <span class="lang-en">Get Wallet</span>
+        <span class="lang-zh">获取钱包</span>
+        <span class="lang-ru">Получить кошелек</span>
                 </a>
 
                 <!-- Language Selector (desktop) -->
@@ -315,10 +313,11 @@
                     /></svg
                 ></a>
               </div>
-              <a href="#builders" class="main-button">
-                <span class="lang-en">Get Involved</span>
-                <span class="lang-zh">参与</span>
-                <span class="lang-ru">Присоединиться</span>
+              <a href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/"
+              target="_blank" class="main-button">
+                <span class="lang-en">Get Wallet</span>
+                <span class="lang-zh">获取钱包</span>
+                <span class="lang-ru">Получить кошелек</span>
               </a>
 
               <!-- Language Selector (mobile) -->
@@ -385,20 +384,32 @@
               </span>
             </p>
             <div class="buttons-wrap">
-              <a href="https://docs.xian.org/contracts/" target="_blank" class="main-button bg-color">
-                <span class="lang-en">Build</span>
-                <span class="lang-zh">开始构建</span>
-                <span class="lang-ru">Разработка</span>
+              <a
+                href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/"
+                target="_blank"
+                class="main-button bg-color"
+              >
+                <span class="lang-en">Get Wallet</span>
+                <span class="lang-zh">获取钱包</span>
+                <span class="lang-ru">Получить кошелек</span>
               </a>
-              <a href="https://snakexchange.org/pairs/" target="_blank" class="main-button">
-                <span class="lang-en">Get $XIAN</span>
-                <span class="lang-zh">获取 $XIAN</span>
-                <span class="lang-ru">Получить $XIAN</span>
-              </a>
-              <a href="https://bridge.xian.org" target="_blank" class="main-button bg-color">
+              <a
+                href="https://bridge.xian.org"
+                target="_blank"
+                class="main-button"
+              >
                 <span class="lang-en">Bridge</span>
                 <span class="lang-zh">跨链桥</span>
                 <span class="lang-ru">Мост</span>
+              </a>
+              <a
+                href="https://snakexchange.org/pairs/"
+                target="_blank"
+                class="main-button bg-color"
+              >
+                <span class="lang-en">Get $XIAN</span>
+                <span class="lang-zh">获取 $XIAN</span>
+                <span class="lang-ru">Получить $XIAN</span>
               </a>
             </div>
 
@@ -496,6 +507,513 @@
           </div>
         </section>
         <!-- Empower end -->
+        <section class="get-started" id="get-started">
+          <div class="container">
+            <div class="main-block">
+              <h2>
+                <span class="lang-en">Getting Started</span>
+                <span class="lang-zh">开始使用</span>
+                <span class="lang-ru">Начало работы</span>
+              </h2>
+              <p>
+                <span class="lang-en">
+                  Take your first steps into the Xian ecosystem in just a few clicks.
+                </span>
+                <span class="lang-zh">
+                  只需轻点几下，就能开启你的 Xian 生态之旅。
+                </span>
+                <span class="lang-ru">
+                  Сделайте первые шаги в экосистеме Xian всего за пару кликов.
+                </span>
+              </p>
+            </div>
+            <div class="steps-grid">
+              <!-- Step 1 -->
+              <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>
+                  <span class="lang-en">Install Xian Wallet</span>
+                  <span class="lang-zh">安装 Xian 钱包</span>
+                  <span class="lang-ru">Установите Xian-кошелек</span>
+                </h3>
+                <p>
+                  <span class="lang-en">
+                    Download the browser extension to manage your assets on Xian.
+                  </span>
+                  <span class="lang-zh">
+                    下载浏览器扩展来管理你在 Xian 上的资产。
+                  </span>
+                  <span class="lang-ru">
+                    Скачайте расширение для браузера, чтобы управлять своими активами в Xian.
+                  </span>
+                </p>
+                <a
+                  href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/"
+                  target="_blank"
+                  class="main-button"
+                >
+                  <span class="lang-en">Get Wallet</span>
+                  <span class="lang-zh">获取钱包</span>
+                  <span class="lang-ru">Установить кошелек</span>
+                </a>
+              </div>
+        
+              <!-- Step 2 -->
+              <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>
+                  <span class="lang-en">Explore 100%+ APR Farms</span>
+                  <span class="lang-zh">探索 100%+ 年化收益的农场</span>
+                  <span class="lang-ru">Исследуйте фармы с доходностью 100%+ годовых</span>
+                </h3>
+                <p>
+                  <span class="lang-en">
+                    Check DEX opportunities with high-yield farming live now.
+                  </span>
+                  <span class="lang-zh">
+                    立即查看高收益率的去中心化交易所 (DEX) 挖矿机会。
+                  </span>
+                  <span class="lang-ru">
+                    Ознакомьтесь с возможностями высокодоходного фарминга на DEX уже сейчас.
+                  </span>
+                </p>
+                <a
+                  href="https://snakexchange.org/farms/"
+                  target="_blank"
+                  class="main-button"
+                >
+                  <span class="lang-en">View Farms</span>
+                  <span class="lang-zh">查看农场</span>
+                  <span class="lang-ru">Смотреть фармы</span>
+                </a>
+              </div>
+        
+              <!-- Step 3 -->
+              <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>
+                  <span class="lang-en">Bridge Your Funds</span>
+                  <span class="lang-zh">桥接你的资金</span>
+                  <span class="lang-ru">Мост для перевода средств</span>
+                </h3>
+                <p>
+                  <span class="lang-en">
+                    Securely move your assets into the Xian chain with a few clicks.
+                  </span>
+                  <span class="lang-zh">
+                    仅需几次点击，即可安全地将资产桥接到 Xian 链上。
+                  </span>
+                  <span class="lang-ru">
+                    Надёжно переведите свои активы в сеть Xian всего за пару кликов.
+                  </span>
+                </p>
+                <a
+                  href="https://bridge.xian.org"
+                  class="main-button"
+                >
+                  <span class="lang-en">Bridge Funds</span>
+                  <span class="lang-zh">资金桥接</span>
+                  <span class="lang-ru">Перевести средства</span>
+                </a>
+              </div>
+        
+              <!-- Step 4 -->
+              <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>
+                  <span class="lang-en">Learn the Ecosystem</span>
+                  <span class="lang-zh">了解生态系统</span>
+                  <span class="lang-ru">Изучите экосистему</span>
+                </h3>
+                <p>
+                  <span class="lang-en">
+                    Discover Xian’s NFT marketplace, name service, and tools that expand your options.
+                  </span>
+                  <span class="lang-zh">
+                    探索 Xian 的 NFT 市场、命名服务以及拓展功能的工具。
+                  </span>
+                  <span class="lang-ru">
+                    Изучите NFT-маркетплейс, сервис имён и инструменты Xian, расширяющие ваши возможности.
+                  </span>
+                </p>
+                <a
+                  href="#showcase"
+                  class="main-button"
+                >
+                  <span class="lang-en">Explore Tools</span>
+                  <span class="lang-zh">探索工具</span>
+                  <span class="lang-ru">Посмотреть инструменты</span>
+                </a>
+              </div>
+        
+              <!-- Step 5 -->
+              <div class="step-card">
+                <div class="step-number">5</div>
+                <h3>
+                  <span class="lang-en">Join the Community</span>
+                  <span class="lang-zh">加入社区</span>
+                  <span class="lang-ru">Присоединяйтесь к сообществу</span>
+                </h3>
+                <p>
+                  <span class="lang-en">
+                    Connect with others on Telegram & Discord for alpha, updates, and insights.
+                  </span>
+                  <span class="lang-zh">
+                    在 Telegram 和 Discord 与他人交流，获取最新信息和见解。
+                  </span>
+                  <span class="lang-ru">
+                    Общайтесь с участниками в Telegram и Discord, получайте новости и инсайты.
+                  </span>
+                </p>
+                <a
+                  href="#social"
+                  class="main-button"
+                >
+                  <span class="lang-en">Join Us</span>
+                  <span class="lang-zh">立刻加入</span>
+                  <span class="lang-ru">Присоединиться</span>
+                </a>
+              </div>
+        
+              <!-- Step 6 -->
+              <div class="step-card">
+                <div class="step-number">6</div>
+                <h3>
+                  <span class="lang-en">Stay Ahead with Updates</span>
+                  <span class="lang-zh">获取最新动态</span>
+                  <span class="lang-ru">Следите за обновлениями</span>
+                </h3>
+                <p>
+                  <span class="lang-en">
+                    Follow news, token listings, and ecosystem announcements to stay informed.
+                  </span>
+                  <span class="lang-zh">
+                    关注新闻、代币上线信息以及生态系统公告，时刻保持最新。
+                  </span>
+                  <span class="lang-ru">
+                    Следите за новостями, листингами токенов и объявлениями, чтобы быть в курсе всех событий.
+                  </span>
+                </p>
+                <a
+                  href="#news"
+                  class="main-button"
+                >
+                  <span class="lang-en">Read Updates</span>
+                  <span class="lang-zh">阅读更新</span>
+                  <span class="lang-ru">Читать новости</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+
+       
+
+       
+
+          <!-- Showcase start -->
+          <section class="showcase" id="showcase">
+            <div class="container">
+              <div class="main-block">
+                <h2>
+                  <span class="lang-en">Built on Xian</span>
+                  <span class="lang-zh">基于 Xian 的项目</span>
+                  <span class="lang-ru">Построено на Xian</span>
+                </h2>
+                <p>
+                  <span class="lang-en">
+                    Explore some of the apps and projects harnessing native
+                    Python on Xian.
+                  </span>
+                  <span class="lang-zh">
+                    了解一些基于原生 Python 的 Xian 应用和项目。
+                  </span>
+                  <span class="lang-ru">
+                    Ознакомьтесь с некоторыми приложениями и проектами на Xian
+                    с использованием Python.
+                  </span>
+                </p>
+              </div>
+              <div class="showcase-grid">
+                <!-- Project card 1 -->
+                <div class="showcase-card">
+                  <img
+                    src="assets/img/xns.png"
+                    alt="Project Logo"
+                    class="showcase-card__img"
+                  />
+                  <h3 class="showcase-card__title">
+                    <span class="lang-en">Xian Name Service</span>
+                    <span class="lang-zh">Xian 命名服务</span>
+                    <span class="lang-ru">Xian Name Service</span>
+                  </h3>
+                  <p class="showcase-card__desc">
+                    <span class="lang-en">
+                      A decentralized naming service for Xian addresses, built
+                      on Xian.
+                    </span>
+                    <span class="lang-zh">
+                      一个为 Xian 地址提供的去中心化命名服务，基于 Xian 构建。
+                    </span>
+                    <span class="lang-ru">
+                      Децентрализованный сервис имен для адресов в Xian,
+                      построенный на Xian.
+                    </span>
+                  </p>
+                  <a href="https://xns.domains" target="_blank" class="main-button">
+                    <span class="lang-en">View Project</span>
+                    <span class="lang-zh">查看项目</span>
+                    <span class="lang-ru">Смотреть проект</span>
+                  </a>
+                </div>
+
+                <!-- Project card 2 -->
+                <div class="showcase-card">
+                  <img
+                    src="assets/img/pixelsnek.png"
+                    alt="Project Logo"
+                    class="showcase-card__img"
+                  />
+                  <h3 class="showcase-card__title">PixelSnek</h3>
+                  <p class="showcase-card__desc">
+                    <span class="lang-en">On-Chain NFT Pixel Animation Platform</span>
+                    <span class="lang-zh">链上 NFT 像素动画平台</span>
+                    <span class="lang-ru">NFT-платформа пиксельной анимации на блокчейне</span>
+                  </p>
+                  <a
+                    href="https://pixelsnek.xian.org"
+                    target="_blank"
+                    class="main-button"
+                  >
+                    <span class="lang-en">View Project</span>
+                    <span class="lang-zh">查看项目</span>
+                    <span class="lang-ru">Смотреть проект</span>
+                  </a>
+                </div>
+
+                <!-- Project card 3 -->
+                <div class="showcase-card">
+                  <img
+                    src="assets/img/snakexchange.png"
+                    alt="Project Logo"
+                    class="showcase-card__img"
+                  />
+                  <h3 class="showcase-card__title">SNAKexchange</h3>
+                  <p class="showcase-card__desc">
+                    <span class="lang-en">A decentralized exchange for Xian assets.</span>
+                    <span class="lang-zh">一个针对 Xian 资产的去中心化交易所。</span>
+                    <span class="lang-ru">Децентрализованная биржа для активов Xian.</span>
+                  </p>
+                  <a
+                    href="https://snakexchange.org/"
+                    target="_blank"
+                    class="main-button"
+                  >
+                    <span class="lang-en">View Project</span>
+                    <span class="lang-zh">查看项目</span>
+                    <span class="lang-ru">Смотреть проект</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Showcase end -->
+ <!-- Why start -->
+ <section class="why">
+  <div class="why-bg">
+    <picture>
+      <source
+        srcset="./assets/img/orange-mob.png"
+        media="(max-width: 480px)"
+      />
+      <img src="./assets/img/orange-planet.png" alt="blue planet" />
+    </picture>
+  </div>
+  <div class="why-gradient">
+    <img src="./assets/img/why-gradient-3.png" alt="gradient" />
+  </div>
+  
+          <div class="container">
+            <div class="star">
+              <img src="./assets/img/star-2.svg" alt="" />
+            </div>
+            <div class="why-start__block">
+              <div class="why-top__title">
+                <span class="lang-en">Pure Python<br />No complications</span>
+                <span class="lang-zh">纯粹的 Python<br />无复杂性</span>
+                <span class="lang-ru">Чистый Python<br />Без усложнений</span>
+              </div>
+              <p>
+                <span class="lang-en">
+                  Build smart contracts natively in Python—the world’s most
+                  popular programming language. No code conversions, no
+                  complicated logic—just straightforward on-chain execution of
+                  Python code.
+                </span>
+                <span class="lang-zh">
+                  使用世界上最流行的编程语言 Python 原生构建智能合约。无需代码转换，无需复杂逻辑，只需直接执行 Python 代码。
+                </span>
+                <span class="lang-ru">
+                  Создавайте смарт-контракты нативно на Python — самом популярном
+                  языке в мире. Без конверсии кода, без сложной логики —
+                  просто прямое выполнение кода Python на блокчейне.
+                </span>
+              </p>
+            </div>
+
+            <div class="why-block">
+              <div class="why-block__top">
+                <div class="why-block__top-img">
+                  <img src="./assets/img/why-img.png" alt="image" />
+                </div>
+                <div class="why-block__top-text">
+                  <h2>
+                    <span class="lang-en">Why Xian</span>
+                    <span class="lang-zh">为什么选择 Xian</span>
+                    <span class="lang-ru">Почему Xian</span>
+                  </h2>
+                  <p>
+                    <span class="lang-en">
+                      Xian is live and operates as a comprehensive blockchain
+                      ecosystem, featuring a native wallet, block explorer,
+                      automated governance, and developer tooling. It is ready
+                      to use—now.
+                    </span>
+                    <span class="lang-zh">
+                      Xian 已经上线并运行，是一个完整的区块链生态，包括原生钱包、区块浏览器、
+                      自动化治理和各种开发者工具。马上即可使用。
+                    </span>
+                    <span class="lang-ru">
+                      Xian уже запущен и работает как комплексная блокчейн-экосистема:
+                      нативный кошелек, блок-эксплорер, автоматизированное управление и
+                      инструменты для разработчиков. Готов к использованию — уже сейчас.
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              <div class="why-items">
+                <div class="why-item">
+                  <div class="why-item__top">
+                    <div class="why-item-top__icon">
+                      <img src="./assets/img/why-icon-1.svg" alt="icon" />
+                    </div>
+                    <h3>
+                      <span class="lang-en">Python - Universal Access</span>
+                      <span class="lang-zh">Python——普适访问</span>
+                      <span class="lang-ru">Python — универсальный доступ</span>
+                    </h3>
+                  </div>
+                  <p>
+                    <span class="lang-en">
+                      Xian empowers Python’s 13 million developers to build
+                      blockchain apps and smart contracts natively—no new
+                      languages needed.
+                    </span>
+                    <span class="lang-zh">
+                      Xian 为全球 1300 万 Python 开发者赋能，可原生开发区块链应用和智能合约——无需新语言。
+                    </span>
+                    <span class="lang-ru">
+                      Xian даёт возможность 13 миллионам Python-разработчиков
+                      создавать блокчейн-приложения и смарт-контракты нативно —
+                      без изучения новых языков.
+                    </span>
+                  </p>
+                </div>
+
+                <div class="why-item">
+                  <div class="why-item__top">
+                    <div class="why-item-top__icon">
+                      <img src="./assets/img/why-icon-2.svg" alt="icon" />
+                    </div>
+                    <h3>
+                      <span class="lang-en">No VCs, Community-Driven Development</span>
+                      <span class="lang-zh">无风投，社区驱动的开发</span>
+                      <span class="lang-ru">Без венчуров, развитие силами сообщества</span>
+                    </h3>
+                  </div>
+                  <p>
+                    <span class="lang-en">
+                      No venture capitalists, no insiders—Xian is built by the
+                      community, for the community. Revitalized through a
+                      community-led revival of a €6 million ICO project.
+                    </span>
+                    <span class="lang-zh">
+                      没有风投，没有内部利益——Xian 由社区为社区而构建，
+                      通过社区带领重启了一个曾募集 600 万欧元的 ICO 项目。
+                    </span>
+                    <span class="lang-ru">
+                      Никаких венчурных капиталистов, никаких инсайдеров — Xian
+                      построен сообществом для сообщества, возрождён через
+                      совместные усилия над проектом ICO на €6 млн.
+                    </span>
+                  </p>
+                </div>
+
+                <div class="why-item">
+                  <div class="why-item__top">
+                    <div class="why-item-top__icon">
+                      <img src="./assets/img/why-icon-3.svg" alt="icon" />
+                    </div>
+                    <h3>
+                      <span class="lang-en">Developer-Centric Rewards</span>
+                      <span class="lang-zh">以开发者为中心的奖励</span>
+                      <span class="lang-ru">Вознаграждение, ориентированное на разработчика</span>
+                    </h3>
+                  </div>
+                  <p>
+                    <span class="lang-en">
+                      Xian is unique in that it puts developers at the forefront
+                      as first-class economic actors, allocating 70% of fees to
+                      application developers. No one else does this.
+                    </span>
+                    <span class="lang-zh">
+                      Xian 的独特之处在于把开发者视为核心经济参与者，将 70% 的费用分配给应用开发者。
+                      其他平台并没有这样做。
+                    </span>
+                    <span class="lang-ru">
+                      Особенность Xian в том, что разработчики рассматриваются 
+                      как ключевые экономические участники, получая 70% комиссий.
+                      Никто другой так не делает.
+                    </span>
+                  </p>
+                </div>
+
+                <div class="why-item">
+                  <div class="why-item__top">
+                    <div class="why-item-top__icon">
+                      <img src="./assets/img/why-icon-4.svg" alt="icon" />
+                    </div>
+                    <h3>
+                      <span class="lang-en">Fostering Cross-Domain Innovation</span>
+                      <span class="lang-zh">促进跨领域创新</span>
+                      <span class="lang-ru">Стимулирование междисциплинарных инноваций</span>
+                    </h3>
+                  </div>
+                  <p>
+                    <span class="lang-en">
+                      Smart contract, AI, and fintech developers—now everything
+                      speaks the same language, and Xian is the only blockchain
+                      making it possible.
+                    </span>
+                    <span class="lang-zh">
+                      智能合约、AI、金融科技开发者——现在都可使用同一种语言。Xian 是唯一让这成为现实的区块链。
+                    </span>
+                    <span class="lang-ru">
+                      Разработчики смарт-контрактов, ИИ и финтеха — теперь всё
+                      говорит на одном языке, и только Xian делает это возможным.
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Why end -->
+
+        
+          
 
         <!-- Builders start -->
         <section class="builders" id="builders">
@@ -705,307 +1223,6 @@
           </div>
         </section>
         <!-- Builders end -->
-
-        <!-- Why start -->
-        <section class="why">
-          <div class="why-bg">
-            <picture>
-              <source
-                srcset="./assets/img/orange-mob.png"
-                media="(max-width: 480px)"
-              />
-              <img src="./assets/img/orange-planet.png" alt="blue planet" />
-            </picture>
-          </div>
-          <div class="why-gradient">
-            <img src="./assets/img/why-gradient-3.png" alt="gradient" />
-          </div>
-
-          <!-- Showcase start -->
-          <section class="showcase" id="showcase">
-            <div class="container">
-              <div class="main-block">
-                <h2>
-                  <span class="lang-en">Built on Xian</span>
-                  <span class="lang-zh">基于 Xian 的项目</span>
-                  <span class="lang-ru">Построено на Xian</span>
-                </h2>
-                <p>
-                  <span class="lang-en">
-                    Explore some of the apps and projects harnessing native
-                    Python on Xian.
-                  </span>
-                  <span class="lang-zh">
-                    了解一些基于原生 Python 的 Xian 应用和项目。
-                  </span>
-                  <span class="lang-ru">
-                    Ознакомьтесь с некоторыми приложениями и проектами на Xian
-                    с использованием Python.
-                  </span>
-                </p>
-              </div>
-              <div class="showcase-grid">
-                <!-- Project card 1 -->
-                <div class="showcase-card">
-                  <img
-                    src="assets/img/xns.png"
-                    alt="Project Logo"
-                    class="showcase-card__img"
-                  />
-                  <h3 class="showcase-card__title">
-                    <span class="lang-en">Xian Name Service</span>
-                    <span class="lang-zh">Xian 命名服务</span>
-                    <span class="lang-ru">Xian Name Service</span>
-                  </h3>
-                  <p class="showcase-card__desc">
-                    <span class="lang-en">
-                      A decentralized naming service for Xian addresses, built
-                      on Xian.
-                    </span>
-                    <span class="lang-zh">
-                      一个为 Xian 地址提供的去中心化命名服务，基于 Xian 构建。
-                    </span>
-                    <span class="lang-ru">
-                      Децентрализованный сервис имен для адресов в Xian,
-                      построенный на Xian.
-                    </span>
-                  </p>
-                  <a href="https://xns.domains" target="_blank" class="main-button">
-                    <span class="lang-en">View Project</span>
-                    <span class="lang-zh">查看项目</span>
-                    <span class="lang-ru">Смотреть проект</span>
-                  </a>
-                </div>
-
-                <!-- Project card 2 -->
-                <div class="showcase-card">
-                  <img
-                    src="assets/img/pixelsnek.png"
-                    alt="Project Logo"
-                    class="showcase-card__img"
-                  />
-                  <h3 class="showcase-card__title">PixelSnek</h3>
-                  <p class="showcase-card__desc">
-                    <span class="lang-en">On-Chain NFT Pixel Animation Platform</span>
-                    <span class="lang-zh">链上 NFT 像素动画平台</span>
-                    <span class="lang-ru">NFT-платформа пиксельной анимации на блокчейне</span>
-                  </p>
-                  <a
-                    href="https://pixelsnek.xian.org"
-                    target="_blank"
-                    class="main-button"
-                  >
-                    <span class="lang-en">View Project</span>
-                    <span class="lang-zh">查看项目</span>
-                    <span class="lang-ru">Смотреть проект</span>
-                  </a>
-                </div>
-
-                <!-- Project card 3 -->
-                <div class="showcase-card">
-                  <img
-                    src="assets/img/snakexchange.png"
-                    alt="Project Logo"
-                    class="showcase-card__img"
-                  />
-                  <h3 class="showcase-card__title">SNAKexchange</h3>
-                  <p class="showcase-card__desc">
-                    <span class="lang-en">A decentralized exchange for Xian assets.</span>
-                    <span class="lang-zh">一个针对 Xian 资产的去中心化交易所。</span>
-                    <span class="lang-ru">Децентрализованная биржа для активов Xian.</span>
-                  </p>
-                  <a
-                    href="https://snakexchange.org/"
-                    target="_blank"
-                    class="main-button"
-                  >
-                    <span class="lang-en">View Project</span>
-                    <span class="lang-zh">查看项目</span>
-                    <span class="lang-ru">Смотреть проект</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </section>
-          <!-- Showcase end -->
-
-          <div class="container">
-            <div class="star">
-              <img src="./assets/img/star-2.svg" alt="" />
-            </div>
-            <div class="why-start__block">
-              <div class="why-top__title">
-                <span class="lang-en">Pure Python<br />No complications</span>
-                <span class="lang-zh">纯粹的 Python<br />无复杂性</span>
-                <span class="lang-ru">Чистый Python<br />Без усложнений</span>
-              </div>
-              <p>
-                <span class="lang-en">
-                  Build smart contracts natively in Python—the world’s most
-                  popular programming language. No code conversions, no
-                  complicated logic—just straightforward on-chain execution of
-                  Python code.
-                </span>
-                <span class="lang-zh">
-                  使用世界上最流行的编程语言 Python 原生构建智能合约。无需代码转换，无需复杂逻辑，只需直接执行 Python 代码。
-                </span>
-                <span class="lang-ru">
-                  Создавайте смарт-контракты нативно на Python — самом популярном
-                  языке в мире. Без конверсии кода, без сложной логики —
-                  просто прямое выполнение кода Python на блокчейне.
-                </span>
-              </p>
-            </div>
-
-            <div class="why-block">
-              <div class="why-block__top">
-                <div class="why-block__top-img">
-                  <img src="./assets/img/why-img.png" alt="image" />
-                </div>
-                <div class="why-block__top-text">
-                  <h2>
-                    <span class="lang-en">Why Xian</span>
-                    <span class="lang-zh">为什么选择 Xian</span>
-                    <span class="lang-ru">Почему Xian</span>
-                  </h2>
-                  <p>
-                    <span class="lang-en">
-                      Xian is live and operates as a comprehensive blockchain
-                      ecosystem, featuring a native wallet, block explorer,
-                      automated governance, and developer tooling. It is ready
-                      to use—now.
-                    </span>
-                    <span class="lang-zh">
-                      Xian 已经上线并运行，是一个完整的区块链生态，包括原生钱包、区块浏览器、
-                      自动化治理和各种开发者工具。马上即可使用。
-                    </span>
-                    <span class="lang-ru">
-                      Xian уже запущен и работает как комплексная блокчейн-экосистема:
-                      нативный кошелек, блок-эксплорер, автоматизированное управление и
-                      инструменты для разработчиков. Готов к использованию — уже сейчас.
-                    </span>
-                  </p>
-                </div>
-              </div>
-
-              <div class="why-items">
-                <div class="why-item">
-                  <div class="why-item__top">
-                    <div class="why-item-top__icon">
-                      <img src="./assets/img/why-icon-1.svg" alt="icon" />
-                    </div>
-                    <h3>
-                      <span class="lang-en">Python - Universal Access</span>
-                      <span class="lang-zh">Python——普适访问</span>
-                      <span class="lang-ru">Python — универсальный доступ</span>
-                    </h3>
-                  </div>
-                  <p>
-                    <span class="lang-en">
-                      Xian empowers Python’s 13 million developers to build
-                      blockchain apps and smart contracts natively—no new
-                      languages needed.
-                    </span>
-                    <span class="lang-zh">
-                      Xian 为全球 1300 万 Python 开发者赋能，可原生开发区块链应用和智能合约——无需新语言。
-                    </span>
-                    <span class="lang-ru">
-                      Xian даёт возможность 13 миллионам Python-разработчиков
-                      создавать блокчейн-приложения и смарт-контракты нативно —
-                      без изучения новых языков.
-                    </span>
-                  </p>
-                </div>
-
-                <div class="why-item">
-                  <div class="why-item__top">
-                    <div class="why-item-top__icon">
-                      <img src="./assets/img/why-icon-2.svg" alt="icon" />
-                    </div>
-                    <h3>
-                      <span class="lang-en">No VCs, Community-Driven Development</span>
-                      <span class="lang-zh">无风投，社区驱动的开发</span>
-                      <span class="lang-ru">Без венчуров, развитие силами сообщества</span>
-                    </h3>
-                  </div>
-                  <p>
-                    <span class="lang-en">
-                      No venture capitalists, no insiders—Xian is built by the
-                      community, for the community. Revitalized through a
-                      community-led revival of a €6 million ICO project.
-                    </span>
-                    <span class="lang-zh">
-                      没有风投，没有内部利益——Xian 由社区为社区而构建，
-                      通过社区带领重启了一个曾募集 600 万欧元的 ICO 项目。
-                    </span>
-                    <span class="lang-ru">
-                      Никаких венчурных капиталистов, никаких инсайдеров — Xian
-                      построен сообществом для сообщества, возрождён через
-                      совместные усилия над проектом ICO на €6 млн.
-                    </span>
-                  </p>
-                </div>
-
-                <div class="why-item">
-                  <div class="why-item__top">
-                    <div class="why-item-top__icon">
-                      <img src="./assets/img/why-icon-3.svg" alt="icon" />
-                    </div>
-                    <h3>
-                      <span class="lang-en">Developer-Centric Rewards</span>
-                      <span class="lang-zh">以开发者为中心的奖励</span>
-                      <span class="lang-ru">Вознаграждение, ориентированное на разработчика</span>
-                    </h3>
-                  </div>
-                  <p>
-                    <span class="lang-en">
-                      Xian is unique in that it puts developers at the forefront
-                      as first-class economic actors, allocating 70% of fees to
-                      application developers. No one else does this.
-                    </span>
-                    <span class="lang-zh">
-                      Xian 的独特之处在于把开发者视为核心经济参与者，将 70% 的费用分配给应用开发者。
-                      其他平台并没有这样做。
-                    </span>
-                    <span class="lang-ru">
-                      Особенность Xian в том, что разработчики рассматриваются 
-                      как ключевые экономические участники, получая 70% комиссий.
-                      Никто другой так не делает.
-                    </span>
-                  </p>
-                </div>
-
-                <div class="why-item">
-                  <div class="why-item__top">
-                    <div class="why-item-top__icon">
-                      <img src="./assets/img/why-icon-4.svg" alt="icon" />
-                    </div>
-                    <h3>
-                      <span class="lang-en">Fostering Cross-Domain Innovation</span>
-                      <span class="lang-zh">促进跨领域创新</span>
-                      <span class="lang-ru">Стимулирование междисциплинарных инноваций</span>
-                    </h3>
-                  </div>
-                  <p>
-                    <span class="lang-en">
-                      Smart contract, AI, and fintech developers—now everything
-                      speaks the same language, and Xian is the only blockchain
-                      making it possible.
-                    </span>
-                    <span class="lang-zh">
-                      智能合约、AI、金融科技开发者——现在都可使用同一种语言。Xian 是唯一让这成为现实的区块链。
-                    </span>
-                    <span class="lang-ru">
-                      Разработчики смарт-контрактов, ИИ и финтеха — теперь всё
-                      говорит на одном языке, и только Xian делает это возможным.
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- Why end -->
 
         <!-- Core start -->
         <section class="core">
@@ -1290,7 +1507,7 @@
         </section>
         <!-- Roadmap end -->
 
-        <section class="news">
+        <section class="news" id="news">
           <div class="container">
             <h2>
               <span class="lang-en">Latest news</span>
