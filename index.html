@@ -149,6 +149,11 @@
      #language-select-mobile{
       margin-left: 0;
      }
+     @media (min-width: 481px) {
+      .top-desk{
+        align-items: start;
+      }
+     }
     </style>
   </head>
   <body>
@@ -383,7 +388,7 @@
                 упрощайте аудит. Работайте в привычном языке и получайте 70% всех комиссий.
               </span>
             </p>
-            <div class="buttons-wrap">
+            <div class="buttons-wrap top-desk" style="">
               <a
                 href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/"
                 target="_blank"
@@ -402,15 +407,19 @@
                 <span class="lang-zh">跨链桥</span>
                 <span class="lang-ru">Мост</span>
               </a>
-              <a
-                href="https://snakexchange.org/pairs/"
-                target="_blank"
-                class="main-button bg-color"
-              >
-                <span class="lang-en">Get $XIAN</span>
-                <span class="lang-zh">获取 $XIAN</span>
-                <span class="lang-ru">Получить $XIAN</span>
-              </a>
+              <div style="
+              display: flex;
+              flex-direction: column;
+              gap: 2rem;
+          "><a href="https://snakexchange.org/pairs/" target="_blank" class="main-button bg-color">
+                          <span class="lang-en" style="display: block;">Get $XIAN on SnakExchange</span>
+                          <span class="lang-zh" style="display: none;">在 SnakExchange 上获取 $XIAN</span>
+                          <span class="lang-ru" style="display: none;">Получить $XIAN на SnakExchange</span>
+                        </a><a href="https://raydium.io/swap/?inputMint=sol&outputMint=GnaXkbmMV1zGK6bRCQnM9Jd6Jv2Hjw5b2PFVBaKEE5At" target="_blank" class="main-button">
+                          <span class="lang-en" style="display: block;">Get $XIAN on Raydium</span>
+                          <span class="lang-zh" style="display: none;">在 Raydium 上获取 $XIAN</span>
+                          <span class="lang-ru" style="display: none;">Получить $XIAN на Raydium</span>
+                        </a></div>
             </div>
 
             <!-- Code Snippet: Start -->
@@ -1441,18 +1450,51 @@
                       </span>
                     </li>
                   </ul>
-                  <a href="https://snakexchange.org/pairs/" class="main-button bg-color">
-                    <span class="lang-en">Get $XIAN</span>
-                    <span class="lang-zh">获取 $XIAN</span>
-                    <span class="lang-ru">Получить $XIAN</span>
-                  </a>
+                  <div style="
+    display: flex;
+    justify-content: center;
+    margin-top: 3.125rem;
+    gap: 1rem;
+    flex-direction: column;
+">
+              <a href="https://snakexchange.org/pairs/" target="_blank" class="main-button bg-color" style="
+    /* width: auto; */
+    margin: 0;
+">
+                <span class="lang-en" style="display: block;">Get $XIAN on SnakExchange</span>
+                <span class="lang-zh" style="display: none;">在 SnakExchange 上获取 $XIAN</span>
+                <span class="lang-ru" style="display: none;">Получить $XIAN на SnakExchange</span>
+              </a>
+            <a href="https://raydium.io/swap/?inputMint=sol&outputMint=GnaXkbmMV1zGK6bRCQnM9Jd6Jv2Hjw5b2PFVBaKEE5At" target="_blank" class="main-button" style="
+    margin: 0;
+">
+                <span class="lang-en" style="display: block;">Get $XIAN on Raydium</span>
+                <span class="lang-zh" style="display: none;">在 Raydium 上获取 $XIAN</span>
+                <span class="lang-ru" style="display: none;">Получить $XIAN на Raydium</span>
+                </a></div>
                 </div>
               </div>
-              <a href="https://snakexchange.org/pairs/" target="_blank" class="main-button bg-color">
-                <span class="lang-en">Get $XIAN</span>
-                <span class="lang-zh">获取 $XIAN</span>
-                <span class="lang-ru">Получить $XIAN</span>
+              <div style="
+    display: flex;
+    justify-content: center;
+    margin-top: 3.125rem;
+    gap: 1rem;
+">
+              <a href="https://snakexchange.org/pairs/" target="_blank" class="main-button bg-color" style="
+    /* width: auto; */
+    margin: 0;
+">
+                <span class="lang-en" style="display: block;">Get $XIAN on SnakExchange</span>
+                <span class="lang-zh" style="display: none;">在 SnakExchange 上获取 $XIAN</span>
+                <span class="lang-ru" style="display: none;">Получить $XIAN на SnakExchange</span>
               </a>
+            <a href="https://raydium.io/swap/?inputMint=sol&outputMint=GnaXkbmMV1zGK6bRCQnM9Jd6Jv2Hjw5b2PFVBaKEE5At" target="_blank" class="main-button" style="
+    margin: 0;
+">
+                <span class="lang-en" style="display: block;">Get $XIAN on Raydium</span>
+                <span class="lang-zh" style="display: none;">在 Raydium 上获取 $XIAN</span>
+                <span class="lang-ru" style="display: none;">Получить $XIAN на Raydium</span>
+                </a></div>
             </div>
           </div>
         </section>
