@@ -1902,16 +1902,6 @@
         else initialLang = 'en';
       } else if (savedLang) {
         initialLang = savedLang;
-      } else {
-        // Auto-detect from browser
-        const userLang = navigator.language.toLowerCase();
-        if (userLang.startsWith('zh')) {
-          initialLang = 'zh';
-        } else if (userLang.startsWith('ru')) {
-          initialLang = 'ru';
-        } else {
-          initialLang = 'en';
-        }
       }
 
       applyLanguage(initialLang);
