@@ -108,3 +108,13 @@
   margin-top: auto;
   align-self: flex-start; /* or center if you prefer centered buttons */
 }
+.token-warning {
+  margin: 1.5rem 0 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ff914a;
+  background: rgba(255,145,74,0.1);
+  border-radius: 12px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+.token-warning u { text-decoration-thickness: 2px; }
