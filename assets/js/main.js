@@ -240,3 +240,105 @@ const swiper = new Swiper('.news-slider', {
 });
 
 
+(async () => {
+  const GRAPHQL_ENDPOINT = 'https://node.xian.org/graphql'; // Replace with your actual endpoint
+  const ITEMS_PER_PAGE =3;
+
+  // First GraphQL query to fetch the latest token contracts
+  const contractsQuery = `
+    query TokenContracts($first: Int!) {
+      allContracts(
+        first: $first,
+        orderBy: CREATED_DESC,
+        filter: { xsc0001: { equalTo: true } }
+      ) {
+        nodes {
+          name
+          created
+        }
+      }
+    }
+  `;
+
+  try {
+    const contractsResponse = await fetch(GRAPHQL_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: contractsQuery,
+        variables: { first: ITEMS_PER_PAGE }
+      })
+    });
+
+    const contractsData = await contractsResponse.json();
+    const contracts = contractsData.data.allContracts.nodes;
+
+    if (!contracts.length) return;
+
+    // Prepare metadata keys
+    const metaKeys = contracts.flatMap(({ name }) => [
+      `${name}.metadata:token_name`,
+      `${name}.metadata:token_symbol`
+    ]);
+
+    // Second GraphQL query to fetch metadata
+    const metadataQuery = `
+      query TokenMeta($keys: [String!]!) {
+        allStates(filter: { key: { in: $keys } }) {
+          edges {
+            node {
+              key
+              value
+            }
+          }
+        }
+      }
+    `;
+
+    const metadataResponse = await fetch(GRAPHQL_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: metadataQuery,
+        variables: { keys: metaKeys }
+      })
+    });
+
+    const metadataData = await metadataResponse.json();
+    const metadataEdges = metadataData.data.allStates.edges;
+
+    // Build a lookup map for metadata
+    const metadataMap = {};
+    metadataEdges.forEach(({ node }) => {
+      const [contractKey, field] = node.key.split(':');
+      const contractName = contractKey.replace('.metadata', '');
+      if (!metadataMap[contractName]) metadataMap[contractName] = {};
+      metadataMap[contractName][field] = node.value;
+    });
+
+    // Populate the token grid
+    const tokenGrid = document.getElementById('token-grid');
+    contracts.forEach(({ name, created }) => {
+      const metadata = metadataMap[name] || {};
+      const tokenName = metadata.token_name || name;
+      const tokenSymbol = metadata.token_symbol ? ` (${metadata.token_symbol})` : '';
+      const displayName = `${tokenName}${tokenSymbol}`;
+      const createdDate = new Date(created).toLocaleString();
+
+      const card = document.createElement('div');
+      card.className = 'showcase-card';
+      card.innerHTML = `
+        <h3 class="showcase-card__title">${displayName}</h3>
+        <p class="showcase-card__desc">Created ${createdDate}</p>
+        <a href="https://explorer.xian.org/tokens/${name}" target="_blank" class="showcase-card__link" style="color: #06e6cb;">
+          <span class="lang-en">View</span>
+          <span class="lang-zh">查看</span>
+          <span class="lang-ru">Просмотр</span>
+        </a>
+      `;
+      tokenGrid.appendChild(card);
+    });
+  } catch (error) {
+    console.error('Error fetching token data:', error);
+  }
+})();
