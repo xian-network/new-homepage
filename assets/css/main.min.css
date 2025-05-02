@@ -118,3 +118,42 @@
   line-height: 1.4;
 }
 .token-warning u { text-decoration-thickness: 2px; }
+
+.sticky-buy-buttons {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 9999;
+}
+
+.sticky-button {
+  background: #06e6cb;
+  color: #0a0a0e;
+  padding: 0.75rem 1.25rem;
+  border-radius: 2rem;
+  font-weight: 700;
+  text-align: center;
+  font-family: 'Roboto Mono', monospace;
+  box-shadow: 0 0 12px rgba(6, 230, 203, 0.4);
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.sticky-button:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 480px) {
+  .sticky-buy-buttons {
+    right: 0.75rem;
+    bottom: 0.75rem;
+  }
+
+  .sticky-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
