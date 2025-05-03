@@ -1,0 +1,120 @@
+@use "./variables" as *;
+@use "./mixins" as *;
+
+body * {
+    box-sizing: border-box;
+
+    &::-webkit-input-placeholder,
+    &:-moz-placeholder,
+    &::-moz-placeholder,
+    &:-ms-input-placeholder {
+        color: #666;
+        opacity: 1;
+    }
+}
+
+body input:focus:required:invalid,
+body textarea:focus:required:invalid,
+body input:required:valid,
+body textarea:required:valid {}
+
+html {
+    height: 100%;
+    overscroll-behavior: none;
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+    scroll-padding-top: 5rem;
+}
+img {
+    pointer-events: none;
+}
+body {
+     background: $black;
+    font-family: "Roboto Mono";
+    overflow-x: hidden;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    color: $white;
+    height: 100%;
+}
+
+body.hidden {
+    overflow: hidden;
+}
+
+шьп
+
+body input[type="submit"] {
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+body button {
+    outline: none;
+    border: none;
+    transition: 0.2s ease;
+    cursor: pointer;
+}
+
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6 {
+    padding: 0;
+    margin: 0;
+    font-family: "Roboto Mono";
+}
+
+body .page__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
+    min-height: 100%;
+    position: relative;
+}
+
+body main {
+    flex: 1 1 auto;
+}
+
+body button,
+body a {
+    text-decoration: none;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+body * {
+    outline: none !important;
+}
+
+body ul {
+    padding: 0;
+    margin: 0;
+}
+
+body ul li {
+    list-style-type: none;
+    outline: none;
+}
+
+body img {
+    outline: none;
+    display: block;
+    max-width: 100%;
+}
+
+body p {
+    padding: 0;
+    margin: 0;
+}
+
+button, a {
+    user-select: none; /* Отключает выделение текста */
+    -webkit-tap-highlight-color: transparent; /* Убирает подсветку при касании */
+    outline: none; /* Убирает обводку */
+}
