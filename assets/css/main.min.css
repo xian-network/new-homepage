@@ -157,3 +157,37 @@
     font-size: 0.85rem;
   }
 }
+#xian-stats-bar {
+  font-size: 0.85rem;
+  background: transparent;
+  border: 1px solid #333;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  color: #bbb;
+}
+.xian-stats-container {
+  padding: 1.25rem;
+  border-radius: 12px;
+  background: #0a0a0e;
+  color: white;
+  text-align: center;
+  font-family: "Roboto Mono", monospace;
+  margin-top: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.47);
+  border-radius: 50px;
+}
+
+@media (max-width: 600px) {
+  .xian-stats-container ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+#xian-stats-bar strong {
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+.center{
+  text-align: center;
+}
