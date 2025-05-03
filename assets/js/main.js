@@ -500,10 +500,10 @@ async function fetchXianStats() {
     container.innerHTML = `
      <strong style="display: block; margin-bottom: 0.5rem;">$XIAN (Native Token on Xian Blockchain)</strong>
   <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; font-size: 0.9rem;    justify-content: center;">
-    <li><span style="opacity: 0.75;">Price:</span> <strong>$${currentPrice.toFixed(4)}</strong></li>
+    <li><span style="opacity: 0.75;">Price:</span> <strong>$${currentPrice.toLocaleString("en-US", {maximumFractionDigits: 4})}</strong></li>
     <li><span style="opacity: 0.75;">Market Cap:</span> <strong>$${marketCap.toLocaleString("en-US")}</strong></li>
     <li><span style="opacity: 0.75;">Circulating:</span> <strong>${Math.floor(circulating).toLocaleString("en-US")} XIAN</strong></li>
-    <li><span style="opacity: 0.75;">24h Vol:</span> <strong>$${volume.toLocaleString(undefined, {maximumFractionDigits: 0})}</strong></li>
+    <li><span style="opacity: 0.75;">24h Vol:</span> <strong>$${volume.toLocaleString("en-US", {maximumFractionDigits: 0})}</strong></li>
   </ul>
   <div style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.75rem;">
     These stats reflect the <strong>native $XIAN token</strong> on the Xian blockchain. 
