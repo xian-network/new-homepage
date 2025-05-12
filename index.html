@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <title>Xian: The First Native Python Layer 1 | Build dApps in Minutes.</title>
-    <meta name="description" content="Xian is a new Layer 1 blockchain for Python devs. No new language—just native Python to build dApps and earn 70% of fees. Start building on Xian.">
+    <meta name="description"
+        content="Xian is a new Layer 1 blockchain for Python devs. No new language—just native Python to build dApps and earn 70% of fees. Start building on Xian.">
     <meta name="keywords" content="Xian, blockchain, python, smart contracts" />
     <meta name="author" content="Xian" />
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=no" />
@@ -16,19 +17,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="./assets/js/slider/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="./assets/css/main.min.css?v=1.1.0" />
+    <link rel="stylesheet" href="./assets/css/main.min.css?v=1.1.1" />
 
     <!-- Basic OG tags -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://xian.org/" />
     <meta property="og:title" content="Xian: Build dApps in Python. Buy $XIAN today." />
-    <meta property="og:description" content="Xian is the first native Python Layer 1 blockchain. Buy $XIAN, earn yields, and deploy smart contracts with real code." />
+    <meta property="og:description"
+        content="Xian is the first native Python Layer 1 blockchain. Buy $XIAN, earn yields, and deploy smart contracts with real code." />
     <meta property="og:image" content="https://xian.org/assets/img/preview.png" />
 
     <!-- Twitter-specific -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Xian: Build dApps in Python. Buy $XIAN today." />
-    <meta name="twitter:description" content="First Python-native Layer 1 blockchain. $XIAN powers real smart contracts. Build, earn, and explore." />
+    <meta name="twitter:description"
+        content="First Python-native Layer 1 blockchain. $XIAN powers real smart contracts. Build, earn, and explore." />
     <meta name="twitter:image" content="https://xian.org/assets/img/preview.png" />
 
 
@@ -237,47 +240,25 @@
                         users. You can
                         buy $XIAN today and ride the future of programmable value.
                     </p>
-                    
-                    <div class="buttons-wrap top-desk" style="margin-top:2.5rem"><a href="#meet" class="main-button  bg-color">
+
+                    <div class="buttons-wrap top-desk" style="margin-top:2.5rem"><a href="#meet"
+                            class="main-button  bg-color">
                             Buy $XIAN
                         </a>
-                        <a
-                            href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/"
+                        <a href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/"
                             target="_blank" class="main-button">
                             Get Wallet
-                        </a></div>
-                        <div class="xian-stats-container" id="xian-stats-container">
-                           
-                                <strong>Loading $XIAN stats…</strong>
-                              
-                        </div>
-                        
-
-                          
-                    <div class="contract-example">
-                        <h3>
-                            Python Contracts in Action
-                        </h3>
-                        <pre><code class="language-python"><span class="py-keyword">import</span> <span class="py-builtin">currency</span><span class="py-comment">  # currency is the main token/currency of the network</span>
-<span class="py-builtin">safe</span> = <span class="py-builtin">Hash</span>(default_value=<span class="py-number">0</span>)
-
-<span class="py-decorator">@export</span>
-<span class="py-keyword">def</span> <span class="py-identifier">deposit</span>(amount: <span class="py-builtin">float</span>):
-    <span class="py-builtin">currency</span>.<span class="py-identifier">transfer_from</span>(
-        amount=amount,
-        to=<span class="py-builtin">ctx</span>.<span class="py-identifier">this</span>,
-        main_account=<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>
-    )
-    <span class="py-builtin">safe</span>[<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>] += amount
-
-<span class="py-decorator">@export</span>
-<span class="py-keyword">def</span> <span class="py-identifier">withdraw</span>(amount: <span class="py-builtin">float</span>):
-    <span class="py-keyword">assert</span> <span class="py-builtin">safe</span>[<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>] >= amount, <span class="py-string">'insufficient funds'</span>
-    <span class="py-builtin">currency</span>.<span class="py-identifier">transfer</span>(amount=amount, to=<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>)
-    <span class="py-builtin">safe</span>[<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>] -= amount
-</code></pre>
+                        </a>
                     </div>
-                </div>
+                    <div class="xian-stats-container" id="xian-stats-container">
+
+                        <strong>Loading $XIAN stats…</strong>
+
+                    </div>
+
+
+
+                    
             </section>
             <section class="empower">
                 <div class="blue-planet">
@@ -308,7 +289,122 @@
                             applications, one language does it all.
                         </p>
                     </div>
+                    <style>
+                        .contract-example {
+                          padding: 2rem;
+                        }
+                        
+                        .contract-header {
+                          display: flex;
+                          justify-content: space-between;
+                          align-items: center;
+                          flex-wrap: wrap;
+                          gap: 1rem;
+                        }
+                        
+                        .contract-header h3 {
+                          font-size: 1.25rem;
+                          font-weight: 700;
+                          margin: 0;
+                          color: white;
+                        }
+                        
+                        
+                        .toggle-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #06e6cb;
+  border-radius: 8px;
+  color: #06e6cb;
+  background: transparent;
+  font-family: "Roboto Mono", monospace;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.toggle-code:hover {
+  background: rgba(6, 230, 203, 0.1);
+}
+
+.toggle-code .chevron {
+  transition: transform 0.3s ease;
+}
+
+.toggle-code.open .chevron {
+  transform: rotate(180deg);
+}
+
+
+                        
+                        .code-block {
+                          overflow: hidden;
+                          max-height: 0;
+                          transition: max-height 0.5s ease;
+                        }
+                        
+                        .code-block.expanded {
+                          max-height: 1000px; /* adjust if needed */
+                        }
+                        
+                        .code-block pre {
+                          background: #0a0a0e;
+                          border-radius: 12px;
+                          padding: 1.25rem 1.5rem;
+                          margin-top: 1rem;
+                          font-size: 0.95rem;
+                          line-height: 1.4;
+                          color: white;
+                          overflow-x: auto;
+                        }
+                        </style>
+                        
+                        <div class="contract-example">
+                          <div class="contract-header">
+                            <h3>Python Contracts in Action</h3>
+                            <button class="toggle-code" id="toggle-code" onclick="toggleCode(this)">
+                                <span>Show Code</span>
+                                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                  <path d="M6 9l6 6 6-6" stroke="#06e6cb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                              </button>
+                              
+                          </div>
+                          <div class="code-block">
+                            <pre><code class="language-python">
+<span class="py-keyword">import</span> <span class="py-builtin">currency</span><span class="py-comment">  # currency is the main token/currency of the network</span>
+<span class="py-builtin">safe</span> = <span class="py-builtin">Hash</span>(default_value=<span class="py-number">0</span>)
+
+<span class="py-decorator">@export</span>
+<span class="py-keyword">def</span> <span class="py-identifier">deposit</span>(amount: <span class="py-builtin">float</span>):
+    <span class="py-builtin">currency</span>.<span class="py-identifier">transfer_from</span>(
+        amount=amount,
+        to=<span class="py-builtin">ctx</span>.<span class="py-identifier">this</span>,
+        main_account=<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>
+    )
+    <span class="py-builtin">safe</span>[<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>] += amount
+
+<span class="py-decorator">@export</span>
+<span class="py-keyword">def</span> <span class="py-identifier">withdraw</span>(amount: <span class="py-builtin">float</span>):
+    <span class="py-keyword">assert</span> <span class="py-builtin">safe</span>[<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>] >= amount, <span class="py-string">'insufficient funds'</span>
+    <span class="py-builtin">currency</span>.<span class="py-identifier">transfer</span>(amount=amount, to=<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>)
+                          <span class="py-builtin">safe</span>[<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>] -= amount
+                          </code></pre>
+                        </div>
+                      </div>
+                      
+<script>
+    function toggleCode(button) {
+      const block = button.closest(".contract-example").querySelector(".code-block");
+      const isExpanded = block.classList.toggle("expanded");
+      button.querySelector("span").innerText = isExpanded ? "Hide Code" : "Show Code";
+      button.querySelector(".chevron").innerText = isExpanded ? "⌃" : "⌄";
+    }
+    </script>
+                      
                 </div>
+                
             </section>
             <section class="get-started" id="get-started">
                 <div class="container">
@@ -851,7 +947,7 @@ display: block;
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
     <script src="./assets/js/slider/swiper-bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="./assets/js/main.js?v=1522345"></script>
+    <script src="./assets/js/main.js?v=15223425"></script>
     <div class="sticky-buy-buttons"><a
             href="https://raydium.io/swap/?inputMint=sol&outputMint=GnaXkbmMV1zGK6bRCQnM9Jd6Jv2Hjw5b2PFVBaKEE5At"
             target="_blank" class="sticky-button raydium">
