@@ -335,8 +335,6 @@ const swiper = new Swiper('.news-slider', {
         <p class="showcase-card__desc">Created ${createdDate}</p>
         <a href="https://explorer.xian.org/tokens/${name}" target="_blank" class="showcase-card__link" style="color: #06e6cb;">
           <span class="lang-en">View</span>
-          <span class="lang-zh">查看</span>
-          <span class="lang-ru">Просмотр</span>
         </a>
       `;
       tokenGrid.appendChild(card);
