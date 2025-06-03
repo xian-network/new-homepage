@@ -10,7 +10,7 @@
     <meta name="author" content="Xian" />
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=no" />
     <link rel="icon" type="image/svg+xml" href="./assets/img/favicon.svg" />
-    <link rel="shortcut icon" href="./assets/img/favicon.ico" />
+    <link rel="shortcut icon" href="./assets/img/favicon.svg" />
     <link rel="manifest" href="./assets/img/site.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -703,9 +703,10 @@
                                         proposals.
                                     </li>
                                 </ul>
+                                
                                 <div style="
 display: flex;
-justify-content: center;
+justify-content: center;    align-items: center;
 margin-top: 3.125rem;
 gap: 1rem;
 flex-direction: column;
@@ -727,6 +728,21 @@ margin: 0;
                                     </a></div>
                             </div>
                         </div>
+                        <div style="
+                        display: flex;
+                        justify-content: center;
+                    ">
+                        <div style="
+display: flex;
+justify-content: center;
+margin-top: 3.125rem;
+gap: 1rem;
+flex-direction: column;
+max-width: 100%;
+width:600px;
+">
+                                <canvas id="xianPieChart" width="300" height="300" style="margin: 1rem; display: block;"></canvas>
+                                </div></div>
                         <div style="
 display: flex;
 justify-content: center;
@@ -957,7 +973,9 @@ display: block;
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
     <script src="./assets/js/slider/swiper-bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="./assets/js/main.js?v=1522342325"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="./assets/js/main.js?v=15223423225"></script>
     <div class="sticky-buy-buttons"><a
             href="https://raydium.io/swap/?inputMint=sol&outputMint=GnaXkbmMV1zGK6bRCQnM9Jd6Jv2Hjw5b2PFVBaKEE5At"
             target="_blank" class="sticky-button raydium">

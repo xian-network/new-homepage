@@ -344,7 +344,6 @@ const swiper = new Swiper('.news-slider', {
   }
 })();
 
-
 async function fetchXianStats() {
   const container = document.getElementById("xian-stats-container");
   const graphqlUrl = "https://node.xian.org/graphql";
@@ -391,39 +390,21 @@ async function fetchXianStats() {
         "currency.balances:con_team_y1_linear_vesting"
       ] }
     }) {
-      edges { node { value } }
+      edges { node { key, value } }
     }
   }`;
 
   try {
-    // Fetch price, volume, excluded balances, and total count in parallel
     const [resNow, resVol, resCount, resExcluded] = await Promise.all([
-      fetch(graphqlUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: nowQuery })
-      }).then(r => r.json()),
-      fetch(graphqlUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: volumeQuery })
-      }).then(r => r.json()),
-      fetch(graphqlUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: countQuery })
-      }).then(r => r.json()),
-      fetch(graphqlUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: excludedQuery })
-      }).then(r => r.json())
+      fetch(graphqlUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query: nowQuery }) }).then(r => r.json()),
+      fetch(graphqlUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query: volumeQuery }) }).then(r => r.json()),
+      fetch(graphqlUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query: countQuery }) }).then(r => r.json()),
+      fetch(graphqlUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ query: excludedQuery }) }).then(r => r.json())
     ]);
 
     const totalCount = resCount.data.allStates.totalCount;
     let totalSupply = 0;
 
-    // Chunked summing
     for (let offset = 0; offset < totalCount; offset += CHUNK_SIZE) {
       const chunkQuery = `query ($first: Int!, $offset: Int!) {
         allStates(
@@ -448,21 +429,23 @@ async function fetchXianStats() {
       const chunkResp = await fetch(graphqlUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: chunkQuery,
-          variables: { first: CHUNK_SIZE, offset }
-        })
+        body: JSON.stringify({ query: chunkQuery, variables: { first: CHUNK_SIZE, offset } })
       }).then(r => r.json());
 
       const chunkValues = chunkResp.data.allStates.edges.map(e => parseFloat(e.node.value));
       totalSupply += chunkValues.reduce((a, b) => a + b, 0);
     }
 
-    const excluded = resExcluded.data.allStates.edges
-      .map(e => parseFloat(e.node.value))
-      .reduce((a, b) => a + b, 0);
+    const excludedMap = Object.fromEntries(
+      resExcluded.data.allStates.edges.map(e => [e.node.key, parseFloat(e.node.value)])
+    );
 
-    const circulating = totalSupply - excluded;
+    const treasury = excludedMap["currency.balances:dao"] || 0;
+    const vesting = excludedMap["currency.balances:con_team_y1_linear_vesting"] || 0;
+    const locker = excludedMap["currency.balances:team_lock"] || 0;
+    const stream = excludedMap["currency.balances:dao_funding_stream"] || 0;
+
+    const circulating = totalSupply - (treasury + vesting + locker + stream);
 
     const latest = resNow.data.allEvents.edges?.[0]?.node.data || {};
     const volumeEvents = resVol.data.allEvents.edges.map(e => e.node.data);
@@ -494,23 +477,66 @@ async function fetchXianStats() {
     const marketCap = currentPrice * circulating;
 
     container.innerHTML = `
-     <strong style="display: block; margin-bottom: 0.5rem;">$XIAN (Native Token on Xian Blockchain)</strong>
-  <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; font-size: 0.9rem;    justify-content: center;">
-    <li><span style="opacity: 0.75;">Price:</span> <strong>$${currentPrice.toLocaleString("en-US", {maximumFractionDigits: 4})}</strong></li>
-    <li><span style="opacity: 0.75;">Market Cap:</span> <strong>$${marketCap.toLocaleString("en-US")}</strong></li>
-    <li><span style="opacity: 0.75;">Circulating:</span> <strong>${Math.floor(circulating).toLocaleString("en-US")} XIAN</strong></li>
-    <li><span style="opacity: 0.75;">24h Vol:</span> <strong>$${volume.toLocaleString("en-US", {maximumFractionDigits: 0})}</strong></li>
-  </ul>
-  <div style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.75rem;">
-    These stats reflect the <strong>native $XIAN token</strong> on the Xian blockchain. 
-  Prices and supply may differ from bridged tokens listed on Solana.
-  </div>
+      <strong style="display: block; margin-bottom: 0.5rem;">$XIAN (Native Token on Xian Blockchain)</strong>
+      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; font-size: 0.9rem; justify-content: center;">
+        <li><span style="opacity: 0.75;">Price:</span> <strong>$${currentPrice.toLocaleString("en-US", {maximumFractionDigits: 4})}</strong></li>
+        <li><span style="opacity: 0.75;">Market Cap:</span> <strong>$${marketCap.toLocaleString("en-US")}</strong></li>
+        <li><span style="opacity: 0.75;">Circulating:</span> <strong>${Math.floor(circulating).toLocaleString("en-US")} XIAN</strong></li>
+        <li><span style="opacity: 0.75;">24h Vol:</span> <strong>$${volume.toLocaleString("en-US", {maximumFractionDigits: 0})}</strong></li>
+      </ul>
+      <div style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.75rem;">
+        These stats reflect the <strong>native $XIAN token</strong> on the Xian blockchain. 
+        Prices and supply may differ from bridged tokens listed on Solana.
+      </div>
     `;
+
+    // 💹 Pie Chart Rendering
+    const ctx = document.getElementById('xianPieChart')?.getContext('2d');
+    const isMobile = window.innerWidth <= 600;
+    const chartOptions = {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: isMobile ? 'bottom' : 'right',
+          labels: {
+            color: '#ffffff',
+            font: { size: 14 }
+          }
+        },
+        title: {
+          display: true,
+          text: 'Live $XIAN Token Distribution',
+          color: '#ffffff',
+          font: {
+            size: 20,
+            weight: 'bold'
+          }
+        }
+      }
+    };
+    if (ctx) {
+      if (window.xianPieChart && typeof window.xianPieChart.destroy === "function") {
+        window.xianPieChart.destroy();
+      }
+      window.xianPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ["Validator DAO Treasury", "Validator DAO Vesting", "Team Locker", "Team Vesting", "Circulating"],
+          datasets: [{
+            data: [treasury, stream, locker, vesting, circulating],
+            backgroundColor: ["#06e6cb", "#009688", "#26a69a", "#80cbc4", "#004d40"]
+          }]
+        },
+        options: chartOptions
+      });
+    }
+
   } catch (err) {
     console.error("Failed to load XIAN stats", err);
     container.textContent = "Error loading $XIAN stats.";
   }
 }
+
 
 
 fetchXianStats();
