@@ -393,6 +393,7 @@
   background:#06e6cb;color:#0b0b0f;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
   transition:background .25s ease;
+  isolation:isolate;           /* NEW – creates its own paint layer */
 }
 .fab:hover{background:#04d2bb;}
 
@@ -490,6 +491,7 @@
   opacity:0;                        /* start hidden */
   filter:blur(8px);
   animation:pulseRing 2.7s ease-out infinite;
+  z-index:-1;                  /* NEW – sits under the teal fill   */
 }
 
 /* respect “Reduce Motion” */
