@@ -506,15 +506,25 @@
 .buy-btn{display:inline-flex;align-items:center;gap:.6rem;padding-right:2.6rem;font-family: "Roboto Mono", monospace;
 
 }
+
+/* arrow */
 .buy-btn .caret{
   width:8px;height:8px;flex:0 0 8px;
-  border:2px solid #0B0B0F;border-left:none;border-top:none;
-  transform:rotate(45deg);transition:transform .25s ease;
+  border:2px solid currentColor;   /* ← inherit!                */
+  border-left:none;border-top:none;
+  transform:rotate(45deg);
+  transition:transform .25s ease, border-color .25s ease;
 }
-.buy-btn:hover .caret{
-  border-color:white;
+
+/* open state */
+.btn-group.open .caret{
+  transform:rotate(-135deg);
 }
-.btn-group.open .caret{transform:rotate(-135deg);}
+
+/* ---------- Hover styles only on devices that *have* hover ---------- */
+@media (hover:hover){
+  .buy-btn:hover{color:#FFFFFF;}    /* turns text & arrow white  */
+}
 
 /* ------------- DROPDOWN CARD ------------- */
 .buy-menu{
@@ -548,4 +558,24 @@
 /* keyboard focus ring */
 .buy-menu a:focus,.buy-btn:focus{
   outline:2px solid #06e6cb;outline-offset:2px;
+}
+@media (max-width: 540px){            /* tweak the breakpoint if needed */
+  .buy-menu{
+    left:50%;                         /* centre it */
+    transform:translateX(-50%);
+    top:calc(100% + 1rem);
+    width:calc(100vw - 2rem);         /* leaves 1 rem gutter each side */
+    min-width:auto;
+    border-radius:16px;
+    padding:1rem 0;
+  }
+  .buy-menu::before{                 /* centre the little pointer */
+    left:calc(50% - 6px);
+  }
+
+  /* bigger tap targets + slightly larger text */
+  .buy-menu a{
+    padding:1.2rem 1.8rem;
+    font-size:.95rem;
+  }
 }
