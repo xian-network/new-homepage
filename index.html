@@ -151,36 +151,40 @@
                         buy $XIAN today and ride the future of programmable value.
                     </p>
 
-                    <div class="buttons-wrap top-desk" style="margin-top:2.5rem"><div class="btn-group">
+                    <div class="buttons-wrap top-desk" style="margin-top:2.5rem">
+                        <div class="btn-group">
 
-  <button class="main-button bg-color buy-btn" aria-haspopup="true" aria-expanded="false">
-    Buy&nbsp;$XIAN
-    <span class="caret"></span>          <!-- little arrow -->
-  </button>
+                            <button class="main-button bg-color buy-btn" aria-haspopup="true" aria-expanded="false">
+                                Buy&nbsp;$XIAN
+                                <span class="caret"></span> <!-- little arrow -->
+                            </button>
 
-  <ul class="buy-menu">
-    <li><a href="https://snakexchange.org/pairs/">SnakExchange (DEX)</a></li>
-    <li><a href="https://raydium.io/swap/?inputMint=sol&outputMint=GnaXkbmMV1zGK6bRCQnM9Jd6Jv2Hjw5b2PFVBaKEE5At">Raydium DEX (Solana)</a></li>
-    <li><a href="https://dex-trade.com/spot/trading/XIANUSDT?interface=classic">Dex-Trade CEX</a></li>
-  </ul>
-</div>
-<script>
-  const btn   = document.querySelector('.buy-btn');
-const group = document.querySelector('.btn-group');
+                            <ul class="buy-menu">
+                                <li><a href="https://snakexchange.org/pairs/" target="_blank">SnakExchange (DEX)</a></li>
+                                <li><a
+                                        href="https://raydium.io/swap/?inputMint=sol&outputMint=GnaXkbmMV1zGK6bRCQnM9Jd6Jv2Hjw5b2PFVBaKEE5At" target="_blank">Raydium
+                                        DEX (Solana)</a></li>
+                                <li><a href="https://dex-trade.com/spot/trading/XIANUSDT?interface=classic" target="_blank">Dex-Trade
+                                        CEX</a></li>
+                            </ul>
+                        </div>
+                        <script>
+                            const btn = document.querySelector('.buy-btn');
+                            const group = document.querySelector('.btn-group');
 
-btn.addEventListener('click', e=>{
-  e.preventDefault();
-  const open = group.classList.toggle('open');
-  btn.setAttribute('aria-expanded', open);
-});
+                            btn.addEventListener('click', e => {
+                                e.preventDefault();
+                                const open = group.classList.toggle('open');
+                                btn.setAttribute('aria-expanded', open);
+                            });
 
-document.addEventListener('click', e=>{
-  if(!group.contains(e.target)){
-    group.classList.remove('open');
-    btn.setAttribute('aria-expanded','false');
-  }
-});
-</script>
+                            document.addEventListener('click', e => {
+                                if (!group.contains(e.target)) {
+                                    group.classList.remove('open');
+                                    btn.setAttribute('aria-expanded', 'false');
+                                }
+                            });
+                        </script>
                         <a href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/"
                             target="_blank" class="main-button">
                             Get Wallet
@@ -562,7 +566,8 @@ document.addEventListener('click', e=>{
                                         consistent demand across the ecosystem.<br><br></li>
                                     <li><strong>Validator Staking Requirement:</strong> Validators must stake at least
                                         <strong>100,000 $XIAN</strong>, ensuring token scarcity and long-term
-                                        holding.<br><br></li>
+                                        holding.<br><br>
+                                    </li>
                                     <li><strong>Gas Payments Exclusively in $XIAN:</strong> Guarantees ongoing token
                                         utility through constant usage for transactions.<br><br></li>
                                     <li><strong>Gas Redistribution (live)</strong>
@@ -621,7 +626,7 @@ width:600px;
                                     style="margin: 1rem; display: block;"></canvas>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </section>
@@ -835,51 +840,49 @@ display: block;
 
     <script src="./assets/js/main.js?v=152234223225"></script>
 
-<!-- floating action button -->
-<button id="buyFab" class="fab"><svg class="icon zap"  width="26" height="26"
-     viewBox="0 0 24 24"
-     xmlns="http://www.w3.org/2000/svg"
-     aria-hidden="true" focusable="false">
+    <!-- floating action button -->
+    <button id="buyFab" class="fab"><svg class="icon zap" width="26" height="26" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 
-  <style>
-    /* guarantees currentColor has something to inherit */
-    .icon { color: currentColor; }
-  </style>
+            <style>
+                /* guarantees currentColor has something to inherit */
+                .icon {
+                    color: currentColor;
+                }
+            </style>
 
-  <!-- use a path instead of the problem polygon -->
-  <path d="M13 2 3 14h9l-1 8 10-12h-9z" 
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"/>
-</svg>
-</button>
+            <!-- use a path instead of the problem polygon -->
+            <path d="M13 2 3 14h9l-1 8 10-12h-9z" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </button>
 
-<!-- hidden menu -->
-<ul id="fabMenu" class="fab-menu">
-     <li class="menu-label">Buy $XIAN on</li>
-     <li><a href="https://snakexchange.org/pairs/"  target="_blank">SnakExchange <span>(on-chain DEX)</span></a></li>
-  <li><a href="https://raydium.io/swap/?inputMint=sol&outputMint=GnaXkbmMV1zGK6bRCQnM9Jd6Jv2Hjw5b2PFVBaKEE5At"            target="_blank">Raydium DEX <span>(Solana)</span></a></li>
-  <li><a href="https://dex-trade.com/spot/trading/XIANUSDT?interface=classic"         target="_blank">Dex-Trade CEX <span>(USDT pair)</span></a></li>
+    <!-- hidden menu -->
+    <ul id="fabMenu" class="fab-menu">
+        <li class="menu-label">Buy $XIAN on</li>
+        <li><a href="https://snakexchange.org/pairs/" target="_blank">SnakExchange <span>(on-chain DEX)</span></a></li>
+        <li><a href="https://raydium.io/swap/?inputMint=sol&outputMint=GnaXkbmMV1zGK6bRCQnM9Jd6Jv2Hjw5b2PFVBaKEE5At"
+                target="_blank">Raydium DEX <span>(Solana)</span></a></li>
+        <li><a href="https://dex-trade.com/spot/trading/XIANUSDT?interface=classic" target="_blank">Dex-Trade CEX
+                <span>(USDT pair)</span></a></li>
 
-</ul>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const fab  = document.getElementById('buyFab');
-    const menu = document.getElementById('fabMenu');      // just for ESC close
-    fab.addEventListener('click', () => fab.classList.toggle('open'));
+    </ul>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fab = document.getElementById('buyFab');
+            const menu = document.getElementById('fabMenu');      // just for ESC close
+            fab.addEventListener('click', () => fab.classList.toggle('open'));
 
-    // optional: close when user clicks outside or hits ESC
-    document.addEventListener('keyup', e => {
-      if (e.key === 'Escape') fab.classList.remove('open');
-    });
-    document.addEventListener('click', e => {
-      if (!fab.contains(e.target) && !menu.contains(e.target))
-        fab.classList.remove('open');
-    });
-  });
-</script>
+            // optional: close when user clicks outside or hits ESC
+            document.addEventListener('keyup', e => {
+                if (e.key === 'Escape') fab.classList.remove('open');
+            });
+            document.addEventListener('click', e => {
+                if (!fab.contains(e.target) && !menu.contains(e.target))
+                    fab.classList.remove('open');
+            });
+        });
+    </script>
 </body>
 
 </html>
