@@ -461,7 +461,8 @@
 @media(width < 73.75em) {
   
 }
-
+.fab { color: #06e6cb; }          /* or your theme var */
+.fab .icon { display: block; }    /* avoid inline SVG baseline gaps */
 @media(width < 30em) {
   .hero .bg-hero {
     left: 0rem

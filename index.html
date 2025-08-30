@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="./assets/js/slider/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="./assets/css/main.min.css?v=38" />
+    <link rel="stylesheet" href="./assets/css/main.min.css?v=238" />
 
     <!-- Basic OG tags -->
     <meta property="og:type" content="website" />
@@ -990,21 +990,16 @@ display: block;
     <script src="./assets/js/main.js?v=1522342223225"></script>
 
     <!-- floating action button -->
-    <button id="buyFab" class="fab"><svg class="icon zap" width="26" height="26" viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-
-            <style>
-                /* guarantees currentColor has something to inherit */
-                .icon {
-                    color: currentColor;
-                }
-            </style>
-
-            <!-- use a path instead of the problem polygon -->
-            <path d="M13 2 3 14h9l-1 8 10-12h-9z" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-    </button>
+    <button id="buyFab" class="fab" aria-haspopup="true" aria-expanded="false" aria-controls="fabMenu">
+  <svg class="icon zap"
+       width="26" height="26" viewBox="0 0 24 24"
+       xmlns="http://www.w3.org/2000/svg"
+       fill="none"
+       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true" focusable="false" role="img">
+    <path d="M13 2 3 14h9l-1 8 10-12h-9z" />
+  </svg>
+</button>
 
     <!-- hidden menu -->
     <ul id="fabMenu" class="fab-menu">
