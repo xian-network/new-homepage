@@ -183,39 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  const rssFeedUrl = "https://api.cors.lol/?url=https://xiannetwork.medium.com/feed";
-  const newsContainer = document.getElementById("news-container");
-
-  fetch(rssFeedUrl)
-    .then(response => response.text())
-    .then(data => {
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(data, "application/xml");
-      const items = xmlDoc.querySelectorAll("item");
-
-      items.forEach((item, index) => {
-        if (index >= 3) return; // Limit to 8 posts
-        const title = item.querySelector("title").textContent;
-        const link = item.querySelector("link").textContent;
-        const content = item.querySelector("content\\:encoded, encoded").textContent;
-        const thumbnail = extractThumbnail(content);
-        const slide = document.createElement("div");
-        slide.classList.add("swiper-slide");
-
-        slide.innerHTML = `
-          <div class="swiper-slide__block">
-            <a href="${link}" target="_blank"><h3>${title}</h3></a>
-            ${truncateText(removeFigures(content), 100)}
-            <a href="${link}" target="_blank">Read more</a>
-          </div>
-          <div class="swiper-slide__img">
-            <img src="${thumbnail}" alt="News Thumbnail" onerror="this.src='./assets/img/news-img.png'">
-          </div>
-        `;
-        newsContainer.appendChild(slide);
-      });
-    })
-    .catch(error => console.error("Error fetching Medium RSS feed:", error));
 swiper.update();
   updateDragAndDropState();
 

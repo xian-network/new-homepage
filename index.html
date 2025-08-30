@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="./assets/js/slider/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="./assets/css/main.min.css?v=37" />
+    <link rel="stylesheet" href="./assets/css/main.min.css?v=38" />
 
     <!-- Basic OG tags -->
     <meta property="og:type" content="website" />
@@ -136,7 +136,6 @@
                 <div class="bg-hero">
                     <picture>
                         <source srcset="./assets/img/cirlces-mob.svg" media="(max-width: 480px)" />
-                        <source srcset="./assets/img/circles-tablet.svg" media="(max-width: 1180px)" />
                         <img src="./assets/img/orbita.svg" alt="orbita" />
                     </picture>
                     <div class="sun"><img src="./assets/img/sun.svg" style="display:none" alt="sun" /></div>
@@ -169,10 +168,10 @@
                     if (!img) return;
 
                     const src = img.currentSrc || img.src;
-    const sizeKey = pic.clientWidth + "x" + pic.clientHeight;
-    if (src && src === currentSrc && sizeKey === lastSizeKey) return; // ← changed
-    currentSrc = src;
-    lastSizeKey = sizeKey;
+                    const sizeKey = pic.clientWidth + "x" + pic.clientHeight;
+                    if (src && src === currentSrc && sizeKey === lastSizeKey) return; // ← changed
+                    currentSrc = src;
+                    lastSizeKey = sizeKey;
 
                     let svgText = '';
                     try {
