@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="./assets/js/slider/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="./assets/css/main.min.css?v=35" />
+    <link rel="stylesheet" href="./assets/css/main.min.css?v=37" />
 
     <!-- Basic OG tags -->
     <meta property="og:type" content="website" />
@@ -136,11 +136,138 @@
                 <div class="bg-hero">
                     <picture>
                         <source srcset="./assets/img/cirlces-mob.svg" media="(max-width: 480px)" />
-                        <source srcset="./assets/img/circles-tablet.svg" media="(max-width: 1180px)" /><img
-                            src="./assets/img/orbita.svg" alt="orbita" />
+                        <source srcset="./assets/img/circles-tablet.svg" media="(max-width: 1180px)" />
+                        <img src="./assets/img/orbita.svg" alt="orbita" />
                     </picture>
-                    <div class="sun"><img src="./assets/img/sun.svg" alt="sun" /></div>
+                    <div class="sun"><img src="./assets/img/sun.svg" style="display:none" alt="sun" /></div>
                 </div>
+                <script>
+                    
+
+(() => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const bg = document.querySelector('.hero .bg-hero');
+  const pic = bg?.querySelector('picture');
+  const staticSun = bg?.querySelector('.sun'); // the existing static sun
+  if (!bg || !pic || reduce) return;
+
+  const svgNS   = 'http://www.w3.org/2000/svg';
+  const xlinkNS = 'http://www.w3.org/1999/xlink';
+  const PATH_INDEX = 0;        // 0 = inner, 1 = middle (default), 2 = outer
+  const ORBIT_SECS = 60;       // speed of one revolution
+  let overlay, currentSrc;
+
+  // Pick a nice responsive sun size
+  const sunPx = () => (innerWidth <= 480 ? 60 : innerWidth <= 1180 ? 80 : 100);
+
+  function cleanup() {
+    if (overlay) overlay.remove();
+    overlay = null;
+    if (staticSun) staticSun.style.display = '';
+  }
+
+  async function initFromCurrentPicture() {
+    const img = pic.querySelector('img');
+    if (!img) return;
+
+    const src = img.currentSrc || img.src;
+    if (!src || src === currentSrc) return;
+    currentSrc = src;
+
+    let svgText = '';
+    try {
+      const res = await fetch(src, { cache: 'force-cache' });
+      if (!res.ok) throw new Error(`Failed to fetch ${src}`);
+      svgText = await res.text();
+    } catch (e) {
+      console.warn('Orbit: could not load SVG:', e);
+      cleanup(); // keep static sun
+      return;
+    }
+
+    const doc = new DOMParser().parseFromString(svgText, 'image/svg+xml');
+    const root = doc.querySelector('svg');
+    const paths = [...doc.querySelectorAll('path')];
+    const chosen = paths[PATH_INDEX] || paths[0];
+    if (!root || !chosen) { cleanup(); return; }
+
+    const vb = root.getAttribute('viewBox') ||
+               `0 0 ${root.getAttribute('width') || 1432} ${root.getAttribute('height') || 821}`;
+    const d = chosen.getAttribute('d');
+    if (!d) { cleanup(); return; }
+
+    // Build the overlay SVG that sits exactly over your <picture>
+    cleanup();
+    overlay = document.createElementNS(svgNS, 'svg');
+    overlay.setAttribute('class', 'orbit-overlay');
+    overlay.setAttribute('viewBox', vb);
+    overlay.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    Object.assign(overlay.style, {
+      position: 'absolute',
+      inset: '0',
+      width: '100%',
+      height: '100%',
+      pointerEvents: 'none'
+    });
+
+    // Invisible path we’ll follow
+    const pathId = 'orbitPath-' + Math.random().toString(36).slice(2);
+    const pathEl = document.createElementNS(svgNS, 'path');
+    pathEl.setAttribute('id', pathId);
+    pathEl.setAttribute('d', d);
+    pathEl.setAttribute('fill', 'none');
+    pathEl.setAttribute('stroke', 'none'); // keep it invisible
+    overlay.appendChild(pathEl);
+
+    // Sun image, centered on the path using x/y = -size/2
+    const g = document.createElementNS(svgNS, 'g');
+    const imgEl = document.createElementNS(svgNS, 'image');
+    const size = sunPx();
+    imgEl.setAttribute('width', String(size));
+    imgEl.setAttribute('height', String(size));
+    imgEl.setAttribute('x', String(-size / 2));
+    imgEl.setAttribute('y', String(-size / 2));
+    // Modern browsers accept href; xlink:href kept for older Safari
+    imgEl.setAttributeNS(xlinkNS, 'href', './assets/img/sun.svg');
+    imgEl.setAttribute('href', './assets/img/sun.svg');
+    g.appendChild(imgEl);
+
+    // Motion along the path (SMIL animateMotion)
+    const anim = document.createElementNS(svgNS, 'animateMotion');
+    anim.setAttribute('dur', ORBIT_SECS + 's');
+    anim.setAttribute('repeatCount', 'indefinite');
+    anim.setAttribute('rotate', 'auto'); // tangential rotation
+    // Optional: start at a random offset so it feels alive on reload
+    anim.setAttribute('keyPoints', '0;1');
+    anim.setAttribute('keyTimes', '0;1');
+    const mpath = document.createElementNS(svgNS, 'mpath');
+    mpath.setAttributeNS(xlinkNS, 'href', '#' + pathId);
+    mpath.setAttribute('href', '#' + pathId);
+    anim.appendChild(mpath);
+    g.appendChild(anim);
+
+    overlay.appendChild(g);
+
+    // Mount overlay right on top of the <picture>
+    bg.style.position = 'absolute'; // already absolute in your CSS
+    pic.style.position = 'relative';
+    pic.appendChild(overlay);
+
+    // Hide the old static sun
+    if (staticSun) staticSun.style.display = 'none';
+  }
+
+  // Initialize once, then re-evaluate on resize (breakpoints switch sources)
+  initFromCurrentPicture();
+
+  let t;
+  addEventListener('resize', () => {
+    clearTimeout(t);
+    t = setTimeout(() => initFromCurrentPicture(), 200);
+  }, { passive: true });
+
+})();
+</script>
                 <div class="container">
                     <h1>
                         The Blockchain Where Python Runs the Economy.
@@ -789,14 +916,7 @@ margin-bottom: .625rem;
 text-overflow: ellipsis;
 overflow: hidden;
 display: block;
-">GnaXkbmMV1zGK6bRCQnM9Jd6Jv2Hjw5b2PFVBaKEE5At</a><a href="https://rugcheckhub.com/tokens/xian" target="_blank" style="
-    display: flex;
-    justify-content: center;
-"><img src="https://rugcheckhub.com/static/images/logo_text_bg.png" style="
-    width: 100%;
-    max-width: 12rem;
-    border-radius: 12px;
-"></a></div>
+">GnaXkbmMV1zGK6bRCQnM9Jd6Jv2Hjw5b2PFVBaKEE5At</a></div>
                 <ul class="footer-menu">
                     <li><a href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/"
                             target="_blank">

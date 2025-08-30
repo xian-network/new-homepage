@@ -98,6 +98,7 @@ if ($(window).width() <= 992) {
     return description.replace(/<figure>.*<\/figure>/, "");
   }
 
+
 // drag and drop
 document.addEventListener('DOMContentLoaded', () => {
   const containers = document.querySelectorAll('.roadmap-item__tasks'); // All containers with tasks
