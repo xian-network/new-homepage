@@ -140,155 +140,130 @@
                     <div class="sun"><img src="./assets/img/sun.svg" style="display:none" alt="sun" /></div>
                 </div>
                 <script>
-                (() => {
-                const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                const bg = document.querySelector('.hero .bg-hero');
-                const pic = bg?.querySelector('picture');
-                const staticSun = bg?.querySelector('.sun'); // the existing static sun
-                if (!bg || !pic || reduce) return;
+(() => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const bg = document.querySelector('.hero .bg-hero');
+  const pic = bg?.querySelector('picture');
+  const staticSun = bg?.querySelector('.sun');
+  if (!bg || !pic || reduce) return;
 
-                const svgNS   = 'http://www.w3.org/2000/svg';
-                const xlinkNS = 'http://www.w3.org/1999/xlink';
-                const PATH_INDEX = 0;        // 0 = inner, 1 = middle (default), 2 = outer
-                const ORBIT_SECS = 60;       // speed of one revolution
-                let overlay, currentSrc;
+  const svgNS   = 'http://www.w3.org/2000/svg';
+  const xlinkNS = 'http://www.w3.org/1999/xlink';
+  const PATH_INDEX = 0;
+  const ORBIT_SECS = 60;
 
-                // Pick a nice responsive sun size
-                const sunPx = () => (innerWidth <= 480 ? 60 : innerWidth <= 1180 ? 80 : 100);
+  let overlay, currentSrc, lastSizeKey; // ← declare this
 
-                function cleanup() {
-                    if (overlay) overlay.remove();
-                    overlay = null;
-                    if (staticSun) staticSun.style.display = '';
-                }
+  const sunPx = () => (innerWidth <= 480 ? 60 : innerWidth <= 1180 ? 80 : 100);
 
-                async function initFromCurrentPicture() {
-                    const img = pic.querySelector('img');
-                    if (!img) return;
+  function cleanup() {
+    if (overlay) overlay.remove();
+    overlay = null;
+    if (staticSun) staticSun.style.display = '';
+  }
 
-                    const src = img.currentSrc || img.src;
-                    const sizeKey = pic.clientWidth + "x" + pic.clientHeight;
-                    if (src && src === currentSrc && sizeKey === lastSizeKey) return; // ← changed
-                    currentSrc = src;
-                    lastSizeKey = sizeKey;
+  async function initFromCurrentPicture() {
+    const img = pic.querySelector('img');
+    if (!img) return;
 
-                    let svgText = '';
-                    try {
-                    const res = await fetch(src, { cache: 'force-cache' });
-                    if (!res.ok) throw new Error(`Failed to fetch ${src}`);
-                    svgText = await res.text();
-                    } catch (e) {
-                    console.warn('Orbit: could not load SVG:', e);
-                    cleanup(); // keep static sun
-                    return;
-                    }
+    const src = img.currentSrc || img.src;
+    const sizeKey = pic.clientWidth + "x" + pic.clientHeight;
+    if (src && src === currentSrc && sizeKey === lastSizeKey) return;
+    currentSrc = src;
+    lastSizeKey = sizeKey;
 
-                    const doc = new DOMParser().parseFromString(svgText, 'image/svg+xml');
-                    const root = doc.querySelector('svg');
-                    const paths = [...doc.querySelectorAll('path')];
-                    const chosen = paths[PATH_INDEX] || paths[0];
-                    if (!root || !chosen) { cleanup(); return; }
+    let svgText = '';
+    try {
+      const res = await fetch(src, { cache: 'force-cache' });
+      const ct = res.headers.get('content-type') || '';
+      if (!/image\/svg\+xml/i.test(ct)) throw new Error(`not svg (${ct})`);
+      svgText = await res.text();
+    } catch (e) {
+      console.warn('Orbit: could not load SVG:', e);
+      cleanup();
+      return;
+    }
 
-                    const vb = root.getAttribute('viewBox') ||
-                            `0 0 ${root.getAttribute('width') || 1432} ${root.getAttribute('height') || 821}`;
-                    const d = chosen.getAttribute('d');
-                    if (!d) { cleanup(); return; }
+    const doc = new DOMParser().parseFromString(svgText, 'image/svg+xml');
+    const root = doc.querySelector('svg');
+    const paths = [...doc.querySelectorAll('path')];
+    const chosen = paths[PATH_INDEX] || paths[0];
+    if (!root || !chosen) { cleanup(); return; }
 
-                    // Build the overlay SVG that sits exactly over your <picture>
-                    cleanup();
-                    overlay = document.createElementNS(svgNS, 'svg');
-                    overlay.setAttribute('class', 'orbit-overlay');
-                    overlay.setAttribute('viewBox', vb);
-                    overlay.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-                    Object.assign(overlay.style, {
-                    position: 'absolute',
-                    inset: '0',
-                    width: '100%',
-                    height: '100%',
-                    pointerEvents: 'none'
-                    });
+    const vb = root.getAttribute('viewBox') ||
+               `0 0 ${root.getAttribute('width') || 1432} ${root.getAttribute('height') || 821}`;
+    const d = chosen.getAttribute('d');
+    if (!d) { cleanup(); return; }
 
-                    const vbParts = (vb.match(/[-\d\.]+/g) || []).map(Number);
-                        const vbW = vbParts[2] || 1, vbH = vbParts[3] || 1;
-                        const containerRatio = pic.clientWidth / pic.clientHeight;
-                        const vbRatio = vbW / vbH;
-                        overlay.setAttribute(
-                        'preserveAspectRatio',
-                        Math.abs(containerRatio - vbRatio) > 0.01 ? 'none' : 'xMidYMid meet'
-                        );  
+    cleanup();
+    overlay = document.createElementNS(svgNS, 'svg');
+    overlay.setAttribute('class', 'orbit-overlay');
+    overlay.setAttribute('viewBox', vb);
+    overlay.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    Object.assign(overlay.style, {
+      position: 'absolute',
+      inset: '0',
+      width: '100%',
+      height: '100%',
+      pointerEvents: 'none'
+    });
 
-                    // Invisible path we’ll follow
-                    const pathId = 'orbitPath-' + Math.random().toString(36).slice(2);
-                    const pathEl = document.createElementNS(svgNS, 'path');
-                    pathEl.setAttribute('id', pathId);
-                    pathEl.setAttribute('d', d);
-                    pathEl.setAttribute('fill', 'none');
-                    pathEl.setAttribute('stroke', 'none'); // keep it invisible
-                    overlay.appendChild(pathEl);
+    // follower + sun image
+    const g = document.createElementNS(svgNS, 'g');
+    const sun = document.createElementNS(svgNS, 'image');
+    const size = sunPx();
+    sun.setAttribute('width', String(size));
+    sun.setAttribute('height', String(size));
+    sun.setAttribute('x', String(-size / 2));
+    sun.setAttribute('y', String(-size / 2));
+    // Safari needs the *qualified* name:
+    sun.setAttributeNS(xlinkNS, 'xlink:href', './assets/img/sun.svg');
+    // Keep modern href too for other engines:
+    sun.setAttribute('href', './assets/img/sun.svg');
+    g.appendChild(sun);
 
-                    // Sun image, centered on the path using x/y = -size/2
-                    const g = document.createElementNS(svgNS, 'g');
-                    const imgEl = document.createElementNS(svgNS, 'image');
-                    const size = sunPx();
-                    imgEl.setAttribute('width', String(size));
-                    imgEl.setAttribute('height', String(size));
-                    imgEl.setAttribute('x', String(-size / 2));
-                    imgEl.setAttribute('y', String(-size / 2));
-                    // Modern browsers accept href; xlink:href kept for older Safari
-                    imgEl.setAttributeNS(xlinkNS, 'href', './assets/img/sun.svg');
-                    imgEl.setAttribute('href', './assets/img/sun.svg');
-                    g.appendChild(imgEl);
+    // Safari-friendly animateMotion (inline path, explicit begin)
+    const anim = document.createElementNS(svgNS, 'animateMotion');
+    anim.setAttribute('dur', ORBIT_SECS + 's');
+    anim.setAttribute('repeatCount', 'indefinite');
+    anim.setAttribute('rotate', 'auto');
+    anim.setAttribute('path', d);
+    anim.setAttribute('begin', '0s');
+    g.appendChild(anim);
 
-                    // Motion along the path (SMIL animateMotion)
-                    const anim = document.createElementNS(svgNS, 'animateMotion');
-                    anim.setAttribute('dur', ORBIT_SECS + 's');
-                    anim.setAttribute('repeatCount', 'indefinite');
-                    anim.setAttribute('rotate', 'auto'); // tangential rotation
-                    // Optional: start at a random offset so it feels alive on reload
-                    anim.setAttribute('keyPoints', '0;1');
-                    anim.setAttribute('keyTimes', '0;1');
-                    const mpath = document.createElementNS(svgNS, 'mpath');
-                    mpath.setAttributeNS(xlinkNS, 'href', '#' + pathId);
-                    mpath.setAttribute('href', '#' + pathId);
-                    anim.appendChild(mpath);
-                    g.appendChild(anim);
+    overlay.appendChild(g);
 
-                    overlay.appendChild(g);
+    // Mount
+    pic.style.position = 'relative';
+    pic.appendChild(overlay);
 
-                    // Mount overlay right on top of the <picture>
-                    bg.style.position = 'absolute'; // already absolute in your CSS
-                    pic.style.position = 'relative';
-                    pic.appendChild(overlay);
+    if (staticSun) staticSun.style.display = 'none';
 
-                    // Hide the old static sun
-                    if (staticSun) staticSun.style.display = 'none';
-                }
+    // Nudge WebKit to actually start the animation when added dynamically
+    requestAnimationFrame(() => anim.beginElement && anim.beginElement());
+  }
 
-                // Initialize once, then re-evaluate on resize (breakpoints switch sources)
-                initFromCurrentPicture();
+  initFromCurrentPicture();
 
-                const imgEl = pic.querySelector('img');
-                imgEl && imgEl.addEventListener('load', () => initFromCurrentPicture(), { once: true });
+  const imgEl = pic.querySelector('img');
+  imgEl && imgEl.addEventListener('load', () => initFromCurrentPicture(), { once: true });
 
-                const ro = new ResizeObserver(() => {
-                // debounce a bit
-                clearTimeout(window.__orbitRO);
-                window.__orbitRO = setTimeout(initFromCurrentPicture, 120);
-                });
-                ro.observe(pic);
+  const ro = new ResizeObserver(() => {
+    clearTimeout(window.__orbitRO);
+    window.__orbitRO = setTimeout(initFromCurrentPicture, 120);
+  });
+  ro.observe(pic);
 
-                addEventListener('orientationchange', () => {
-                setTimeout(initFromCurrentPicture, 250);
-                }, { passive: true });
+  addEventListener('orientationchange', () => setTimeout(initFromCurrentPicture, 250), { passive: true });
 
-                let t;
-                addEventListener('resize', () => {
-                    clearTimeout(t);
-                    t = setTimeout(() => initFromCurrentPicture(), 200);
-                }, { passive: true });
+  let t;
+  addEventListener('resize', () => {
+    clearTimeout(t);
+    t = setTimeout(initFromCurrentPicture, 200);
+  }, { passive: true });
+})();
+</script>
 
-                })();
-                </script>
                 <div class="container">
                     <h1>
                         The Blockchain Where Python Runs the Economy.
