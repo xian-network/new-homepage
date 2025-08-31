@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="./assets/js/slider/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="./assets/css/main.min.css?v=238" />
+    <link rel="stylesheet" href="./assets/css/main.min.css?v=25238" />
 
     <!-- Basic OG tags -->
     <meta property="og:type" content="website" />
@@ -46,7 +46,6 @@
             </picture>
         </div>
         <header class="header">
-            <div class="bg-blur"></div>
             <div class="container">
                 <div class="header-block"><a href="/" class="logo"><img src="./assets/img/logo.svg" alt="logo" /></a>
                     <div class="header-wrapper">
@@ -991,15 +990,17 @@ display: block;
 
     <!-- floating action button -->
     <button id="buyFab" class="fab" aria-haspopup="true" aria-expanded="false" aria-controls="fabMenu">
-  <svg class="icon zap"
-       width="26" height="26" viewBox="0 0 24 24"
-       xmlns="http://www.w3.org/2000/svg"
-       fill="none"
-       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-       aria-hidden="true" focusable="false" role="img">
-    <path d="M13 2 3 14h9l-1 8 10-12h-9z" />
-  </svg>
-</button>
+    <svg
+        class="zap"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        width="26" height="26"
+        aria-hidden="true" focusable="false">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"
+  fill="none" stroke="currentColor" stroke-width="2"
+  stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    </button>
 
     <!-- hidden menu -->
     <ul id="fabMenu" class="fab-menu">
