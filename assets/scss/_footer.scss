@@ -52,7 +52,7 @@
       }
 
     }
-@media (width <= 48em) {
+@media (max-width:  48em) {
   .copyright {
     display: none;
 
@@ -125,14 +125,14 @@
       }
     }
 
-    @media (width < 62em) {
+    @media (max-width: 62em) {
       .footer-bottom {
         grid-template-columns: 1.5fr 1.4fr 1.3fr;
       }
 
     }
 
-    @media (width < 48em) {
+    @media (max-width: 48em) {
       .footer-bottom {
         display: flex;
         justify-content: space-between;
@@ -154,7 +154,7 @@
       }
     }
   }
-  @media (width < 48em) {
+  @media (max-width: 48em) {
     .container {
       .footer-menu {
         flex-wrap: wrap;

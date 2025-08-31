@@ -4,7 +4,7 @@
     display: none;
     z-index: -1;
   }
-  @media (width <= 62em) {
+  @media (max-width:  62em) {
     .roadmap-gradient {
       display: block;
       position: absolute;
@@ -13,7 +13,7 @@
     }
   }
 
-  @media (width <= 30em) {
+  @media (max-width:  30em) {
     .roadmap-gradient {
       width: 100%;
       display: block;
@@ -171,12 +171,12 @@
         }
       }
     }
-    @media (width < 73.75em) {
+    @media (max-width: 73.75em) {
       .roadmap-items {
         column-gap: 15px;
       }
     }
-    @media (width < 62em) {
+    @media (max-width: 62em) {
       .roadmap-items {
         align-items: center;
           flex-direction: column;

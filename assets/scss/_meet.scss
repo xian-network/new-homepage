@@ -6,7 +6,7 @@
   .meet-gradient {
     display: none;
   }
-  @media (width <= 30em) {
+  @media (max-width:  30em) {
     .meet-gradient {
       width: 100%;
       display: block;
@@ -39,7 +39,7 @@
         text-align: left;
       }
     }
-    @media (width < 73.75em) { 
+    @media (max-width: 73.75em) { 
       .main-block {
         p {
           max-width: 40rem;
@@ -47,7 +47,7 @@
       }
     }
 
-    @media (width < 60em) { 
+    @media (max-width: 60em) { 
       .main-block {
         margin-left: 0rem;
         p {
@@ -114,7 +114,7 @@
         margin-top: 2.125rem;
       }
     }
-    @media (width < 73.75em) {
+    @media (max-width: 73.75em) {
       .meet-wrapper {
         .meet-items {
           column-gap: 4.0625rem;
@@ -122,7 +122,7 @@
       }
     }
 
-    @media (width < 60em) {
+    @media (max-width: 60em) {
       .meet-wrapper {
         .meet-items {
           column-gap: 2.125rem;
@@ -153,7 +153,7 @@
       }
     }
 
-    @media (width < 43.75rem) {
+    @media (max-width: 43.75rem) {
       .meet-wrapper {
         .meet-items {
         flex-direction: column;
@@ -188,7 +188,7 @@
         }
       }
     }
-    @media (width < 30em) {
+    @media (max-width: 30em) {
       .meet-wrapper {
         padding: 3rem 1.3125rem 2.75rem 1.3125rem;
         .meet-items {

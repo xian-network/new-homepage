@@ -8,7 +8,7 @@
     display: none;
   }
 
-  @media (width <= 62em) {
+  @media (max-width:  62em) {
     .builder-bg {
       position: absolute;
       top: -10rem;
@@ -28,7 +28,7 @@
       display: block;
     }
   }
-  @media (width <= 30em) {
+  @media (max-width:  30em) {
     .builder-gradient {
       display: none;
     }
@@ -87,14 +87,14 @@
         }
       }
     }
-    @media (width < 80em) {
+    @media (max-width: 80em) {
       .builders-items {
         grid-template-columns: repeat(auto-fill, minmax(28.5rem, 1fr));
       }
 
     } 
 
-    @media (width < 73.75em) {
+    @media (max-width: 73.75em) {
       .builders-items {
         
         gap: 1.875rem;
@@ -103,7 +103,7 @@
 
     } 
 
-    @media (width < 62rem) {
+    @media (max-width: 62rem) {
       .builders-items {
         display: flex;
         gap: 1.875rem;
@@ -120,14 +120,14 @@
       }
 
     } 
-    @media (width < 30em) {
+    @media (max-width: 30em) {
       .builders-items {
         margin-top: 1.875rem;
       }
     }
   }
 }
-@media (width <= 62em) {
+@media (max-width:  62em) {
   .builders {
     margin-top: 3.75rem;
   }

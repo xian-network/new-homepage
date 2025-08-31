@@ -5,7 +5,7 @@
   display: none;
   z-index: -1;
 }
-@media (width <= 30em) {
+@media (max-width:  30em) {
   .why-orbit {
     display: block;
     position: absolute;
@@ -23,7 +23,7 @@
 
   }
 
-  @media (width < 62em) {
+  @media (max-width: 62em) {
     .why-bg {
       
       top: -17rem;
@@ -35,7 +35,7 @@
 
  
 
-  @media (width < 35.9375em) {
+  @media (max-width: 35.9375em) {
     .why-bg {
       left: 0;
       top: 0%;
@@ -44,7 +44,7 @@
     }
   }
 
-  @media (width <=30em) {
+  @media (max-width: 30em) {
     .why-bg {
       right: auto;
       bottom: auto;
@@ -66,7 +66,7 @@
     z-index: 0;
   }
 
-  @media (width >= 90em) {
+  @media (min-width:  90em) {
     .why-gradient {
       position: absolute;
       right: 0px;
@@ -74,13 +74,13 @@
       z-index: 0;
     }
   }
-  @media (width <= 62em) {
+  @media (max-width:  62em) {
     .why-gradient {
       right: -25rem;
     }
   }
 
-  @media (width <= 30em) {
+  @media (max-width:  30em) {
     .why-gradient {
       display: none;
     }
@@ -95,7 +95,7 @@
     .star {
       display: none;
     }
-    @media (width <= 30em) {
+    @media (max-width:  30em) {
       .star {
         display: block;
         position: absolute;
@@ -129,7 +129,7 @@
       }
     }
 
-    @media (width < 62em) {
+    @media (max-width: 62em) {
       .why-start__block {
         margin-left: 0rem;
 
@@ -139,7 +139,7 @@
       }
     }
 
-    @media (width < 30em) {
+    @media (max-width: 30em) {
       .why-start__block {
         p {
           margin-left: 0rem;
@@ -186,7 +186,7 @@
         }
       }
 
-      @media (width < 60rem) {
+      @media (max-width: 60rem) {
         &__top {
           flex-direction: column;
           row-gap: 1.875rem;
@@ -205,7 +205,7 @@
 
       }
 
-      @media (width < 30em) {
+      @media (max-width: 30em) {
         &__top {
           &-img {
             margin-left: 3.125rem;
@@ -260,14 +260,14 @@
         }
       }
 
-      @media (width < 80em) {
+      @media (max-width: 80em) {
         .why-items {
           grid-template-columns: repeat(auto-fill, minmax(28.5rem, 1fr));
         }
 
       }
 
-      @media (width < 73.75em) {
+      @media (max-width: 73.75em) {
         .why-items {
 
           gap: 1.875rem;
@@ -276,7 +276,7 @@
 
       }
 
-      @media (width < 62rem) {
+      @media (max-width: 62rem) {
         .why-items {
           display: flex;
           gap: 1.875rem;
@@ -294,7 +294,7 @@
 
       }
 
-      @media (width < 30em) {
+      @media (max-width: 30em) {
         .why-items {
           margin-top: 1.875rem;
           padding-left: 0.625rem;

@@ -227,18 +227,31 @@
                     pathEl.setAttribute('stroke', 'none'); // keep it invisible
                     overlay.appendChild(pathEl);
 
-                    // Sun image, centered on the path using x/y = -size/2
+                    // Sun element
                     const g = document.createElementNS(svgNS, 'g');
-                    const imgEl = document.createElementNS(svgNS, 'image');
                     const size = sunPx();
-                    imgEl.setAttribute('width', String(size));
-                    imgEl.setAttribute('height', String(size));
-                    imgEl.setAttribute('x', String(-size / 2));
-                    imgEl.setAttribute('y', String(-size / 2));
-                    // Modern browsers accept href; xlink:href kept for older Safari
-                    imgEl.setAttributeNS(xlinkNS, 'href', './assets/img/sun.svg');
-                    imgEl.setAttribute('href', './assets/img/sun.svg');
-                    g.appendChild(imgEl);
+
+                    // Draw sun as a gradient circle for broad browser support
+                    const defs = document.createElementNS(svgNS, 'defs');
+                    const grad = document.createElementNS(svgNS, 'radialGradient');
+                    grad.setAttribute('id', 'orbitSun');
+                    const stop1 = document.createElementNS(svgNS, 'stop');
+                    stop1.setAttribute('offset', '0%');
+                    stop1.setAttribute('stop-color', '#fff7c2');
+                    const stop2 = document.createElementNS(svgNS, 'stop');
+                    stop2.setAttribute('offset', '100%');
+                    stop2.setAttribute('stop-color', '#fbc02d');
+                    grad.appendChild(stop1);
+                    grad.appendChild(stop2);
+                    defs.appendChild(grad);
+                    overlay.appendChild(defs);
+
+                    const sun = document.createElementNS(svgNS, 'circle');
+                    sun.setAttribute('r', String(size / 2));
+                    sun.setAttribute('cx', '0');
+                    sun.setAttribute('cy', '0');
+                    sun.setAttribute('fill', 'url(#orbitSun)');
+                    g.appendChild(sun);
 
                     // Motion along the path (SMIL animateMotion)
                     const anim = document.createElementNS(svgNS, 'animateMotion');
@@ -249,7 +262,7 @@
                     anim.setAttribute('keyPoints', '0;1');
                     anim.setAttribute('keyTimes', '0;1');
                     const mpath = document.createElementNS(svgNS, 'mpath');
-                    mpath.setAttributeNS(xlinkNS, 'href', '#' + pathId);
+                    mpath.setAttributeNS(xlinkNS, 'xlink:href', '#' + pathId);
                     mpath.setAttribute('href', '#' + pathId);
                     anim.appendChild(mpath);
                     g.appendChild(anim);
@@ -991,13 +1004,15 @@ display: block;
 
     <!-- floating action button -->
     <button id="buyFab" class="fab" aria-haspopup="true" aria-expanded="false" aria-controls="fabMenu">
-  <svg class="icon zap"
+  <svg class="icon buy-icon"
        width="26" height="26" viewBox="0 0 24 24"
        xmlns="http://www.w3.org/2000/svg"
        fill="none"
        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
        aria-hidden="true" focusable="false" role="img">
-    <path d="M13 2 3 14h9l-1 8 10-12h-9z" />
+    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+    <path d="M3 6h18" />
+    <path d="M16 10a4 4 0 0 1-8 0" />
   </svg>
 </button>
 

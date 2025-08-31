@@ -134,7 +134,7 @@
       }
     }
 
-    @media (width < 65em) {
+    @media (max-width: 65em) {
       .header-block {
         display: flex;
         justify-content: space-between;
@@ -147,7 +147,7 @@
       }
     }
 
-    @media (width < 56.25em) {
+    @media (max-width: 56.25em) {
       .header-block {
 
         .btn_nav {
@@ -227,7 +227,7 @@
   }
 }
 
-@media (width < 65em) {
+@media (max-width: 65em) {
   .header {
     padding: 0.9375rem 0rem;
   }
