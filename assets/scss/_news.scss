@@ -10,7 +10,7 @@
       /* 46.8px */
       margin-bottom: 4.1875rem;
     }
-    @media (width < 34.375em) { 
+    @media (max-width: 34.375em) { 
       h2 {
         margin-bottom: 8.75rem;
       }
@@ -125,13 +125,13 @@
         }
       }
     }
-    @media (width < 73.75em) {
+    @media (max-width: 73.75em) {
       .news-items {
         column-gap: 1.875rem;
       }
     }
 
-    @media (width < 40em) {
+    @media (max-width: 40em) {
       .news-items {
         flex-direction: column;
         row-gap: 1.875rem;
@@ -146,7 +146,7 @@
       }
     }
 
-    @media (width < 34.375em) {
+    @media (max-width: 34.375em) {
       .news-items {
         
         .news-slider {

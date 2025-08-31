@@ -32,13 +32,13 @@
     padding: 0px 30px;
 }
 
-@media (width <= 62em) {
+@media (max-width:  62em) {
     .container {
         padding: 0px 60px;
     }
 }
 
-@media (width <= 56.25em) {
+@media (max-width:  56.25em) {
     .container {
         padding: 0px 20px;
     }
@@ -153,7 +153,7 @@
     }
     
 }
-@media (width <= 30em) {
+@media (max-width:  30em) {
     .buttons-wrap {
         flex-direction: column;
         gap: 2rem;
@@ -166,20 +166,20 @@
     right: 0;
     z-index: 0;
   }
-  @media (width <= 62em) {
+  @media (max-width:  62em) {
     .blue-planet {
         top: -41rem;
         right: -7rem;
     }
   }
-  @media (width <= 48em) {
+  @media (max-width:  48em) {
     .blue-planet {
         top: -34rem;
         right: -7rem;
     }
   }
 
-  @media (width <= 30em) {
+  @media (max-width:  30em) {
     .blue-planet {
         width: 100%;
         top: -28rem;
@@ -242,12 +242,12 @@
     left: 0;
     z-index: -1;
   }
-  @media (width <= 62em) {
+  @media (max-width:  62em) {
     .main-gradient {
         top: 40%;
         
     }
-    @media (width <= 30em) {
+    @media (max-width:  30em) {
         .main-gradient {
             width: 100%;
             top: 28%;
@@ -269,7 +269,7 @@
     display: none;
     z-index: -1;
   }
-  @media (width <= 30em) {
+  @media (max-width:  30em) {
     .main-gradient-right {
         display: block;
         position: absolute;

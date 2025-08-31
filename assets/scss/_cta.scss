@@ -54,7 +54,7 @@
           }
         }
       }
-      @media (width < 48em) {
+      @media (max-width: 48em) {
         .buttons-wrap {
           flex-direction: column;
           align-items: center;
@@ -66,7 +66,7 @@
         }
       }
     }
-    @media (width < 30em) {
+    @media (max-width: 30em) {
      .cta-block {
       padding: 1.25rem 1.25rem 2.25rem 1.25rem;
       .buttons-wrap {
@@ -80,7 +80,7 @@
     }
   }
 }
-@media (width < 30em) {
+@media (max-width: 30em) {
   .cta {
     margin-top: 3.75rem;
   }

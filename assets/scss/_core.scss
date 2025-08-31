@@ -14,7 +14,7 @@
     right: 0;
     z-index: 0;
   }
-  @media (width <= 62em) {
+  @media (max-width:  62em) {
     .core-bg {
       display: none;
     }
@@ -22,7 +22,7 @@
       display: none;
     }
   }
-  @media (width <= 30em) {
+  @media (max-width:  30em) {
     .core-bg {
       display: block;
       top: 32rem;
@@ -52,20 +52,20 @@
       right: 230px;
      }
     }
-    @media (width < 90em) {
+    @media (max-width: 90em) {
       .star {
         left: 0.9375rem;
       }
     }
 
-    @media (width <= 62em) {
+    @media (max-width:  62em) {
       .star {
         left: 0.9375rem;
         display: none;
       }
     }
 
-    @media (width <= 30em) {
+    @media (max-width:  30em) {
       .star {
         left: 0.9375rem;
         display: none;
@@ -88,7 +88,7 @@
       line-height: 130%;
       margin-bottom: 2.25rem;
     }
-    @media (width <= 30em) {
+    @media (max-width:  30em) {
       h2 {
         margin-bottom: 1.875rem;
       }
@@ -134,14 +134,14 @@
         }
       }
     }
-    @media (width <= 73.75rem) {
+    @media (max-width:  73.75rem) {
       .core-items {
         grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
         gap: 2rem;
       }
     }
 
-    @media (width <= 62em) {
+    @media (max-width:  62em) {
       .core-items {
         grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
         gap: 2rem;
@@ -156,7 +156,7 @@
       }
     }
 
-    @media (width <= 60em) {
+    @media (max-width:  60em) {
       .core-items {
         grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
         gap: 2rem;
@@ -170,7 +170,7 @@
         }
       }
     }
-    @media (width <= 30em) {
+    @media (max-width:  30em) {
       .core-items {
         display: flex;
         flex-direction: column;

@@ -34,7 +34,7 @@
     }
   }
 
-  @media (width > 90em) {
+  @media (min-width: 90em) {
     .bg-hero {
       width: 100%;
       height: auto;
@@ -59,7 +59,7 @@
 
   }
 
-  @media (width < 90em) {
+  @media (max-width: 90em) {
     .bg-hero {
       top: -2.25rem;
 
@@ -70,7 +70,7 @@
 
   }
 
-  @media (width < 73.75em) {
+  @media (max-width: 73.75em) {
     .bg-hero {
       top: -2.25rem;
       left: 2rem;
@@ -90,7 +90,7 @@
 
   }
 
-  @media (width < 30em) {
+  @media (max-width: 30em) {
     .bg-hero {
       left: 0rem;
 
@@ -113,7 +113,7 @@
     }
   }
 
-  @media (width < 62em) {
+  @media (max-width: 62em) {
     .bg-hero-gradient {
       display: none;
     }
@@ -148,7 +148,7 @@
       }
     }
 
-    @media (width <= 30em) {
+    @media (max-width:  30em) {
       h1 {
         span {
           &.typewriter-text {
@@ -173,13 +173,13 @@
   }
 }
 
-@media (width <= 62em) {
+@media (max-width:  62em) {
   .hero {
     padding-top: 8rem;
   }
 }
 
-@media (width <= 30em) {
+@media (max-width:  30em) {
   .hero {
     padding-top: 6rem;
   }
