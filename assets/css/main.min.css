@@ -3042,13 +3042,13 @@ select option {
 }
 
 /* group container */
-.btn-group {
+.btn-group, .btn-group2 {
   display: inline-block;
   position: relative
 }
 
 /* ------------- MAIN BUTTON ------------- */
-.buy-btn {
+.buy-btn, .get-wallet-btn {
   display: inline-flex;
   align-items: center;
   gap: .6rem;
@@ -3058,7 +3058,7 @@ select option {
 }
 
 /* arrow */
-.buy-btn .caret {
+.buy-btn .caret, .get-wallet-btn .caret {
   width: 8px;
   height: 8px;
   flex: 0 0 8px;
@@ -3071,13 +3071,13 @@ select option {
 }
 
 /* open state */
-.btn-group.open .caret {
+.btn-group.open .caret, .btn-group2.open .caret {
   transform: rotate(-135deg);
 }
 
 /* ---------- Hover styles only on devices that *have* hover ---------- */
 @media (hover:hover) {
-  .buy-btn:hover {
+  .buy-btn:hover, .get-wallet-btn:hover {
     color: #FFFFFF;
   }
 
@@ -3085,7 +3085,7 @@ select option {
 }
 
 /* ------------- DROPDOWN CARD ------------- */
-.buy-menu {
+.buy-menu, .get-wallet-menu {
   display: none;
   position: absolute;
   top: calc(100% + .6rem);
@@ -3103,11 +3103,11 @@ select option {
   z-index: 40;
 }
 
-.btn-group.open .buy-menu {
+.btn-group.open .buy-menu, .btn-group2.open .get-wallet-menu {
   display: block;
 }
 
-.buy-menu::before {
+.buy-menu::before, .get-wallet-menu::before {
   /* little pointer */
   content: "";
   position: absolute;
@@ -3122,7 +3122,7 @@ select option {
 }
 
 /* ------------- LINKS ------------- */
-.buy-menu a {
+.buy-menu a, .get-wallet-menu a {
   display: block;
   padding: 1rem 1.6rem;
   color: #fff;
@@ -3130,23 +3130,24 @@ select option {
   white-space: nowrap;
 }
 
-.buy-menu a span {
+.buy-menu a span, .get-wallet-menu a span {
   opacity: .45;
   margin-left: .25rem;
 }
 
-.buy-menu a:hover {
+.buy-menu a:hover, .get-wallet-menu a:hover {
   background: rgba(6, 230, 203, .10);
 }
 
 /* visited links stay white */
-.buy-menu a:visited {
+.buy-menu a:visited, .get-wallet-menu a:visited {
   color: #fff
 }
 
 /* keyboard focus ring */
 .buy-menu a:focus,
-.buy-btn:focus {
+.buy-btn:focus, .get-wallet-btn:focus,
+.get-wallet-menu a:focus {
   outline: 2px solid #06e6cb;
   outline-offset: 2px;
 }
@@ -3154,7 +3155,7 @@ select option {
 @media (max-width: 540px) {
 
   /* tweak the breakpoint if needed */
-  .buy-menu {
+  .buy-menu, .get-wallet-menu {
     left: 50%;
     /* centre it */
     transform: translateX(-50%);
@@ -3166,13 +3167,13 @@ select option {
     padding: 1rem 0;
   }
 
-  .buy-menu::before {
+  .buy-menu::before, .get-wallet-menu::before {
     /* centre the little pointer */
     left: calc(50% - 6px);
   }
 
   /* bigger tap targets + slightly larger text */
-  .buy-menu a {
+  .buy-menu a, .get-wallet-menu a {
     padding: 1.2rem 1.8rem;
     font-size: .95rem;
   }

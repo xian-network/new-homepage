@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="./assets/js/slider/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="./assets/css/main.min.css?v=25238" />
+    <link rel="stylesheet" href="./assets/css/main.min.css?v=252238" />
 
     <!-- Basic OG tags -->
     <meta property="og:type" content="website" />
@@ -308,10 +308,38 @@
                                 }
                             });
                         </script>
-                        <a href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/"
-                            target="_blank" class="main-button">
-                            Get Wallet
-                        </a>
+
+                        <div class="btn-group2">
+
+                            <button class="main-button bg-color get-wallet-btn" aria-haspopup="true" aria-expanded="false">
+                                Get Wallet
+                                <span class="caret"></span> <!-- little arrow -->
+                            </button>
+
+                            <ul class="get-wallet-menu">
+                               
+                                <li><a href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/" target="_blank">Chrome Extension</a></li>
+                                <li><a href="https://play.google.com/store/apps/details?id=net.xian.xianwalletapp&hl=en&pli=1" target="_blank">Android Wallet</a></li>
+                            </ul>
+                        </div>
+                        <script>
+                            const btn2 = document.querySelector('.get-wallet-btn');
+                            const group2 = document.querySelector('.btn-group2');
+
+                            btn2.addEventListener('click', e => {
+                                e.preventDefault();
+                                const open = group2.classList.toggle('open');
+                                btn.setAttribute('aria-expanded', open);
+                            });
+
+                            document.addEventListener('click', e => {
+                                if (!group2.contains(e.target)) {
+                                    group2.classList.remove('open');
+                                    btn2.setAttribute('aria-expanded', 'false');
+                                }
+                            });
+                        </script>
+                        
                     </div>
                     <div class="xian-stats-container" id="xian-stats-container">
 
