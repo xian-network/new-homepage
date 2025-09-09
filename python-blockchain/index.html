@@ -153,10 +153,14 @@
     }
 
     /* --- Thesis row: image left, content right --- */
-    body.page-python .why .why-block {
+    @media (max-width: 62em) {
+     body.page-python .why .why-block {
       padding: 2rem 2rem 2.5rem;
     }
 
+      
+    }
+    
     body.page-python .why .why-block__top {
       display: grid;
       grid-template-columns: minmax(260px, 360px) 1fr;
@@ -433,7 +437,7 @@
       </section>
 
       <!-- Small code example -->
-      <section class="empower">
+      <section class="empower" style="margin-top: 8.25rem;">
         <div class="container">
           <p class="center" style="margin-bottom:.75rem">A tiny Python contract</p>
           <div class="contract-example">
@@ -510,7 +514,7 @@
       </section>
 
       <!-- Design narrative -->
-      <section class="empower">
+      <section class="empower" style="margin-top: 8.25rem;"></section>
         <div class="container">
           <div class="empower-description">
             <h3 style="font-size:1.125rem;font-weight:700">Why not a Python-like DSL?</h3>
