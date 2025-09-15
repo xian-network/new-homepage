@@ -1292,7 +1292,7 @@ a {
 
 .meet {
   position: relative;
-  margin-top: 5.375rem
+  margin-top: 6rem;
 }
 
 .meet .meet-bg {
@@ -1492,7 +1492,7 @@ a {
 }
 
 .cta {
-  margin-top: 4.1875rem
+  margin-top: 6rem;
 }
 
 .cta .container .cta-block {
@@ -2358,7 +2358,7 @@ a {
   align-items: center;
   flex-direction: column;
   row-gap: .625rem;
-  margin-bottom: 3.4375rem
+  margin-bottom: 2rem;
 }
 
 .main-block h2 {
@@ -2467,11 +2467,10 @@ a {
   -webkit-backdrop-filter: blur(50px);
   background: rgba(11, 11, 15, 0.7);
   border-radius: 15px;
-  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   /* stack content vertically */
-  align-items: flex-start;
+  align-items: center;
   /* or center if you want images & text centered */
 }
 
@@ -2480,7 +2479,32 @@ a {
   width: 100%;
   height: auto;
   margin-bottom: 1rem;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
   /* or set a fixed height if you prefer a uniform card layout */
+}
+
+.showcase-card__content {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+  /* allows content area to grow and push button to bottom */
+}
+
+.showcase-card__ribbon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--accent);
+  color: #000;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 15px;
 }
 
 /* Card title */
@@ -2495,6 +2519,7 @@ a {
 .showcase-card__desc {
   font-size: 1rem;
   margin-bottom: 1rem;
+  text-align: center;
   line-height: 1.5;
 }
 
