@@ -871,9 +871,18 @@ function closeCardModal() {
 // Close modal on Escape key
 document.addEventListener('keydown', function(event) {
   if (event.key === 'Escape') {
-    const modal = document.getElementById('cardModal');
-    if (modal.style.display === 'flex') {
+    const cardModal = document.getElementById('cardModal');
+    const walletModal = document.getElementById('walletModal');
+    const exchangeModal = document.getElementById('exchangeModal');
+    
+    if (cardModal.style.display === 'flex') {
       closeCardModal();
+    }
+    if (walletModal.style.display === 'flex') {
+      closeWalletModal();
+    }
+    if (exchangeModal.style.display === 'flex') {
+      closeExchangeModal();
     }
   }
 });
@@ -898,4 +907,62 @@ document.addEventListener('click', function(event) {
     }
   }
 });
+
+// Wallet Modal functionality
+function openWalletModal() {
+  const modal = document.getElementById('walletModal');
+  
+  // Show modal with animation
+  modal.style.display = 'flex';
+  
+  // Trigger animation after display
+  setTimeout(() => {
+    modal.classList.add('show');
+  }, 10);
+  
+  // Prevent body scroll
+  document.body.style.overflow = 'hidden';
+}
+
+function closeWalletModal() {
+  const modal = document.getElementById('walletModal');
+  
+  // Start close animation
+  modal.classList.remove('show');
+  
+  // Hide modal after animation
+  setTimeout(() => {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 300);
+}
+
+// Exchange Modal functionality
+function openExchangeModal() {
+  const modal = document.getElementById('exchangeModal');
+  
+  // Show modal with animation
+  modal.style.display = 'flex';
+  
+  // Trigger animation after display
+  setTimeout(() => {
+    modal.classList.add('show');
+  }, 10);
+  
+  // Prevent body scroll
+  document.body.style.overflow = 'hidden';
+}
+
+function closeExchangeModal() {
+  const modal = document.getElementById('exchangeModal');
+  
+  // Start close animation
+  modal.classList.remove('show');
+  
+  // Hide modal after animation
+  setTimeout(() => {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 300);
+}
 

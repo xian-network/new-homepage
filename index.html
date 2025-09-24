@@ -277,6 +277,299 @@
                 font-size: 1rem;
             }
         }
+        
+        /* Showcase Card Image Consistency */
+        .showcase-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            max-height: 450px;
+        }
+        
+        .showcase-card__img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .showcase-card__content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            justify-content: space-between;
+        }
+        
+        .showcase-card__title {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            line-height: 1.3;
+        }
+        
+        .showcase-card__desc {
+            flex: 1;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            opacity: 0.85;
+        }
+        
+        .showcase-card .main-button {
+            margin-top: auto;
+            align-self: center;
+        }
+        
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            align-items: stretch;
+        }
+        
+        /* Mobile adjustments for showcase */
+        @media (max-width: 768px) {
+            .showcase-card {
+                max-height: none;
+            }
+            
+            .showcase-card__img {
+                height: 180px;
+            }
+            
+            .showcase-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+        
+        /* Wallet Download Modal */
+        .wallet-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .wallet-modal.show {
+            opacity: 1;
+        }
+        
+        .wallet-modal-content {
+            position: relative;
+            background: linear-gradient(135deg, #0B0B0F 0%, #1a1a2e 100%);
+            border: 1px solid rgba(6, 230, 203, 0.3);
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 85vh;
+            overflow: hidden;
+            transform: scale(0.8) translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(6, 230, 203, 0.1);
+        }
+        
+        .wallet-modal.show .wallet-modal-content {
+            transform: scale(1) translateY(0);
+        }
+        
+        .wallet-modal-header {
+            background: rgba(6, 230, 203, 0.05);
+            border-bottom: 1px solid rgba(6, 230, 203, 0.2);
+            padding: 2rem 2rem 1.5rem 2rem;
+            position: relative;
+            text-align: center;
+        }
+        
+        .wallet-modal-header h2 {
+            margin: 0 3rem 0.5rem 0;
+            color: #06e6cb;
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+        
+        .wallet-modal-header p {
+            margin: 0;
+            color: #e0e0e0;
+            opacity: 0.8;
+        }
+        
+        .wallet-options {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .wallet-option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            position: relative;
+            width: 100%;
+            max-width: 280px;
+            min-height: 80px;
+            height: 80px;
+        }
+        
+        .wallet-option:hover:not(.disabled) {
+            background: rgba(6, 230, 203, 0.1);
+            border-color: rgba(6, 230, 203, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .wallet-option.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .wallet-option h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #06e6cb;
+        }
+        
+        #walletModal .wallet-option {
+            min-width: 220px !important;
+            width: auto !important;
+            max-width: 320px !important;
+        }
+        
+        #walletModal .wallet-option img {
+            width: 200px !important;
+            /* height: 60px !important; */
+            max-width: none !important;
+            min-width: 200px !important;
+            min-height: 60px !important;
+            object-fit: contain;
+            flex-shrink: 0 !important;
+            display: block !important;
+        }
+        
+        /* Exchange modal specific styles */
+        #exchangeModal .wallet-option {
+            flex-direction: column !important;
+            gap: 0.5rem !important;
+            padding: 1.5rem 1rem !important;
+            height: auto !important;
+            min-height: 100px !important;
+        }
+        
+        #exchangeModal .wallet-option img {
+            height: 48px !important;
+            max-width: none !important;
+            min-width: 48px !important;
+            min-height: 48px !important;
+            object-fit: contain;
+            flex-shrink: 0 !important;
+            display: block !important;
+        }
+        
+        #exchangeModal .wallet-option h3 {
+            margin: 0 !important;
+            font-size: 1rem !important;
+            text-align: center !important;
+        }
+        
+        .coming-soon-overlay {
+            position: absolute;
+            top: 10px;
+            right: -10px;
+            transform: rotate(15deg);
+            background: rgba(255, 107, 107, 0.95);
+            color: white;
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Mobile adjustments for wallet modal */
+        @media (max-width: 768px) {
+            .wallet-modal-content {
+                margin: 1rem;
+                max-height: 90vh;
+            }
+            
+            .wallet-modal-header {
+                padding: 1.5rem 1.5rem 1rem 1.5rem;
+            }
+            
+            .wallet-modal-header h2 {
+                font-size: 1.4rem;
+                margin-right: 2rem;
+            }
+            
+            .wallet-options {
+                padding: 1.5rem;
+            }
+            
+            .wallet-option {
+                height: 70px;
+                min-height: 70px;
+            }
+            
+            #walletModal .wallet-option {
+                min-width: 180px !important;
+                width: auto !important;
+                max-width: 240px !important;
+            }
+            
+            #walletModal .wallet-option img {
+                width: 160px !important;
+                height: 48px !important;
+                max-width: none !important;
+                min-width: 160px !important;
+                min-height: 48px !important;
+                flex-shrink: 0 !important;
+                display: block !important;
+            }
+            
+            .coming-soon-overlay {
+                top: 8px;
+                right: -8px;
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
+            }
+            
+            /* Exchange modal mobile styles */
+            #exchangeModal .wallet-option {
+                min-height: 90px !important;
+                padding: 1.2rem 0.8rem !important;
+            }
+            
+            #exchangeModal .wallet-option img {
+                width: 40px !important;
+                height: 40px !important;
+                min-width: 40px !important;
+                min-height: 40px !important;
+            }
+            
+            #exchangeModal .wallet-option h3 {
+                font-size: 0.9rem !important;
+            }
+        }
+        
     </style>
 
     <!-- Basic OG tags -->
@@ -506,6 +799,39 @@
             "applicationCategory": "FinanceApplication",
             "url": "https://snakexchange.org/",
             "image": "https://xian.org/assets/img/snakexchange.png"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "WebApplication",
+            "name": "XWT Platform",
+            "applicationCategory": "FinanceApplication",
+            "url": "https://xwtplatform.com/",
+            "image": "https://xian.org/assets/img/xwt.png"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "item": {
+            "@type": "WebApplication",
+            "name": "Xian DEX",
+            "applicationCategory": "FinanceApplication",
+            "url": "https://dex.xian.org",
+            "image": "https://xian.org/assets/img/xian-dex.png"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "item": {
+            "@type": "WebApplication",
+            "name": "XARB Protocol",
+            "applicationCategory": "FinanceApplication",
+            "url": "https://t.me/XianArbitrage",
+            "image": "https://xian.org/assets/img/xarb.jpg"
           }
         }
       ]
@@ -955,9 +1281,7 @@
                             </h3>
                             <p>
                                 Download the browser extension to manage your assets on Xian.
-                            </p><a
-                                href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/"
-                                target="_blank" class="main-button">
+                            </p><a href="javascript:void(0)" class="main-button" onclick="openWalletModal()">
                                 Get Wallet
                             </a>
                         </div>
@@ -968,7 +1292,7 @@
                                 Explore 20% Staking Yields
                             </h3>
                             <p>Check DEX opportunities with high yields on Xian.</p>
-          <a class="main-button" href="https://dex.xian.org/#staking" target="_blank">View Staking</a>
+                            <a class="main-button" href="https://dex.xian.org/#staking" target="_blank">View Staking</a>
                         </div>
                         <div class="step-card">
                             <span class="shine"></span>
@@ -989,9 +1313,9 @@
                                 Buy $XIAN
                             </h3>
                             <p>
-                                Purchase XIAN on the Xian DEX in seconds.
-                            </p><a href="https://dex.xian.org/#pair=1" target="_blank" class="main-button">
-                                Buy $XIAN
+                                Purchase XIAN from multiple exchanges and trading platforms.
+                            </p><a href="javascript:void(0)" class="main-button" onclick="openExchangeModal()">
+                                View Exchanges
                             </a>
                         </div>
                         <div class="step-card">
@@ -1069,6 +1393,45 @@
                                 <p class="showcase-card__desc">
                                     A decentralized exchange for Xian assets.
                                 </p><a href="https://snakexchange.org/" target="_blank" class="main-button">
+                                    View Project
+                                </a>
+                            </div>
+                        </div>
+                        <div class="showcase-card">
+                            <img src="assets/img/xwt.png" alt="XWT Platform Logo"
+                                class="showcase-card__img" />
+                                <div class="showcase-card__ribbon">LIVE</div>
+                            <div class="showcase-card__content">
+                                <h3 class="showcase-card__title">XWT Platform</h3>
+                                <p class="showcase-card__desc">
+                                    Token staking rewards and launch pad platform, powered by the $XWT token.
+                                </p><a href="https://xwtplatform.com/" target="_blank" class="main-button">
+                                    View Project
+                                </a>
+                            </div>
+                        </div>
+                        <div class="showcase-card">
+                            <img src="assets/img/xian-dex.png" alt="Xian DEX Logo"
+                                class="showcase-card__img" />
+                                <div class="showcase-card__ribbon">LIVE</div>
+                            <div class="showcase-card__content">
+                                <h3 class="showcase-card__title">XIAN DEX</h3>
+                                <p class="showcase-card__desc">
+                                    Advanced trading interface offering decentralized exchange, farms and staking.
+                                </p><a href="https://dex.xian.org" target="_blank" class="main-button">
+                                    View Project
+                                </a>
+                            </div>
+                        </div>
+                        <div class="showcase-card">
+                            <img src="assets/img/xarb.jpg" alt="XARB Protocol Logo"
+                                class="showcase-card__img" />
+                                <div class="showcase-card__ribbon">LIVE</div>
+                            <div class="showcase-card__content">
+                                <h3 class="showcase-card__title">XARB Protocol</h3>
+                                <p class="showcase-card__desc">
+                                    Arbitrage protocol generating profits from XIAN market movements, feeding value back into $XIAN and $XARB tokens.
+                                </p><a href="https://t.me/XianArbitrage" target="_blank" class="main-button">
                                     View Project
                                 </a>
                             </div>
@@ -1498,6 +1861,60 @@ display: block;
             </div>
             <div class="modal-body">
                 <div id="modalDescription" class="modal-description"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Wallet Download Modal -->
+    <div id="walletModal" class="wallet-modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeWalletModal()"></div>
+        <div class="wallet-modal-content">
+            <div class="wallet-modal-header">
+                <button class="modal-close" onclick="closeWalletModal()">&times;</button>
+                <h2>Download Xian Wallet</h2>
+                <p>Choose your platform to get started with Xian</p>
+            </div>
+            <div class="wallet-options">
+                <a href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/" target="_blank" class="wallet-option">
+                    <h3>Chrome Extension</h3>
+                </a>
+                
+                <a href="https://play.google.com/store/apps/details?id=net.xian.xianwalletapp&hl=en" target="_blank" class="wallet-option">
+                    <img src="assets/img/googleplay.png" alt="Get it on Google Play">
+                </a>
+                
+                <div class="wallet-option disabled">
+                    <img src="assets/img/appstore.png" alt="Download on the App Store">
+                    <div class="coming-soon-overlay">Coming Soon</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Exchange Modal -->
+    <div id="exchangeModal" class="wallet-modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeExchangeModal()"></div>
+        <div class="wallet-modal-content">
+            <div class="wallet-modal-header">
+                <button class="modal-close" onclick="closeExchangeModal()">&times;</button>
+                <h2>Buy $XIAN</h2>
+                <p>Choose your preferred exchange to purchase XIAN</p>
+            </div>
+            <div class="wallet-options">
+                <a href="https://dex.xian.org/#pair=1" target="_blank" class="wallet-option">
+                    <img src="assets/img/logo.svg" alt="XIAN DEX">
+                    <h3>XIAN DEX</h3>
+                </a>
+                
+                <a href="https://dexscreener.com/solana/a7fw843khqrqyudbulbfgoq2jsqj5qto3glk2hhjwecc" target="_blank" class="wallet-option">
+                    <img src="assets/img/solanaLogoMark.png" alt="Raydium (Solana)">
+                    <h3>Raydium (Solana)</h3>
+                </a>
+                
+                <a href="https://dex-trade.com/spot/trading/XIANUSDT?interface=classic" target="_blank" class="wallet-option">
+                    <img src="assets/img/dex-trade.svg" alt="Dex-Trade">
+                    <h3>Dex-Trade (CEX)</h3>
+                </a>
             </div>
         </div>
     </div>
