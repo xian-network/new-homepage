@@ -444,18 +444,8 @@ async function fetchXianStats() {
     const change = firstPrice ? ((currentPrice - firstPrice) / firstPrice) * 100 : null;
     const marketCap = currentPrice * circulating;
 
-    container.innerHTML = `
-      <strong style="display: block; margin-bottom: 0.5rem;">$XIAN (Native Token on Xian Blockchain)</strong>
-      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; font-size: 0.9rem; justify-content: center;">
-        <li><span style="opacity: 0.75;">Price:</span> <strong>$${currentPrice.toLocaleString("en-US", {maximumFractionDigits: 4})}</strong></li>
-        <li><span style="opacity: 0.75;">Market Cap:</span> <strong>$${marketCap.toLocaleString("en-US")}</strong></li>
-        <li><span style="opacity: 0.75;">Circulating:</span> <strong>${Math.floor(circulating).toLocaleString("en-US")} XIAN</strong></li>
-      </ul>
-      <div style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.75rem;">
-        These stats reflect the <strong>native $XIAN token</strong> on the Xian blockchain. 
-        Prices and supply may differ from bridged tokens listed on Solana.
-      </div>
-    `;
+    // Don't update the hero stats container - keep the static description
+    // The hero container now shows static XIAN token description instead of live stats
 
     // 💹 Pie Chart Rendering
     const ctx = document.getElementById('xianPieChart')?.getContext('2d');
@@ -485,13 +475,27 @@ async function fetchXianStats() {
       if (window.xianPieChart && typeof window.xianPieChart.destroy === "function") {
         window.xianPieChart.destroy();
       }
-      window.xianPieChart = new Chart(ctx, {
+        window.xianPieChart = new Chart(ctx, {
         type: 'pie',
         data: {
           labels: ["Validator DAO Treasury", "Validator DAO Vesting", "Team Locker", "Team Vesting", "Circulating"],
           datasets: [{
             data: [treasury, stream, locker, vesting, circulating],
-            backgroundColor: ["#06e6cb", "#009688", "#26a69a", "#80cbc4", "#004d40"]
+            backgroundColor: [
+              "#06e6cb",  // Xian brand teal - Validator DAO Treasury
+              "#f39c12",  // Bright orange - Validator DAO Vesting
+              "#9b59b6",  // Purple - Team Locker  
+              "#45b7d1",  // Sky blue - Team Vesting
+              "#96ceb4"   // Sage green - Circulating
+            ],
+            borderColor: [
+              "#04b8a3",  // Darker teal border
+              "#d68910",  // Darker orange border
+              "#7d3c98",  // Darker purple border
+              "#3a9bc1",  // Darker blue border
+              "#7fb89a"   // Darker green border
+            ],
+            borderWidth: 2
           }]
         },
         options: chartOptions
@@ -500,7 +504,7 @@ async function fetchXianStats() {
 
   } catch (err) {
     console.error("Failed to load XIAN stats", err);
-    container.textContent = "Error loading $XIAN stats.";
+    // Don't update the container on error - keep the static description
   }
 }
 
@@ -508,4 +512,213 @@ async function fetchXianStats() {
 
 fetchXianStats();
 setInterval(fetchXianStats, 60_000); // refresh every minute
+
+// Trello API Integration for Roadmap
+(async function loadTrelloRoadmap() {
+  // TODO: Replace these with your actual Trello API credentials
+  // Get your API key from: https://trello.com/app-key
+  // Generate a token from the same page with read permissions
+  const TRELLO_API_KEY = '64bf6ed58b22612665e33f138afd3682'; // Your API key
+  const TRELLO_TOKEN = '394a78dc07ac474b43206741c4087515075e8809e55dc75d8179daadb19e704f'; // Your token
+  const BOARD_ID = '3yPhI9gn'; // Xian roadmap board ID
+  
+  // Trello label color mapping
+  const labelColors = {
+    'green': '#61bd4f',
+    'yellow': '#f2d600', 
+    'orange': '#ff9f1a',
+    'red': '#eb5a46',
+    'purple': '#c377e0',
+    'blue': '#0079bf',
+    'sky': '#00c2e0',
+    'lime': '#51e898',
+    'pink': '#ff78cb',
+    'black': '#4d4d4d',
+    'null': '#b3bac5' // default/no color
+  };
+  
+  // Function to render labels as badges
+  function renderLabels(labels) {
+    if (!labels || labels.length === 0) return '';
+    
+    const labelsHTML = labels.map(label => {
+      const color = labelColors[label.color] || labelColors['null'];
+      const name = label.name || 'Unlabeled';
+      
+      return `
+        <span class="roadmap-label" style="
+          display: inline-block; 
+          background: ${color}; 
+          color: white; 
+          padding: 0.2rem 0.5rem; 
+          border-radius: 12px; 
+          font-size: 0.75rem; 
+          font-weight: 500; 
+          margin-right: 0.5rem; 
+          margin-bottom: 0.25rem;
+          text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+          white-space: nowrap;
+        " title="${name}">${name}</span>
+      `;
+    }).join('');
+    
+    return `<div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">${labelsHTML}</div>`;
+  }
+  
+  const roadmapContainer = document.getElementById('roadmap-content');
+  
+  // Skip API call if credentials aren't set up yet
+  if (TRELLO_API_KEY === 'YOUR_TRELLO_API_KEY' || TRELLO_TOKEN === 'YOUR_TRELLO_TOKEN') {
+    roadmapContainer.innerHTML = `
+      <div class="api-setup-notice" style="text-align: center; padding: 2rem; background: rgba(6, 230, 203, 0.1); border: 1px solid rgba(6, 230, 203, 0.3); border-radius: 8px;">
+        <h3 style="color: #06e6cb; margin-bottom: 1rem;">Trello API Setup Required</h3>
+        <p style="margin-bottom: 1rem;">To display live roadmap data, please:</p>
+        <ol style="text-align: left; max-width: 500px; margin: 0 auto;">
+          <li>Get your API key from <a href="https://trello.com/app-key" target="_blank" style="color: #06e6cb;">trello.com/app-key</a></li>
+          <li>Generate a token with read permissions</li>
+          <li>Replace the placeholder values in main.js</li>
+        </ol>
+      </div>
+    `;
+    return;
+  }
+  
+  try {
+    // Test API key first with a simple call
+    console.log('Testing Trello API connection...');
+    console.log('API Key:', TRELLO_API_KEY);
+    console.log('Token length:', TRELLO_TOKEN.length);
+    
+    // Fetch board data with lists and cards (including labels)
+    const boardResponse = await fetch(`https://api.trello.com/1/boards/${BOARD_ID}?lists=open&cards=open&card_labels=true&key=${TRELLO_API_KEY}&token=${TRELLO_TOKEN}`);
+    
+    console.log('Response status:', boardResponse.status);
+    console.log('Response headers:', [...boardResponse.headers.entries()]);
+    
+    if (!boardResponse.ok) {
+      const errorText = await boardResponse.text();
+      console.error('API Error Response:', errorText);
+      throw new Error(`Trello API error: ${boardResponse.status} - ${errorText}`);
+    }
+    
+    const boardData = await boardResponse.json();
+    
+    // Fetch lists with cards and labels
+    const listsResponse = await fetch(`https://api.trello.com/1/boards/${BOARD_ID}/lists?cards=open&card_labels=true&key=${TRELLO_API_KEY}&token=${TRELLO_TOKEN}`);
+    const lists = await listsResponse.json();
+    
+    // Generate HTML for the roadmap
+    let roadmapHTML = `
+      <div class="roadmap-lists" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+    `;
+    
+    lists.forEach(list => {
+      const cardCount = list.cards.length;
+      roadmapHTML += `
+        <div class="roadmap-list" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1);">
+          <h3 style="color: #06e6cb; margin-bottom: 1rem; font-size: 1.25rem;">${list.name}</h3>
+          <div class="roadmap-cards">
+      `;
+      
+      if (cardCount === 0) {
+        roadmapHTML += `<p style="opacity: 0.7; font-style: italic;">No items yet</p>`;
+      } else {
+        list.cards.forEach(card => {
+          const labelsHTML = renderLabels(card.labels);
+          roadmapHTML += `
+            <div class="roadmap-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; border-left: 3px solid #06e6cb;">
+              <h4 style="margin: 0 0 0.5rem 0; font-size: 1rem;">${card.name}</h4>
+              ${labelsHTML ? `<div style="margin-bottom: 0.5rem;">${labelsHTML}</div>` : ''}
+              ${card.desc ? `<p style="margin: 0; opacity: 0.8; font-size: 0.9rem;">${card.desc.substring(0, 150)}${card.desc.length > 150 ? '...' : ''}</p>` : ''}
+            </div>
+          `;
+        });
+      }
+      
+      roadmapHTML += `
+          </div>
+        </div>
+      `;
+    });
+    
+    roadmapHTML += `</div>`;
+    
+    // Update the container
+    roadmapContainer.innerHTML = roadmapHTML;
+    
+  } catch (error) {
+    console.error('Error loading Trello roadmap:', error);
+    
+    // Try alternative approach with public board JSON
+    console.log('Trying alternative public board approach...');
+    try {
+      const publicBoardResponse = await fetch(`https://trello.com/b/${BOARD_ID}.json`);
+      if (publicBoardResponse.ok) {
+        const publicBoardData = await publicBoardResponse.json();
+        console.log('Public board data:', publicBoardData);
+        
+        // Process public board data
+        let roadmapHTML = `
+          <div class="roadmap-lists" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+        `;
+        
+        publicBoardData.lists.forEach(list => {
+          if (list.closed) return; // Skip closed lists
+          
+          const cards = publicBoardData.cards.filter(card => card.idList === list.id && !card.closed);
+          
+          roadmapHTML += `
+            <div class="roadmap-list" style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1);">
+              <h3 style="color: #06e6cb; margin-bottom: 1rem; font-size: 1.25rem;">${list.name}</h3>
+              <div class="roadmap-cards">
+          `;
+          
+          if (cards.length === 0) {
+            roadmapHTML += `<p style="opacity: 0.7; font-style: italic;">No items yet</p>`;
+          } else {
+            cards.forEach(card => {
+              const labelsHTML = renderLabels(card.labels);
+              roadmapHTML += `
+                <div class="roadmap-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; border-left: 3px solid #06e6cb;">
+                  <h4 style="margin: 0 0 0.5rem 0; font-size: 1rem;">${card.name}</h4>
+                  ${labelsHTML ? `<div style="margin-bottom: 0.5rem;">${labelsHTML}</div>` : ''}
+                  ${card.desc ? `<p style="margin: 0; opacity: 0.8; font-size: 0.9rem;">${card.desc.substring(0, 150)}${card.desc.length > 150 ? '...' : ''}</p>` : ''}
+                </div>
+              `;
+            });
+          }
+          
+          roadmapHTML += `
+              </div>
+            </div>
+          `;
+        });
+        
+        roadmapHTML += `</div>`;
+        roadmapContainer.innerHTML = roadmapHTML;
+        return; // Success with public board
+        
+      }
+    } catch (publicError) {
+      console.error('Public board approach also failed:', publicError);
+    }
+    
+    roadmapContainer.innerHTML = `
+      <div style="text-align: center; padding: 2rem; background: rgba(255, 0, 0, 0.1); border: 1px solid rgba(255, 0, 0, 0.3); border-radius: 8px;">
+        <h3 style="color: #ff6b6b; margin-bottom: 1rem;">Error Loading Roadmap</h3>
+        <p>Unable to fetch roadmap data from Trello.</p>
+        <div style="text-align: left; max-width: 500px; margin: 1rem auto; font-size: 0.9rem; opacity: 0.8;">
+          <strong>Possible solutions:</strong>
+          <ul>
+            <li>Make sure your Trello board is <strong>public</strong></li>
+            <li>Verify your API key and token from <a href="https://trello.com/app-key" target="_blank" style="color: #06e6cb;">trello.com/app-key</a></li>
+            <li>Check browser console for detailed error messages</li>
+            <li>Ensure your token has read permissions for the board</li>
+          </ul>
+        </div>
+        <p style="font-size: 0.9rem; opacity: 0.8;">Error: ${error.message}</p>
+      </div>
+    `;
+  }
+})();
 
