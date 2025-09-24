@@ -513,6 +513,49 @@ async function fetchXianStats() {
 fetchXianStats();
 setInterval(fetchXianStats, 60_000); // refresh every minute
 
+// Global Trello label colors and render function
+const labelColors = {
+  'green': '#61bd4f',
+  'yellow': '#f2d600', 
+  'orange': '#ff9f1a',
+  'red': '#eb5a46',
+  'purple': '#c377e0',
+  'blue': '#0079bf',
+  'sky': '#00c2e0',
+  'lime': '#51e898',
+  'pink': '#ff78cb',
+  'black': '#4d4d4d',
+  'null': '#b3bac5' // default/no color
+};
+
+// Global function to render labels as badges
+function renderLabels(labels) {
+  if (!labels || labels.length === 0) return '';
+  
+  const labelsHTML = labels.map(label => {
+    const color = labelColors[label.color] || labelColors['null'];
+    const name = label.name || 'Unlabeled';
+    
+    return `
+      <span class="roadmap-label" style="
+        display: inline-block; 
+        background: ${color}; 
+        color: white; 
+        padding: 0.2rem 0.5rem; 
+        border-radius: 12px; 
+        font-size: 0.75rem; 
+        font-weight: 500; 
+        margin-right: 0.5rem; 
+        margin-bottom: 0.25rem;
+        text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+        white-space: nowrap;
+      " title="${name}">${name}</span>
+    `;
+  }).join('');
+  
+  return `<div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">${labelsHTML}</div>`;
+}
+
 // Trello API Integration for Roadmap
 (async function loadTrelloRoadmap() {
   // TODO: Replace these with your actual Trello API credentials
@@ -521,49 +564,6 @@ setInterval(fetchXianStats, 60_000); // refresh every minute
   const TRELLO_API_KEY = '64bf6ed58b22612665e33f138afd3682'; // Your API key
   const TRELLO_TOKEN = '394a78dc07ac474b43206741c4087515075e8809e55dc75d8179daadb19e704f'; // Your token
   const BOARD_ID = '3yPhI9gn'; // Xian roadmap board ID
-  
-  // Trello label color mapping
-  const labelColors = {
-    'green': '#61bd4f',
-    'yellow': '#f2d600', 
-    'orange': '#ff9f1a',
-    'red': '#eb5a46',
-    'purple': '#c377e0',
-    'blue': '#0079bf',
-    'sky': '#00c2e0',
-    'lime': '#51e898',
-    'pink': '#ff78cb',
-    'black': '#4d4d4d',
-    'null': '#b3bac5' // default/no color
-  };
-  
-  // Function to render labels as badges
-  function renderLabels(labels) {
-    if (!labels || labels.length === 0) return '';
-    
-    const labelsHTML = labels.map(label => {
-      const color = labelColors[label.color] || labelColors['null'];
-      const name = label.name || 'Unlabeled';
-      
-      return `
-        <span class="roadmap-label" style="
-          display: inline-block; 
-          background: ${color}; 
-          color: white; 
-          padding: 0.2rem 0.5rem; 
-          border-radius: 12px; 
-          font-size: 0.75rem; 
-          font-weight: 500; 
-          margin-right: 0.5rem; 
-          margin-bottom: 0.25rem;
-          text-shadow: 0 1px 1px rgba(0,0,0,0.3);
-          white-space: nowrap;
-        " title="${name}">${name}</span>
-      `;
-    }).join('');
-    
-    return `<div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">${labelsHTML}</div>`;
-  }
   
   const roadmapContainer = document.getElementById('roadmap-content');
   
@@ -623,16 +623,33 @@ setInterval(fetchXianStats, 60_000); // refresh every minute
       if (cardCount === 0) {
         roadmapHTML += `<p style="opacity: 0.7; font-style: italic;">No items yet</p>`;
       } else {
-        list.cards.forEach(card => {
+        const limitedCards = list.cards.slice(0, 6); // Limit to 6 cards
+        limitedCards.forEach(card => {
           const labelsHTML = renderLabels(card.labels);
+          const hasDescription = card.desc && card.desc.trim().length > 0;
+          
           roadmapHTML += `
-            <div class="roadmap-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; border-left: 3px solid #06e6cb;">
+            <div class="roadmap-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; border-left: 3px solid #06e6cb; position: relative;">
               <h4 style="margin: 0 0 0.5rem 0; font-size: 1rem;">${card.name}</h4>
               ${labelsHTML ? `<div style="margin-bottom: 0.5rem;">${labelsHTML}</div>` : ''}
-              ${card.desc ? `<p style="margin: 0; opacity: 0.8; font-size: 0.9rem;">${card.desc.substring(0, 150)}${card.desc.length > 150 ? '...' : ''}</p>` : ''}
+              ${hasDescription ? `
+                <button class="read-more-btn" data-card-id="${card.id}" data-card-title="${card.name.replace(/"/g, '&quot;')}" data-card-desc="${(card.desc || '').replace(/"/g, '&quot;')}" data-card-labels='${JSON.stringify(card.labels)}'>
+                  <span class="read-more-text">read more</span>
+                  <span class="read-more-arrow">→</span>
+                </button>
+              ` : ''}
             </div>
           `;
         });
+        
+        // Show count if there are more than 6 cards
+        if (list.cards.length > 6) {
+          roadmapHTML += `
+            <div style="text-align: center; margin-top: 0.5rem; opacity: 0.7; font-size: 0.9rem;">
+              Showing 6 of ${list.cards.length} items
+            </div>
+          `;
+        }
       }
       
       roadmapHTML += `
@@ -676,16 +693,33 @@ setInterval(fetchXianStats, 60_000); // refresh every minute
           if (cards.length === 0) {
             roadmapHTML += `<p style="opacity: 0.7; font-style: italic;">No items yet</p>`;
           } else {
-            cards.forEach(card => {
+            const limitedCards = cards.slice(0, 6); // Limit to 6 cards
+            limitedCards.forEach(card => {
               const labelsHTML = renderLabels(card.labels);
+              const hasDescription = card.desc && card.desc.trim().length > 0;
+              
               roadmapHTML += `
-                <div class="roadmap-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; border-left: 3px solid #06e6cb;">
+                <div class="roadmap-card" style="background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; border-left: 3px solid #06e6cb; position: relative;">
                   <h4 style="margin: 0 0 0.5rem 0; font-size: 1rem;">${card.name}</h4>
                   ${labelsHTML ? `<div style="margin-bottom: 0.5rem;">${labelsHTML}</div>` : ''}
-                  ${card.desc ? `<p style="margin: 0; opacity: 0.8; font-size: 0.9rem;">${card.desc.substring(0, 150)}${card.desc.length > 150 ? '...' : ''}</p>` : ''}
+                  ${hasDescription ? `
+                    <button class="read-more-btn" data-card-id="${card.id}" data-card-title="${card.name.replace(/"/g, '&quot;')}" data-card-desc="${(card.desc || '').replace(/"/g, '&quot;')}" data-card-labels='${JSON.stringify(card.labels)}'>
+                      <span class="read-more-text">read more</span>
+                      <span class="read-more-arrow">→</span>
+                    </button>
+                  ` : ''}
                 </div>
               `;
             });
+            
+            // Show count if there are more than 6 cards
+            if (cards.length > 6) {
+              roadmapHTML += `
+                <div style="text-align: center; margin-top: 0.5rem; opacity: 0.7; font-size: 0.9rem;">
+                  Showing 6 of ${cards.length} items
+                </div>
+              `;
+            }
           }
           
           roadmapHTML += `
@@ -721,4 +755,147 @@ setInterval(fetchXianStats, 60_000); // refresh every minute
     `;
   }
 })();
+
+// Simple markdown parser for roadmap descriptions
+function parseMarkdown(text) {
+  if (!text) return '<p>No description available.</p>';
+  
+  let html = text;
+  
+  // Convert headers (## Header -> <h2>Header</h2>)
+  html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+  html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+  html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+  
+  // Convert bold (**text** -> <strong>text</strong>)
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // Convert italic (*text* -> <em>text</em>)
+  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  
+  // Convert code (`code` -> <code>code</code>)
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  
+  // Convert code blocks (```code``` -> <pre><code>code</code></pre>)
+  html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+  
+  // Convert links ([text](url) -> <a href="url">text</a>)
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+  
+  // Convert unordered lists (- item -> <ul><li>item</li></ul>)
+  html = html.replace(/^[\s]*[-*+] (.+)$/gim, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>)/gims, function(match) {
+    return '<ul>' + match + '</ul>';
+  });
+  
+  // Convert ordered lists (1. item -> <ol><li>item</li></ol>)
+  html = html.replace(/^[\s]*\d+\. (.+)$/gim, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>)/gims, function(match) {
+    if (match.indexOf('<ul>') === -1) {
+      return '<ol>' + match + '</ol>';
+    }
+    return match;
+  });
+  
+  // Convert blockquotes (> text -> <blockquote>text</blockquote>)
+  html = html.replace(/^> (.+)$/gim, '<blockquote>$1</blockquote>');
+  
+  // Convert line breaks and paragraphs
+  html = html.replace(/\n\n/g, '</p><p>');
+  html = html.replace(/\n/g, '<br>');
+  
+  // Wrap in paragraphs if not already wrapped
+  if (!html.startsWith('<')) {
+    html = '<p>' + html + '</p>';
+  }
+  
+  // Clean up empty paragraphs and duplicated tags
+  html = html.replace(/<p><\/p>/g, '');
+  html = html.replace(/<\/ul>\s*<ul>/g, '');
+  html = html.replace(/<\/ol>\s*<ol>/g, '');
+  
+  return html;
+}
+
+// Modal functionality for roadmap cards
+function openCardModal(cardId, title, description, labels) {
+  try {
+    const modal = document.getElementById('cardModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalLabels = document.getElementById('modalLabels');
+    const modalDescription = document.getElementById('modalDescription');
+    
+    // Set title
+    modalTitle.textContent = title;
+    
+    // Set labels
+    if (labels && labels.length > 0) {
+      modalLabels.innerHTML = renderLabels(labels);
+    } else {
+      modalLabels.innerHTML = '';
+    }
+    
+    // Parse markdown and set description
+    const parsedDescription = parseMarkdown(description);
+    modalDescription.innerHTML = parsedDescription;
+    
+    // Show modal with animation
+    modal.style.display = 'flex';
+    
+    // Trigger animation after display
+    setTimeout(() => {
+      modal.classList.add('show');
+    }, 10);
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+    
+  } catch (error) {
+    console.error('Error opening modal:', error);
+  }
+}
+
+function closeCardModal() {
+  const modal = document.getElementById('cardModal');
+  
+  // Start close animation
+  modal.classList.remove('show');
+  
+  // Hide modal after animation
+  setTimeout(() => {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 300);
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    const modal = document.getElementById('cardModal');
+    if (modal.style.display === 'flex') {
+      closeCardModal();
+    }
+  }
+});
+
+// Event delegation for read more buttons
+document.addEventListener('click', function(event) {
+  const readMoreBtn = event.target.closest('.read-more-btn');
+  if (readMoreBtn) {
+    event.preventDefault();
+    
+    const cardId = readMoreBtn.getAttribute('data-card-id');
+    const title = readMoreBtn.getAttribute('data-card-title');
+    const description = readMoreBtn.getAttribute('data-card-desc');
+    const labelsJSON = readMoreBtn.getAttribute('data-card-labels');
+    
+    try {
+      const labels = JSON.parse(labelsJSON || '[]');
+      openCardModal(cardId, title, description, labels);
+    } catch (error) {
+      console.error('Error parsing card data:', error);
+      openCardModal(cardId, title, description, []);
+    }
+  }
+});
 

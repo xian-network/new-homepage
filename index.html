@@ -20,6 +20,265 @@
     <link rel="stylesheet" href="./assets/js/slider/swiper-bundle.min.css" />
     <link rel="stylesheet" href="./assets/css/main.min.css?v=122" />
 
+    <!-- Modal and Read More Button Styles -->
+    <style>
+        /* Read More Button */
+        .read-more-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: transparent;
+            border: none;
+            color: #06e6cb;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: all 0.2s ease;
+            padding: 0;
+        }
+        
+        .read-more-btn:hover {
+            color: #04b8a3;
+            transform: translateX(2px);
+        }
+        
+        .read-more-arrow {
+            transition: transform 0.2s ease;
+            transform: translateY(-3px); /* Move arrow 3px higher */
+        }
+        
+        .read-more-btn:hover .read-more-arrow {
+            transform: translateY(-3px) translateX(3px); /* Keep the 3px higher position on hover */
+        }
+        
+        .read-more-text {
+            font-size: 0.75rem;
+            text-transform: lowercase;
+        }
+        
+        /* Modal Styles */
+        .card-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .card-modal.show {
+            opacity: 1;
+        }
+        
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .modal-content {
+            position: relative;
+            background: linear-gradient(135deg, #0B0B0F 0%, #1a1a2e 100%);
+            border: 1px solid rgba(6, 230, 203, 0.3);
+            border-radius: 16px;
+            padding: 0;
+            max-width: 700px;
+            width: 90%;
+            max-height: 85vh;
+            overflow: hidden;
+            transform: scale(0.8) translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(6, 230, 203, 0.1);
+        }
+        
+        .card-modal.show .modal-content {
+            transform: scale(1) translateY(0);
+        }
+        
+        .modal-header {
+            background: rgba(6, 230, 203, 0.05);
+            border-bottom: 1px solid rgba(6, 230, 203, 0.2);
+            padding: 2rem 2rem 1.5rem 2rem;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #ffffff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .modal-content h2 {
+            margin: 0 3rem 1rem 0;
+            color: #06e6cb;
+            font-size: 1.75rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .modal-labels {
+            margin-top: 1rem;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+            overflow-y: auto;
+            max-height: calc(85vh - 180px);
+        }
+        
+        .modal-description {
+            color: #e0e0e0;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+        
+        .modal-description h1,
+        .modal-description h2,
+        .modal-description h3,
+        .modal-description h4,
+        .modal-description h5,
+        .modal-description h6 {
+            color: #06e6cb;
+            margin: 1.5rem 0 1rem 0;
+            font-weight: 600;
+        }
+        
+        .modal-description h1 { font-size: 1.5rem; }
+        .modal-description h2 { font-size: 1.3rem; }
+        .modal-description h3 { font-size: 1.2rem; }
+        .modal-description h4 { font-size: 1.1rem; }
+        .modal-description h5 { font-size: 1rem; }
+        .modal-description h6 { font-size: 0.9rem; }
+        
+        .modal-description p {
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+        
+        .modal-description p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .modal-description ul,
+        .modal-description ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .modal-description li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        
+        .modal-description blockquote {
+            border-left: 3px solid #06e6cb;
+            margin: 1.5rem 0;
+            padding: 1rem 1.5rem;
+            background: rgba(6, 230, 203, 0.05);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #b0b0b0;
+        }
+        
+        .modal-description code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+            color: #06e6cb;
+        }
+        
+        .modal-description pre {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .modal-description pre code {
+            background: none;
+            padding: 0;
+            color: #e0e0e0;
+        }
+        
+        .modal-description strong {
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .modal-description em {
+            font-style: italic;
+            color: #c0c0c0;
+        }
+        
+        .modal-description a {
+            color: #06e6cb;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .modal-description a:hover {
+            color: #04b8a3;
+            text-decoration: underline;
+        }
+        
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .modal-content {
+                margin: 1rem;
+                max-height: 90vh;
+            }
+            
+            .modal-header {
+                padding: 1.5rem 1.5rem 1rem 1.5rem;
+            }
+            
+            .modal-content h2 {
+                font-size: 1.4rem;
+                margin-right: 2rem;
+            }
+            
+            .modal-body {
+                padding: 1.5rem;
+            }
+            
+            .modal-close {
+                width: 2rem;
+                height: 2rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+
     <!-- Basic OG tags -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://xian.org/" />
@@ -1227,6 +1486,22 @@ display: block;
             </div>
         </footer>
     </div>
+    
+    <!-- Card Details Modal -->
+    <div id="cardModal" class="card-modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeCardModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeCardModal()">&times;</button>
+                <h2 id="modalTitle"></h2>
+                <div id="modalLabels" class="modal-labels"></div>
+            </div>
+            <div class="modal-body">
+                <div id="modalDescription" class="modal-description"></div>
+            </div>
+        </div>
+    </div>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
     <script src="./assets/js/slider/swiper-bundle.min.js"></script>
