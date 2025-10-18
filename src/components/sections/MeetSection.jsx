@@ -4,10 +4,10 @@ function MeetSection() {
   return (
     <section className="meet" id="meet">
       <div className="meet-bg">
-        <img src={assetPath('assets/img/meet.svg')} alt="line" />
+        <img src={assetPath('assets/img/meet.svg')} alt="line" loading="lazy" decoding="async" />
       </div>
       <div className="meet-gradient">
-        <img src={assetPath('assets/img/meet-gradient.png')} alt="gradient" />
+        <img src={assetPath('assets/img/meet-gradient.png')} alt="gradient" loading="lazy" decoding="async" />
       </div>
       <div className="container">
         <div className="main-block">
@@ -20,14 +20,14 @@ function MeetSection() {
         </div>
         <div className="meet-wrapper">
           <div className="star">
-            <img src={assetPath('assets/img/star.svg')} alt="star" />
+            <img src={assetPath('assets/img/star.svg')} alt="star" loading="lazy" decoding="async" />
           </div>
           <div className="meet-items">
             <div className="meet-item__img">
               <picture>
                 <source srcSet={assetPath('assets/img/meet-mob-2.png')} media="(max-width: 700px)" />
                 <source srcSet={assetPath('assets/img/meet-mob.png')} media="(max-width: 1180px)" />
-                <img src={assetPath('assets/img/meet.png')} alt="meet image" />
+                <img src={assetPath('assets/img/meet.png')} alt="meet image" loading="lazy" decoding="async" />
               </picture>
             </div>
             <div className="meet-item__block">

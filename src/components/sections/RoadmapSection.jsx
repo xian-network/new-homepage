@@ -4,7 +4,7 @@ function RoadmapSection() {
   return (
     <section className="roadmap" id="roadmap">
       <div className="roadmap-gradient">
-        <img src={assetPath('assets/img/roadmap-gradient.png')} alt="gradient" />
+        <img src={assetPath('assets/img/roadmap-gradient.png')} alt="gradient" loading="lazy" decoding="async" />
       </div>
       <div className="container">
         <h2>Roadmap</h2>
