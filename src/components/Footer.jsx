@@ -1,3 +1,5 @@
+import { assetPath } from '../utils/assetPath.js';
+
 function Footer() {
   return (
     <footer className="footer">
@@ -41,8 +43,8 @@ function Footer() {
         <div className="copyright mob">All rights reserved. XIAN (c) 2025</div>
         <div className="footer-bottom">
           <div className="footer-logo__block">
-            <a href="/" className="logo">
-              <img src="/assets/img/logo.svg" alt="logo" />
+            <a href={assetPath('')} className="logo">
+              <img src={assetPath('assets/img/logo.svg')} alt="logo" />
             </a>
             <p>
               Built on Xian.
@@ -59,7 +61,7 @@ function Footer() {
           <div className="footer-design">
             <p>Designed by</p>
             <a href="https://generis.agency/" target="_blank" rel="noreferrer" className="logo">
-              <img src="/assets/img/generis.svg" alt="logo generis" />
+              <img src={assetPath('assets/img/generis.svg')} alt="logo generis" />
             </a>
           </div>
         </div>

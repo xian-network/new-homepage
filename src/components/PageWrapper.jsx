@@ -13,17 +13,18 @@ import JoinSection from './sections/JoinSection.jsx';
 import Footer from './Footer.jsx';
 import Modals from './support/Modals.jsx';
 import FloatingActions from './support/FloatingActions.jsx';
+import { assetPath } from '../utils/assetPath.js';
 
 function PageWrapper() {
   return (
     <div className="page__wrapper">
       <div className="main-gradient-right">
-        <img src="/assets/img/bg-main-gradient-right.png" alt="alt" />
+        <img src={assetPath('assets/img/bg-main-gradient-right.png')} alt="alt" />
       </div>
       <div className="main-gradient">
         <picture>
-          <source media="(max-width: 480px)" srcSet="/assets/img/bg-main-gradient.png" />
-          <img src="/assets/img/main-gradient.png" alt="alt" />
+          <source media="(max-width: 480px)" srcSet={assetPath('assets/img/bg-main-gradient.png')} />
+          <img src={assetPath('assets/img/main-gradient.png')} alt="alt" />
         </picture>
       </div>
 

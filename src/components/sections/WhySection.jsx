@@ -1,23 +1,25 @@
+import { assetPath } from '../../utils/assetPath.js';
+
 function WhySection() {
   return (
     <section className="why">
       <div className="why-bg">
         <picture>
-          <source srcSet="/assets/img/orange-mob.png" media="(max-width: 480px)" />
-          <img src="/assets/img/orange-planet.png" alt="blue planet" />
+          <source srcSet={assetPath('assets/img/orange-mob.png')} media="(max-width: 480px)" />
+          <img src={assetPath('assets/img/orange-planet.png')} alt="blue planet" />
         </picture>
       </div>
       <div className="why-gradient">
-        <img src="/assets/img/why-gradient-3.png" alt="gradient" />
+        <img src={assetPath('assets/img/why-gradient-3.png')} alt="gradient" />
       </div>
       <div className="container">
         <div className="star">
-          <img src="/assets/img/star-2.svg" alt="" />
+          <img src={assetPath('assets/img/star-2.svg')} alt="" />
         </div>
         <div className="why-block">
           <div className="why-block__top">
             <div className="why-block__top-img">
-              <img src="/assets/img/why-img.png" alt="image" />
+              <img src={assetPath('assets/img/why-img.png')} alt="image" />
             </div>
             <div className="why-block__top-text">
               <h2>Why Xian</h2>
@@ -39,7 +41,7 @@ function WhySection() {
             <div className="why-item">
               <div className="why-item__top">
                 <div className="why-item-top__icon">
-                  <img src="/assets/img/why-icon-1.svg" alt="icon" />
+                  <img src={assetPath('assets/img/why-icon-1.svg')} alt="icon" />
                 </div>
                 <h3>Essential Libraries</h3>
               </div>
@@ -76,7 +78,7 @@ function WhySection() {
             <div className="why-item">
               <div className="why-item__top">
                 <div className="why-item-top__icon">
-                  <img src="/assets/img/why-icon-2.svg" alt="icon" />
+                  <img src={assetPath('assets/img/why-icon-2.svg')} alt="icon" />
                 </div>
                 <h3>Next-Gen Token Standards</h3>
               </div>
@@ -85,7 +87,7 @@ function WhySection() {
             <div className="why-item">
               <div className="why-item__top">
                 <div className="why-item-top__icon">
-                  <img src="/assets/img/why-icon-3.svg" alt="icon" />
+                  <img src={assetPath('assets/img/why-icon-3.svg')} alt="icon" />
                 </div>
                 <h3>Earn for Building</h3>
               </div>
@@ -96,7 +98,7 @@ function WhySection() {
             <div className="why-item">
               <div className="why-item__top">
                 <div className="why-item-top__icon">
-                  <img src="/assets/img/why-icon-4.svg" alt="icon" />
+                  <img src={assetPath('assets/img/why-icon-4.svg')} alt="icon" />
                 </div>
                 <h3>Bounty Rewards</h3>
               </div>

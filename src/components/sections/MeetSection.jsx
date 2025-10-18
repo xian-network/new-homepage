@@ -1,11 +1,13 @@
+import { assetPath } from '../../utils/assetPath.js';
+
 function MeetSection() {
   return (
     <section className="meet" id="meet">
       <div className="meet-bg">
-        <img src="/assets/img/meet.svg" alt="line" />
+        <img src={assetPath('assets/img/meet.svg')} alt="line" />
       </div>
       <div className="meet-gradient">
-        <img src="/assets/img/meet-gradient.png" alt="gradient" />
+        <img src={assetPath('assets/img/meet-gradient.png')} alt="gradient" />
       </div>
       <div className="container">
         <div className="main-block">
@@ -18,14 +20,14 @@ function MeetSection() {
         </div>
         <div className="meet-wrapper">
           <div className="star">
-            <img src="/assets/img/star.svg" alt="star" />
+            <img src={assetPath('assets/img/star.svg')} alt="star" />
           </div>
           <div className="meet-items">
             <div className="meet-item__img">
               <picture>
-                <source srcSet="/assets/img/meet-mob-2.png" media="(max-width: 700px)" />
-                <source srcSet="/assets/img/meet-mob.png" media="(max-width: 1180px)" />
-                <img src="/assets/img/meet.png" alt="meet image" />
+                <source srcSet={assetPath('assets/img/meet-mob-2.png')} media="(max-width: 700px)" />
+                <source srcSet={assetPath('assets/img/meet-mob.png')} media="(max-width: 1180px)" />
+                <img src={assetPath('assets/img/meet.png')} alt="meet image" />
               </picture>
             </div>
             <div className="meet-item__block">

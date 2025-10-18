@@ -1,37 +1,39 @@
+import { assetPath } from '../../utils/assetPath.js';
+
 const PROJECTS = [
   {
     title: 'Xian Name Service',
     description: 'A decentralized naming service for Xian addresses, built on Xian.',
     href: 'https://xns.domains',
-    img: '/assets/img/xns.domains_-min.png',
+    img: assetPath('assets/img/xns.domains_-min.png'),
     ribbon: 'LIVE',
   },
   {
     title: 'PixelSnek',
     description: 'On-Chain NFT Pixel Animation Platform',
     href: 'https://pixelsnek.xian.org',
-    img: '/assets/img/pixelsnek.xian.org_-min.png',
+    img: assetPath('assets/img/pixelsnek.xian.org_-min.png'),
     ribbon: 'LIVE',
   },
   {
     title: 'SNAKexchange',
     description: 'A decentralized exchange for Xian assets.',
     href: 'https://snakexchange.org/',
-    img: '/assets/img/snakexchange.org-min.png',
+    img: assetPath('assets/img/snakexchange.org-min.png'),
     ribbon: 'LIVE',
   },
   {
     title: 'XWT Platform',
     description: 'Token staking rewards and launch pad platform, powered by the $XWT token.',
     href: 'https://xwtplatform.com/',
-    img: '/assets/img/xwt.png',
+    img: assetPath('assets/img/xwt.png'),
     ribbon: 'LIVE',
   },
   {
     title: 'XIAN DEX',
     description: 'Advanced trading interface offering decentralized exchange, farms and staking.',
     href: 'https://dex.xian.org',
-    img: '/assets/img/xian-dex.png',
+    img: assetPath('assets/img/xian-dex.png'),
     ribbon: 'LIVE',
   },
   {
@@ -39,7 +41,7 @@ const PROJECTS = [
     description:
       'Arbitrage protocol generating profits from XIAN market movements, feeding value back into $XIAN and $XARB tokens.',
     href: 'https://t.me/XianArbitrage',
-    img: '/assets/img/xarb.jpg',
+    img: assetPath('assets/img/xarb.jpg'),
     ribbon: 'LIVE',
   },
 ];

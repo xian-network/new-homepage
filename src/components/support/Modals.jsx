@@ -1,3 +1,5 @@
+import { assetPath } from '../../utils/assetPath.js';
+
 function Modals() {
   return (
     <>
@@ -43,11 +45,11 @@ function Modals() {
               rel="noreferrer"
               className="wallet-option"
             >
-              <img src="/assets/img/googleplay.png" alt="Get it on Google Play" />
+              <img src={assetPath('assets/img/googleplay.png')} alt="Get it on Google Play" />
             </a>
 
             <div className="wallet-option disabled">
-              <img src="/assets/img/appstore.png" alt="Download on the App Store" />
+              <img src={assetPath('assets/img/appstore.png')} alt="Download on the App Store" />
               <div className="coming-soon-overlay">Coming Soon</div>
             </div>
           </div>
@@ -66,7 +68,7 @@ function Modals() {
           </div>
           <div className="wallet-options">
             <a href="https://dex.xian.org/#pair=1" target="_blank" rel="noreferrer" className="wallet-option">
-              <img src="/assets/img/logo.svg" alt="XIAN DEX" />
+              <img src={assetPath('assets/img/logo.svg')} alt="XIAN DEX" />
               <h3>XIAN DEX</h3>
             </a>
 
@@ -76,7 +78,7 @@ function Modals() {
               rel="noreferrer"
               className="wallet-option"
             >
-              <img src="/assets/img/solanaLogoMark.png" alt="Raydium (Solana)" />
+              <img src={assetPath('assets/img/solanaLogoMark.png')} alt="Raydium (Solana)" />
               <h3>Raydium (Solana)</h3>
             </a>
 
@@ -86,7 +88,7 @@ function Modals() {
               rel="noreferrer"
               className="wallet-option"
             >
-              <img src="/assets/img/dex-trade.svg" alt="Dex-Trade" />
+              <img src={assetPath('assets/img/dex-trade.svg')} alt="Dex-Trade" />
               <h3>Dex-Trade (CEX)</h3>
             </a>
           </div>

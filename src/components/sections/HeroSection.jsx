@@ -1,16 +1,18 @@
+import { assetPath } from '../../utils/assetPath.js';
+
 function HeroSection() {
   return (
     <section className="hero">
       <div className="bg-hero-gradient">
-        <img src="/assets/img/bg-gradient.png" alt="" />
+        <img src={assetPath('assets/img/bg-gradient.png')} alt="" />
       </div>
       <div className="bg-hero">
         <picture>
-          <source srcSet="/assets/img/cirlces-mob.svg" media="(max-width: 480px)" />
-          <img src="/assets/img/orbita.svg" alt="orbita" />
+          <source srcSet={assetPath('assets/img/cirlces-mob.svg')} media="(max-width: 480px)" />
+          <img src={assetPath('assets/img/orbita.svg')} alt="orbita" />
         </picture>
         <div className="sun">
-          <img src="/assets/img/sun.svg" style={{ display: 'none' }} alt="sun" />
+          <img src={assetPath('assets/img/sun.svg')} style={{ display: 'none' }} alt="sun" />
         </div>
       </div>
 
