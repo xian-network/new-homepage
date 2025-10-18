@@ -1,10 +1,12 @@
+import { assetPath } from '../utils/assetPath.js';
+
 function Header() {
   return (
     <header className="header">
       <div className="container">
         <div className="header-block">
-          <a href="/" className="logo">
-            <img src="/assets/img/logo.svg" alt="Xian — native Python blockchain Layer 1" />
+          <a href={assetPath('')} className="logo">
+            <img src={assetPath('assets/img/logo.svg')} alt="Xian — native Python blockchain Layer 1" />
           </a>
           <div className="header-wrapper">
             <ul className="header-menu">

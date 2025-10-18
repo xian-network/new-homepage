@@ -1,3 +1,5 @@
+import { assetPath } from '../../utils/assetPath.js';
+
 const CONTRACT_CODE = `
 <span class="py-keyword">import</span> <span class="py-builtin">currency</span><span class="py-comment">  # currency is the main token/currency of the network</span>
 <span class="py-builtin">safe</span> = <span class="py-builtin">Hash</span>(default_value=<span class="py-number">0</span>)
@@ -23,18 +25,18 @@ function EmpowerSection() {
     <section className="empower">
       <div className="blue-planet">
         <picture>
-          <source srcSet="/assets/img/gradient-mob.png" media="(max-width: 480px)" />
-          <img src="/assets/img/blue-planet.png" alt="blue planet" />
+          <source srcSet={assetPath('assets/img/gradient-mob.png')} media="(max-width: 480px)" />
+          <img src={assetPath('assets/img/blue-planet.png')} alt="blue planet" />
         </picture>
       </div>
       <div className="container">
         <div className="empower-block">
           <p>Empowering 13 Million Python Developers to Build Blockchain Apps</p>
           <div className="empower-block__img">
-            <img src="/assets/img/hero-logo.png" alt="python logo" />
+            <img src={assetPath('assets/img/hero-logo.png')} alt="python logo" />
           </div>
           <div className="empower-block__img mobile">
-            <img src="/assets/img/bg-tablet.png" alt="python logo" />
+            <img src={assetPath('assets/img/bg-tablet.png')} alt="python logo" />
           </div>
         </div>
         <div className="empower-description">

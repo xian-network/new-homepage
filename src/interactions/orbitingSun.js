@@ -1,3 +1,5 @@
+import { assetPath } from '../utils/assetPath.js';
+
 export function initOrbitingSun(cleanups) {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const heroBg = document.querySelector('.hero .bg-hero');
@@ -138,8 +140,9 @@ export function initOrbitingSun(cleanups) {
     sunImage.setAttribute('height', String(size));
     sunImage.setAttribute('x', String(-size / 2));
     sunImage.setAttribute('y', String(-size / 2));
-    sunImage.setAttributeNS(xlinkNS, 'xlink:href', './assets/img/sun.svg');
-    sunImage.setAttribute('href', './assets/img/sun.svg');
+    const sunSource = assetPath('assets/img/sun.svg');
+    sunImage.setAttributeNS(xlinkNS, 'xlink:href', sunSource);
+    sunImage.setAttribute('href', sunSource);
     sunGroup.appendChild(sunImage);
 
     const animateMotion = document.createElementNS(svgNS, 'animateMotion');
