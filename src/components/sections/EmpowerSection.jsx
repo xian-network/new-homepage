@@ -26,17 +26,17 @@ function EmpowerSection() {
       <div className="blue-planet">
         <picture>
           <source srcSet={assetPath('assets/img/gradient-mob.png')} media="(max-width: 480px)" />
-          <img src={assetPath('assets/img/blue-planet.png')} alt="blue planet" />
+          <img src={assetPath('assets/img/blue-planet.png')} alt="blue planet" loading="lazy" decoding="async" />
         </picture>
       </div>
       <div className="container">
         <div className="empower-block">
           <p>Empowering 13 Million Python Developers to Build Blockchain Apps</p>
           <div className="empower-block__img">
-            <img src={assetPath('assets/img/hero-logo.png')} alt="python logo" />
+            <img src={assetPath('assets/img/hero-logo.png')} alt="python logo" loading="lazy" decoding="async" />
           </div>
           <div className="empower-block__img mobile">
-            <img src={assetPath('assets/img/bg-tablet.png')} alt="python logo" />
+            <img src={assetPath('assets/img/bg-tablet.png')} alt="python logo" loading="lazy" decoding="async" />
           </div>
         </div>
         <div className="empower-description">

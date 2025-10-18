@@ -44,7 +44,7 @@ function Footer() {
         <div className="footer-bottom">
           <div className="footer-logo__block">
             <a href={assetPath('')} className="logo">
-              <img src={assetPath('assets/img/logo.svg')} alt="logo" />
+              <img src={assetPath('assets/img/logo.svg')} alt="logo" loading="lazy" decoding="async" />
             </a>
             <p>
               Built on Xian.
@@ -61,7 +61,7 @@ function Footer() {
           <div className="footer-design">
             <p>Designed by</p>
             <a href="https://generis.agency/" target="_blank" rel="noreferrer" className="logo">
-              <img src={assetPath('assets/img/generis.svg')} alt="logo generis" />
+              <img src={assetPath('assets/img/generis.svg')} alt="logo generis" loading="lazy" decoding="async" />
             </a>
           </div>
         </div>

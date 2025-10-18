@@ -57,7 +57,13 @@ function ShowcaseSection() {
         <div className="showcase-grid">
           {PROJECTS.map((project) => (
             <div className="showcase-card" key={project.title}>
-              <img src={project.img} alt="Project Logo" className="showcase-card__img" />
+              <img
+                src={project.img}
+                alt="Project Logo"
+                className="showcase-card__img"
+                loading="lazy"
+                decoding="async"
+              />
               <div className="showcase-card__ribbon">{project.ribbon}</div>
               <div className="showcase-card__content">
                 <h3 className="showcase-card__title">{project.title}</h3>
