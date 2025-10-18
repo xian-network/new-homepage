@@ -12,9 +12,16 @@ function GetStartedSection() {
             <div className="step-number">1</div>
             <h3>Install Xian Wallet</h3>
             <p>Download the browser extension to manage your assets on Xian.</p>
-            <button className="main-button" type="button" onClick={() => window.openWalletModal?.()}>
+            <a
+              className="main-button"
+              href="#wallet-modal"
+              onClick={(event) => {
+                event.preventDefault();
+                window.openWalletModal?.();
+              }}
+            >
               Get&nbsp;Wallet
-            </button>
+            </a>
           </div>
           <div className="step-card">
             <span className="shine" />
@@ -39,9 +46,16 @@ function GetStartedSection() {
             <div className="step-number">4</div>
             <h3>Buy $XIAN</h3>
             <p>Purchase XIAN from multiple exchanges and trading platforms.</p>
-            <button className="main-button" type="button" onClick={() => window.openExchangeModal?.()}>
+            <a
+              className="main-button"
+              href="#exchange-modal"
+              onClick={(event) => {
+                event.preventDefault();
+                window.openExchangeModal?.();
+              }}
+            >
               View Exchanges
-            </button>
+            </a>
           </div>
           <div className="step-card">
             <span className="shine" />
