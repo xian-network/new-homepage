@@ -14,28 +14,40 @@ import { initReferralTracker } from './referral.js';
 export function initPageInteractions() {
   const cleanups = [];
 
-  initBurgerMenu(cleanups);
-  initTypewriter(cleanups);
-  initOrbitingSun(cleanups);
-  initDropdowns(cleanups);
-  initNewsSlider(cleanups);
-  loadTokens();
-  initPieChart(cleanups);
-  loadTrelloRoadmap();
-  initRoadmapInteractions(cleanups);
-  initModalShortcuts(cleanups);
-  initFab(cleanups);
-  initReferralTracker();
+  const registerCleanup = (cleanup) => {
+    if (typeof cleanup === 'function') {
+      cleanups.push(cleanup);
+    }
+  };
 
-  const unregisterModals = registerModalGlobals();
-  if (typeof unregisterModals === 'function') {
-    cleanups.push(unregisterModals);
-  }
+  const safeRun = (label, callback) => {
+    try {
+      callback();
+    } catch (error) {
+      console.error(`Failed to initialize ${label}`, error);
+    }
+  };
 
-  const unregisterCodeToggle = registerCodeToggle();
-  if (typeof unregisterCodeToggle === 'function') {
-    cleanups.push(unregisterCodeToggle);
-  }
+  safeRun('modal globals', () => {
+    registerCleanup(registerModalGlobals());
+  });
+
+  safeRun('burger menu', () => initBurgerMenu(cleanups));
+  safeRun('typewriter', () => initTypewriter(cleanups));
+  safeRun('orbiting sun', () => initOrbitingSun(cleanups));
+  safeRun('dropdowns', () => initDropdowns(cleanups));
+  safeRun('news slider', () => initNewsSlider(cleanups));
+  safeRun('token loader', loadTokens);
+  safeRun('pie chart', () => initPieChart(cleanups));
+  safeRun('trello roadmap loader', loadTrelloRoadmap);
+  safeRun('roadmap interactions', () => initRoadmapInteractions(cleanups));
+  safeRun('modal shortcuts', () => initModalShortcuts(cleanups));
+  safeRun('floating action buttons', () => initFab(cleanups));
+  safeRun('referral tracker', initReferralTracker);
+
+  safeRun('code toggle', () => {
+    registerCleanup(registerCodeToggle());
+  });
 
   return () => {
     cleanups.forEach((cleanup) => {
