@@ -46,11 +46,7 @@ function EmpowerSection() {
           </p>
           <p>
             By bridging Python with blockchain, AI, and fintech, Xian removes barriers and expands what's possible. Whether
-            you're building smart contracts, AI-powered dApps, or financial applications, one language does it all.{' '}
-            <a href="/python-blockchain/" style={{ color: '#06e6cb' }}>
-              Why we built a Python blockchain
-            </a>
-            .
+            you're building smart contracts, AI-powered dApps, or financial applications, one language does it all.
           </p>
         </div>
         <h2 style={{ marginTop: '6rem', marginBottom: '2rem', textAlign: 'center' }}>
