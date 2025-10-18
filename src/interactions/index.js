@@ -7,6 +7,7 @@ import { loadTokens } from './tokens.js';
 import { initPieChart } from './pieChart.js';
 import { loadTrelloRoadmap, initRoadmapInteractions } from './roadmap.js';
 import { initModalShortcuts, registerModalGlobals } from './modals.js';
+import { registerCodeToggle } from './codeToggle.js';
 import { initFab } from './fab.js';
 import { initReferralTracker } from './referral.js';
 
@@ -25,7 +26,16 @@ export function initPageInteractions() {
   initModalShortcuts(cleanups);
   initFab(cleanups);
   initReferralTracker();
-  registerModalGlobals();
+
+  const unregisterModals = registerModalGlobals();
+  if (typeof unregisterModals === 'function') {
+    cleanups.push(unregisterModals);
+  }
+
+  const unregisterCodeToggle = registerCodeToggle();
+  if (typeof unregisterCodeToggle === 'function') {
+    cleanups.push(unregisterCodeToggle);
+  }
 
   return () => {
     cleanups.forEach((cleanup) => {
