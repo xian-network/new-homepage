@@ -1,8 +1,8 @@
 import Swiper from 'swiper';
 import 'swiper/css';
-import { Chart, ArcElement, Tooltip, Legend, Title } from 'chart.js';
+import { Chart, ArcElement, Tooltip, Legend, Title, PieController } from 'chart.js';
 
-Chart.register(ArcElement, Tooltip, Legend, Title);
+Chart.register(ArcElement, Tooltip, Legend, Title, PieController);
 
 const GRAPHQL_ENDPOINT = 'https://node.xian.org/graphql';
 const TRELLO_BOARD_ID = '3yPhI9gn';

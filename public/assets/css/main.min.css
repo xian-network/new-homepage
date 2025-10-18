@@ -2477,11 +2477,14 @@ a {
 /* Card image */
 .showcase-card__img {
   width: 100%;
-  height: auto;
+  height: 180px;
+  object-fit: contain;
+  object-position: center;
   margin-bottom: 1rem;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  /* or set a fixed height if you prefer a uniform card layout */
+  display: block;
+  background: rgba(6, 230, 203, 0.08);
 }
 
 .showcase-card__content {
