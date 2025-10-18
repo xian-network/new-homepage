@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { initPageInteractions } from './interactions.js';
+import { initPageInteractions } from './interactions/index.js';
 
 const CONTENT_URL = '/page-content.html';
 
