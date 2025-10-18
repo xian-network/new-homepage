@@ -1987,24 +1987,30 @@ a {
   align-items: center
 }
 
+.join .container .join-links a {
+  --community-accent: #06e6cb;
+  --community-icon-foreground: #0b0b0f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.join .container .join-links a svg circle,
 .join .container .join-links a svg path {
-  transition: .2s ease
+  transition: fill .2s ease;
 }
 
-.join .container .join-links a svg circle {
-  transition: .2s ease
+.join .container .join-links a:hover svg circle,
+.join .container .join-links a:hover svg path:not(.community-icon-detail) {
+  fill: var(--community-accent)
 }
 
-.join .container .join-links a:hover svg path {
-  fill: #06e6cb
+.join .container .join-links a svg path.community-icon-detail {
+  transition: fill .2s ease
 }
 
-.join .container .join-links a:hover svg circle {
-  fill: #06e6cb
-}
-
-.join .container .join-links a:hover svg path.link {
-  fill: #202020
+.join .container .join-links a:hover svg path.community-icon-detail {
+  fill: var(--community-icon-foreground)
 }
 
 @media(width < 48em) {
