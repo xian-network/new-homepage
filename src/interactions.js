@@ -4,28 +4,6 @@ import { Chart, ArcElement, Tooltip, Legend, Title } from 'chart.js';
 
 Chart.register(ArcElement, Tooltip, Legend, Title);
 
-const TOKENOMICS_LABELS = [
-  'Validator DAO Treasury',
-  'Validator DAO Vesting',
-  'Team Locker',
-  'Team Vesting',
-  'Circulating',
-];
-
-const TOKENOMICS_COLORS = {
-  background: ['#06e6cb', '#f39c12', '#9b59b6', '#45b7d1', '#96ceb4'],
-  border: ['#04b8a3', '#d68910', '#7d3c98', '#3a9bc1', '#7fb89a'],
-};
-
-const FALLBACK_TOKENOMICS = {
-  data: [25, 12, 18, 15, 30],
-  ariaLabel:
-    'Fallback $XIAN token distribution chart using static allocation percentages while live data is unavailable.',
-};
-
-const TOKENOMICS_CHUNK_SIZE = 2000;
-const TOKENOMICS_MAX_CONCURRENT_REQUESTS = 5;
-
 const GRAPHQL_ENDPOINT = 'https://node.xian.org/graphql';
 const TRELLO_BOARD_ID = '3yPhI9gn';
 
@@ -700,93 +678,30 @@ async function loadTrelloRoadmap() {
   }
 }
 
-function renderTokenomicsChart(canvas, data, { isFallback }) {
-  if (!(canvas instanceof HTMLCanvasElement)) return;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  if (window.xianPieChart && typeof window.xianPieChart.destroy === 'function') {
-    window.xianPieChart.destroy();
-  }
-
-  const total = data.reduce((sum, value) => sum + value, 0);
-  const isMobile = window.innerWidth <= 600;
-
-  window.xianPieChart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-      labels: TOKENOMICS_LABELS,
-      datasets: [
-        {
-          data,
-          backgroundColor: TOKENOMICS_COLORS.background,
-          borderColor: TOKENOMICS_COLORS.border,
-          borderWidth: 2,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: isMobile ? 'bottom' : 'right',
-          labels: {
-            color: '#ffffff',
-            font: { size: 14 },
-          },
-        },
-        title: {
-          display: true,
-          text: isFallback ? 'Static $XIAN Token Distribution' : 'Live $XIAN Token Distribution',
-          color: '#ffffff',
-          font: { size: 20, weight: 'bold' },
-        },
-        tooltip: {
-          callbacks: {
-            label(context) {
-              const value = Number(context.raw) || 0;
-              const percentage = total > 0 ? ((value / total) * 100).toFixed(2) : '0.00';
-              if (isFallback) {
-                return `${context.label}: ${value.toFixed(2)}%`;
-              }
-              return `${context.label}: ${value.toLocaleString(undefined, {
-                maximumFractionDigits: 2,
-              })} XIAN (${percentage}%)`;
-            },
-          },
-        },
-      },
-    },
-  });
-
-  canvas.setAttribute('role', 'img');
-  canvas.setAttribute(
-    'aria-label',
-    isFallback
-      ? FALLBACK_TOKENOMICS.ariaLabel
-      : 'Live $XIAN token distribution chart based on on-chain data.'
-  );
-}
-
-function renderFallbackTokenomics(canvas) {
-  renderTokenomicsChart(canvas, FALLBACK_TOKENOMICS.data, { isFallback: true });
-}
-
-function sanitizeTokenValue(value) {
-  const parsed = typeof value === 'number' ? value : parseFloat(value ?? '0');
-  if (!Number.isFinite(parsed) || parsed < 0) {
-    return 0;
-  }
-  return parsed;
-}
-
-async function fetchXianStats(signal) {
+async function fetchXianStats() {
   const container = document.getElementById('xianPieChart');
-  if (!(container instanceof HTMLCanvasElement)) return;
-
-  if (signal?.aborted) return;
+  if (!container) return;
 
   const graphUrl = GRAPHQL_ENDPOINT;
+  const CHUNK_SIZE = 2000;
+  const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('.')[0];
+
+  const nowQuery = `query {
+    allEvents(condition: { contract: "con_pairs", event: "Swap" },
+              filter: { dataIndexed: { contains: { pair: "1" } } },
+              orderBy: CREATED_DESC, first: 1) {
+      edges { node { data } }
+    }
+  }`;
+
+  const volumeQuery = `query {
+    allEvents(condition: { contract: "con_pairs", event: "Swap" },
+              filter: { dataIndexed: { contains: { pair: "1" } },
+                        created: { greaterThan: "${since}" } },
+              first: 1000) {
+      edges { node { data } }
+    }
+  }`;
 
   const countQuery = `query {
     allStates(
@@ -815,33 +730,17 @@ async function fetchXianStats(signal) {
   }`;
 
   try {
-    const resCount = await fetch(graphUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: countQuery }),
-      signal,
-    }).then((r) => r.json());
-
-    if (signal?.aborted) return;
+    const [resNow, resVol, resCount, resExcluded] = await Promise.all([
+      fetch(graphUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: nowQuery }) }).then((r) => r.json()),
+      fetch(graphUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: volumeQuery }) }).then((r) => r.json()),
+      fetch(graphUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: countQuery }) }).then((r) => r.json()),
+      fetch(graphUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: excludedQuery }) }).then((r) => r.json()),
+    ]);
 
     const totalCount = resCount?.data?.allStates?.totalCount ?? 0;
-
-    if (!totalCount || totalCount < 0) {
-      renderFallbackTokenomics(container);
-      return;
-    }
-
-    const excludedPromise = fetch(graphUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: excludedQuery }),
-      signal,
-    }).then((r) => r.json());
-
     let totalSupply = 0;
-    const chunkPromises = [];
 
-    for (let offset = 0; offset < totalCount; offset += TOKENOMICS_CHUNK_SIZE) {
+    for (let offset = 0; offset < totalCount; offset += CHUNK_SIZE) {
       const chunkQuery = `query ($first: Int!, $offset: Int!) {
         allStates(
           filter: {
@@ -862,40 +761,18 @@ async function fetchXianStats(signal) {
         }
       }`;
 
-      const chunkPromise = fetch(graphUrl, {
+      const chunkResp = await fetch(graphUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: chunkQuery, variables: { first: TOKENOMICS_CHUNK_SIZE, offset } }),
-        signal,
+        body: JSON.stringify({ query: chunkQuery, variables: { first: CHUNK_SIZE, offset } }),
       }).then((r) => r.json());
 
-      chunkPromises.push(chunkPromise);
-
-      if (
-        chunkPromises.length === TOKENOMICS_MAX_CONCURRENT_REQUESTS ||
-        offset + TOKENOMICS_CHUNK_SIZE >= totalCount
-      ) {
-        const chunkResponses = await Promise.all(chunkPromises);
-        if (signal?.aborted) return;
-        chunkResponses.forEach((chunkResp) => {
-          const chunkValues =
-            chunkResp?.data?.allStates?.edges?.map((edge) => sanitizeTokenValue(edge?.node?.value)) ?? [];
-          totalSupply += chunkValues.reduce((sum, value) => sum + value, 0);
-        });
-        chunkPromises.length = 0;
-      }
+      const chunkValues = chunkResp?.data?.allStates?.edges?.map((edge) => parseFloat(edge?.node?.value ?? '0')) ?? [];
+      totalSupply += chunkValues.reduce((sum, value) => sum + value, 0);
     }
 
-    if (signal?.aborted) return;
-
-    const resExcluded = await excludedPromise;
-    if (signal?.aborted) return;
-
     const excludedMap = Object.fromEntries(
-      (resExcluded?.data?.allStates?.edges ?? []).map((edge) => [
-        edge?.node?.key,
-        sanitizeTokenValue(edge?.node?.value),
-      ])
+      (resExcluded?.data?.allStates?.edges ?? []).map((edge) => [edge?.node?.key, parseFloat(edge?.node?.value ?? '0')])
     );
 
     const treasury = excludedMap['currency.balances:dao'] || 0;
@@ -903,30 +780,57 @@ async function fetchXianStats(signal) {
     const locker = excludedMap['currency.balances:team_lock'] || 0;
     const stream = excludedMap['currency.balances:dao_funding_stream'] || 0;
 
-    const circulating = Math.max(totalSupply - (treasury + vesting + locker + stream), 0);
-    const dataset = [treasury, stream, locker, vesting, circulating].map(sanitizeTokenValue);
-    const datasetTotal = dataset.reduce((sum, value) => sum + value, 0);
+    const circulating = totalSupply - (treasury + vesting + locker + stream);
 
-    if (datasetTotal <= 0) {
-      renderFallbackTokenomics(container);
-      return;
+    const ctx = container.getContext('2d');
+    if (!ctx) return;
+
+    if (window.xianPieChart && typeof window.xianPieChart.destroy === 'function') {
+      window.xianPieChart.destroy();
     }
 
-    renderTokenomicsChart(container, dataset, { isFallback: false });
+    const isMobile = window.innerWidth <= 600;
+    window.xianPieChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Validator DAO Treasury', 'Validator DAO Vesting', 'Team Locker', 'Team Vesting', 'Circulating'],
+        datasets: [
+          {
+            data: [treasury, stream, locker, vesting, circulating],
+            backgroundColor: ['#06e6cb', '#f39c12', '#9b59b6', '#45b7d1', '#96ceb4'],
+            borderColor: ['#04b8a3', '#d68910', '#7d3c98', '#3a9bc1', '#7fb89a'],
+            borderWidth: 2,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: isMobile ? 'bottom' : 'right',
+            labels: {
+              color: '#ffffff',
+              font: { size: 14 },
+            },
+          },
+          title: {
+            display: true,
+            text: 'Live $XIAN Token Distribution',
+            color: '#ffffff',
+            font: { size: 20, weight: 'bold' },
+          },
+        },
+      },
+    });
   } catch (error) {
-    if (error?.name === 'AbortError') return;
     console.error('Failed to load XIAN stats', error);
-    renderFallbackTokenomics(container);
   }
 }
 
 function initPieChart(cleanups) {
-  const abortController = new AbortController();
-  const loadStats = () => fetchXianStats(abortController.signal);
-  loadStats();
-  const intervalId = window.setInterval(loadStats, 60_000);
+  fetchXianStats();
+  const intervalId = window.setInterval(fetchXianStats, 60_000);
   cleanups.push(() => {
-    abortController.abort();
     window.clearInterval(intervalId);
     if (window.xianPieChart && typeof window.xianPieChart.destroy === 'function') {
       window.xianPieChart.destroy();
