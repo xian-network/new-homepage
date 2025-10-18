@@ -1983,8 +1983,11 @@ a {
 .join .container .join-links {
   margin-top: 2.5rem;
   display: flex;
+  row-gap: 1.25rem;
   column-gap: 1.25rem;
-  align-items: center
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .join .container .join-links a {
