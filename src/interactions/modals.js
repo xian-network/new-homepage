@@ -82,4 +82,13 @@ export function registerModalGlobals() {
   window.closeWalletModal = closeWalletModal;
   window.openExchangeModal = openExchangeModal;
   window.closeExchangeModal = closeExchangeModal;
+
+  return () => {
+    if (window.openCardModal === openCardModal) delete window.openCardModal;
+    if (window.closeCardModal === closeCardModal) delete window.closeCardModal;
+    if (window.openWalletModal === openWalletModal) delete window.openWalletModal;
+    if (window.closeWalletModal === closeWalletModal) delete window.closeWalletModal;
+    if (window.openExchangeModal === openExchangeModal) delete window.openExchangeModal;
+    if (window.closeExchangeModal === closeExchangeModal) delete window.closeExchangeModal;
+  };
 }
