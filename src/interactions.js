@@ -1,30 +1,8 @@
 import Swiper from 'swiper';
 import 'swiper/css';
-import { Chart, ArcElement, Tooltip, Legend, Title, PieController } from 'chart.js';
+import { Chart, ArcElement, Tooltip, Legend, Title } from 'chart.js';
 
-Chart.register(PieController, ArcElement, Tooltip, Legend, Title);
-
-const TOKENOMICS_LABELS = [
-  'Validator DAO Treasury',
-  'Validator DAO Vesting',
-  'Team Locker',
-  'Team Vesting',
-  'Circulating',
-];
-
-const TOKENOMICS_COLORS = {
-  background: ['#06e6cb', '#f39c12', '#9b59b6', '#45b7d1', '#96ceb4'],
-  border: ['#04b8a3', '#d68910', '#7d3c98', '#3a9bc1', '#7fb89a'],
-};
-
-const FALLBACK_TOKENOMICS = {
-  data: [25, 12, 18, 15, 30],
-  ariaLabel:
-    'Fallback $XIAN token distribution chart using static allocation percentages while live data is unavailable.',
-};
-
-const TOKENOMICS_CHUNK_SIZE = 2000;
-const TOKENOMICS_MAX_CONCURRENT_REQUESTS = 5;
+Chart.register(ArcElement, Tooltip, Legend, Title);
 
 const TOKENOMICS_LABELS = [
   'Validator DAO Treasury',
