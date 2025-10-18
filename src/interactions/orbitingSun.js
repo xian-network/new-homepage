@@ -9,6 +9,7 @@ export function initOrbitingSun(cleanups) {
   const svgNS = 'http://www.w3.org/2000/svg';
   const xlinkNS = 'http://www.w3.org/1999/xlink';
   const ORBIT_SECS = 60;
+  const PATH_INDEX = 0;
 
   let overlay = null;
   let currentSrc = '';
@@ -16,139 +17,216 @@ export function initOrbitingSun(cleanups) {
   let resizeTimeout;
   let roTimeout;
   let orientationTimeout;
+  let frameId;
+  let requestId = 0;
+  let disposed = false;
+
+  const originalPosition = picture.style.position;
+  let positionAdjusted = false;
+  const imageEl = picture.querySelector('img');
+  let imageLoadHandler;
 
   const sunPx = () => (window.innerWidth <= 480 ? 60 : window.innerWidth <= 1180 ? 80 : 100);
 
+  const resetTracking = () => {
+    currentSrc = '';
+    lastSizeKey = '';
+  };
+
   const cleanupOverlay = () => {
+    if (frameId) {
+      cancelAnimationFrame(frameId);
+      frameId = undefined;
+    }
     if (overlay) {
       overlay.remove();
       overlay = null;
+    }
+    if (positionAdjusted) {
+      picture.style.position = originalPosition;
+      positionAdjusted = false;
     }
     if (staticSun) {
       staticSun.style.display = '';
     }
   };
 
-  const updateSunSize = () => {
-    if (!overlay) return;
-    const circle = overlay.querySelector('#sun-circle');
-    const sunImage = overlay.querySelector('#sun-image');
-    const radius = sunPx() / 2;
+  const initFromCurrentPicture = async () => {
+    if (disposed) return;
+    const img = imageEl || picture.querySelector('img');
+    if (!img) return;
 
-    if (circle) {
-      circle.setAttribute('r', radius.toString());
+    const src = img.currentSrc || img.src;
+    const sizeKey = `${picture.clientWidth}x${picture.clientHeight}-s${sunPx()}`;
+
+    if (!src || (src === currentSrc && sizeKey === lastSizeKey)) {
+      return;
     }
 
-    if (sunImage) {
-      sunImage.setAttribute('width', sunPx().toString());
-      sunImage.setAttribute('height', sunPx().toString());
-      sunImage.setAttribute('x', (-sunPx() / 2).toString());
-      sunImage.setAttribute('y', (-sunPx() / 2).toString());
-    }
-  };
+    currentSrc = src;
+    lastSizeKey = sizeKey;
+    const fetchToken = ++requestId;
 
-  const createOverlay = () => {
+    let svgText = '';
+    try {
+      const response = await fetch(src, { cache: 'force-cache' });
+      const contentType = response.headers.get('content-type') || '';
+      const isSvg = /image\/svg\+xml/i.test(contentType) || src.trim().toLowerCase().endsWith('.svg');
+
+      if (!isSvg) {
+        throw new Error(`Expected SVG but received content-type: ${contentType}`);
+      }
+
+      svgText = await response.text();
+    } catch (error) {
+      console.warn('Orbit: could not load SVG:', error);
+      cleanupOverlay();
+      resetTracking();
+      return;
+    }
+
+    if (disposed || fetchToken !== requestId) return;
+
+    let doc;
+    try {
+      doc = new DOMParser().parseFromString(svgText, 'image/svg+xml');
+    } catch (error) {
+      console.warn('Orbit: invalid SVG:', error);
+      cleanupOverlay();
+      resetTracking();
+      return;
+    }
+
+    const root = doc.querySelector('svg');
+    const paths = root ? Array.from(doc.querySelectorAll('path')) : [];
+    const chosenPath = paths[PATH_INDEX] || paths[0];
+
+    if (!root || !chosenPath) {
+      cleanupOverlay();
+      resetTracking();
+      return;
+    }
+
+    const widthAttr = root.getAttribute('width') || picture.clientWidth || 1432;
+    const heightAttr = root.getAttribute('height') || picture.clientHeight || 821;
+    const viewBox = root.getAttribute('viewBox') || `0 0 ${widthAttr} ${heightAttr}`;
+    const pathData = chosenPath.getAttribute('d');
+
+    if (!pathData) {
+      cleanupOverlay();
+      resetTracking();
+      return;
+    }
+
     cleanupOverlay();
-    overlay = document.createElementNS(svgNS, 'svg');
-    overlay.setAttribute('class', 'sun-overlay');
-    overlay.setAttribute('viewBox', '0 0 100 100');
-    overlay.setAttribute('xmlns:xlink', xlinkNS);
 
-    const defs = document.createElementNS(svgNS, 'defs');
-    const orbitPath = document.createElementNS(svgNS, 'path');
-    orbitPath.setAttribute('id', 'orbit-path');
-    orbitPath.setAttribute('d', 'M50,10 C80,10 90,30 90,50 C90,70 80,90 50,90 C20,90 10,70 10,50 C10,30 20,10 50,10Z');
-    defs.appendChild(orbitPath);
-    overlay.appendChild(defs);
+    overlay = document.createElementNS(svgNS, 'svg');
+    overlay.setAttribute('class', 'orbit-overlay');
+    overlay.setAttribute('viewBox', viewBox);
+    overlay.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    overlay.style.position = 'absolute';
+    overlay.style.inset = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.pointerEvents = 'none';
 
     const sunGroup = document.createElementNS(svgNS, 'g');
-    sunGroup.setAttribute('class', 'sun-group');
-
-    const sunCircle = document.createElementNS(svgNS, 'circle');
-    sunCircle.setAttribute('id', 'sun-circle');
-    sunCircle.setAttribute('fill', 'url(#sun-gradient)');
-    sunGroup.appendChild(sunCircle);
-
     const sunImage = document.createElementNS(svgNS, 'image');
-    sunImage.setAttribute('id', 'sun-image');
+    const size = sunPx();
+
+    sunImage.setAttribute('width', String(size));
+    sunImage.setAttribute('height', String(size));
+    sunImage.setAttribute('x', String(-size / 2));
+    sunImage.setAttribute('y', String(-size / 2));
     sunImage.setAttributeNS(xlinkNS, 'xlink:href', './assets/img/sun.svg');
-    sunImage.setAttribute('width', sunPx().toString());
-    sunImage.setAttribute('height', sunPx().toString());
-    sunImage.setAttribute('x', (-sunPx() / 2).toString());
-    sunImage.setAttribute('y', (-sunPx() / 2).toString());
-    sunImage.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+    sunImage.setAttribute('href', './assets/img/sun.svg');
     sunGroup.appendChild(sunImage);
 
     const animateMotion = document.createElementNS(svgNS, 'animateMotion');
     animateMotion.setAttribute('dur', `${ORBIT_SECS}s`);
     animateMotion.setAttribute('repeatCount', 'indefinite');
-
-    const mpath = document.createElementNS(svgNS, 'mpath');
-    mpath.setAttributeNS(xlinkNS, 'xlink:href', '#orbit-path');
-
-    animateMotion.appendChild(mpath);
+    animateMotion.setAttribute('rotate', 'auto');
+    animateMotion.setAttribute('path', pathData);
+    animateMotion.setAttribute('begin', '0s');
     sunGroup.appendChild(animateMotion);
+
     overlay.appendChild(sunGroup);
 
-    heroBg.appendChild(overlay);
-    updateSunSize();
+    const computedPosition = window.getComputedStyle(picture).position;
+    if (
+      (!picture.style.position || picture.style.position === 'static') &&
+      computedPosition === 'static'
+    ) {
+      picture.style.position = 'relative';
+      positionAdjusted = true;
+    }
+
+    picture.appendChild(overlay);
 
     if (staticSun) {
       staticSun.style.display = 'none';
     }
-  };
 
-  const createOverlayWhenReady = () => {
-    const sources = picture.querySelectorAll('source');
-    const fallback = picture.querySelector('img');
-    const activeSource = Array.from(sources).find((source) => {
-      const media = source.getAttribute('media');
-      return !media || window.matchMedia(media).matches;
+    frameId = requestAnimationFrame(() => {
+      if (typeof animateMotion.beginElement === 'function') {
+        animateMotion.beginElement();
+      }
     });
-
-    const src = activeSource?.getAttribute('srcset') || fallback?.getAttribute('src');
-
-    if (!src || src === currentSrc) return;
-
-    currentSrc = src;
-    createOverlay();
   };
+
+  initFromCurrentPicture();
+
+  if (imageEl) {
+    imageLoadHandler = () => {
+      if (!disposed) {
+        initFromCurrentPicture();
+      }
+    };
+    imageEl.addEventListener('load', imageLoadHandler);
+  }
 
   const resizeObserver = new ResizeObserver(() => {
     window.clearTimeout(roTimeout);
-    roTimeout = window.setTimeout(updateSunSize, 100);
+    roTimeout = window.setTimeout(() => {
+      if (!disposed) {
+        initFromCurrentPicture();
+      }
+    }, 120);
   });
+
+  resizeObserver.observe(picture);
 
   const handleResize = () => {
     window.clearTimeout(resizeTimeout);
     resizeTimeout = window.setTimeout(() => {
-      const sizeKey = `${window.innerWidth}-${window.innerHeight}`;
-      if (sizeKey !== lastSizeKey) {
-        lastSizeKey = sizeKey;
-        updateSunSize();
+      if (!disposed) {
+        initFromCurrentPicture();
       }
-    }, 150);
+    }, 200);
   };
 
   const handleOrientation = () => {
     window.clearTimeout(orientationTimeout);
     orientationTimeout = window.setTimeout(() => {
-      cleanupOverlay();
-      createOverlayWhenReady();
-    }, 300);
+      if (!disposed) {
+        initFromCurrentPicture();
+      }
+    }, 250);
   };
 
-  createOverlayWhenReady();
-  resizeObserver.observe(heroBg);
-  window.addEventListener('resize', handleResize);
-  window.addEventListener('orientationchange', handleOrientation);
+  window.addEventListener('resize', handleResize, { passive: true });
+  window.addEventListener('orientationchange', handleOrientation, { passive: true });
 
   cleanups.push(() => {
+    disposed = true;
     window.clearTimeout(resizeTimeout);
     window.clearTimeout(roTimeout);
     window.clearTimeout(orientationTimeout);
     window.removeEventListener('resize', handleResize);
     window.removeEventListener('orientationchange', handleOrientation);
+    if (imageEl && imageLoadHandler) {
+      imageEl.removeEventListener('load', imageLoadHandler);
+    }
     resizeObserver.disconnect();
     cleanupOverlay();
   });
