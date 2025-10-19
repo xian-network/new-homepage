@@ -26,7 +26,6 @@ function EmpowerSection() {
       <div className="blue-planet">
         <picture>
           <source srcSet={assetPath('assets/img/gradient-mob.png')} media="(max-width: 480px)" />
-          <img src={assetPath('assets/img/blue-planet.png')} alt="blue planet" loading="lazy" decoding="async" />
         </picture>
       </div>
       <div className="container">

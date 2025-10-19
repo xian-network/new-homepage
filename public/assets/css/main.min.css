@@ -2036,7 +2036,8 @@ a {
   height:100%;
   flex-wrap:wrap;
   overflow:hidden;
-  
+  justify-content: center;
+
 }
 #partner-logos > .logos > div{
   height:100%;
