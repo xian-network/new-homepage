@@ -1,0 +1,129 @@
+:global(.hero) {
+  padding-top: 11.25rem;
+  position: relative
+}
+:global(.hero .bg-hero) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  top: -7.25rem;
+  width: 100%;
+  height: auto;
+  left: 0;
+  z-index: -1
+}
+:global(.hero .bg-hero picture) {
+  width: 100%
+}
+:global(.hero .bg-hero img) {
+  max-width: none;
+  width: 100%;
+   height: 100%; 
+}
+:global(.hero .bg-hero .sun) {
+  position: absolute;
+  left: 3.75rem;
+  transform: translateX(-0.625rem);
+  max-width: 6.875rem;
+  height: 6.875rem;
+  align-self: center
+}
+@media (min-width: 90em) {
+  :global(.hero .bg-hero) {
+    width: 100%;
+    height: auto;
+    top: -4.25rem
+  }
+
+  :global(.hero .bg-hero picture) {
+    width: 100vw;
+    height: auto;
+  }
+
+  
+}
+@media (max-width: 90em) {
+  :global(.hero .bg-hero) {
+    top: -2.25rem
+  }
+
+  :global(.hero .bg-hero .sun) {
+    left: 40px
+  }
+}
+@media (max-width: 73.75em) {
+  
+}
+:global(.fab) { color: #06e6cb; }
+/* or your theme var */
+:global(.fab .icon) { display: block; }
+/* avoid inline SVG baseline gaps */
+@media (max-width: 30em) {
+  :global(.hero .bg-hero) {
+    left: 0rem
+  }
+
+  :global(.hero .bg-hero picture) {
+    height: auto
+  }
+}
+:global(.hero .bg-hero-gradient) {
+  position: absolute;
+  top: -7.25rem;
+  z-index: -1;
+  left: 0
+}
+:global(.hero .bg-hero-gradient img) {
+  max-width: none;
+  width: 100%
+}
+@media (max-width: 62em) {
+  :global(.hero .bg-hero-gradient) {
+    display: none
+  }
+}
+:global(.hero .container h1) {
+  margin-bottom: .625rem;
+  font-size: clamp(2.5rem, 1.5625rem + 4.1666666667vw, 3.3125rem);
+  text-align: center
+}
+:global(.hero .container h1 .typewriter-text) {
+  color: #06e6cb;
+  padding-right: 10px;
+  border-right: solid #fff 7px;
+  animation: cursor 1s ease-in-out infinite
+}
+@keyframes cursor {
+  from {
+    border-color: #fff
+  }
+
+  to {
+    border-color: rgba(0, 0, 0, 0)
+  }
+}
+@media (max-width: 30em) {
+  :global(.hero .container h1 span.typewriter-text) {
+    border-width: .25rem
+  }
+
+  :global(.hero .container h1 span.full-width) {
+    display: block
+  }
+}
+:global(.hero .container>p) {
+  text-align: center;
+  max-width: 48.75rem;
+  margin: 0 auto
+}
+@media (max-width: 62em) {
+  :global(.hero) {
+    padding-top: 8rem
+  }
+}
+@media (max-width: 30em) {
+  :global(.hero) {
+    padding-top: 6rem
+  }
+}

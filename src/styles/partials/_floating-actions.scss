@@ -1,0 +1,185 @@
+/* center everything */
+:global(.fab) {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  width: 64px;
+  height: 64px;
+  border: none;
+  border-radius: 50%;
+  background: #06e6cb;
+  color: #0b0b0f;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+  /* NEW – creates its own paint layer */
+}
+:global(.fab:hover) {
+  background: #04d2bb;
+}
+/* zap icon animates out when open */
+:global(.zap) {
+  transition: opacity .2s, transform .2s;
+}
+:global(.fab) { display:inline-flex; align-items:center; justify-content:center; color:#0b0b0f; }
+:global(.fab svg) { display:block; width:26px; height:26px; flex:none; }
+:global(.fab.open .zap) {
+  opacity: 0;
+  transform: scale(.3);
+  /* shrink + fade */
+}
+/* draw an X with pseudo-elements */
+:global(.fab.open::before),
+:global(.fab.open::after) {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 2px;
+  background: #0b0b0f;
+  border-radius: 2px;
+}
+:global(.fab.open::before) {
+  transform: rotate(45deg);
+}
+:global(.fab.open::after) {
+  transform: rotate(-45deg);
+}
+/* prettier FAB dropdown — overrides the earlier rules */
+:global(.fab-menu) {
+  display: none;
+  position: fixed;
+  bottom: calc(1.5rem + 64px + .75rem);
+  /* button bottom + its height + 12 px gap */
+  right: 1.5rem;
+  min-width: 220px;
+  /* roomy for longer labels */
+  border-radius: 20px;
+  z-index: 60;
+  /* higher than .fab (which is 50) */
+  /* a tad lower to clear the orb */
+
+  /* --- Xian card style --- */
+  background: rgba(11, 11, 15, .72);
+  /* translucent dark */
+  border: 1px solid rgba(255, 255, 255, .18);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, .55);
+  overflow: hidden;
+  /* masks hover bg */
+}
+:global(.fab.open+.fab-menu) {
+  display: block;
+}
+/* unchanged */
+:global(.menu-label) {
+  padding: .9rem 1.6rem .4rem;
+  padding-bottom: .7rem;
+  font: 700 .8rem/1 "Roboto Mono", monospace;
+  color: #06e6cb;
+  /* same teal accent */
+  pointer-events: none;
+  /* non-clickable */
+}
+:global(.fab-menu li a span) {
+  font-weight: 400;
+  opacity: .45;
+  margin-left: .25rem;
+  white-space: nowrap;
+  /* prevents wrap on small phones */
+}
+/* menu items */
+:global(.fab-menu li a) {
+  display: block;
+  padding: 1.2rem 1.6rem;
+  /* 52 px tall → easy thumb hit */
+  letter-spacing: .3px;
+  font: 600 .95rem/1.2 "Roboto Mono", monospace;
+  color: #fff;
+  transition: background .2s;
+}
+:global(.fab-menu li a:hover) {
+  background: rgba(6, 230, 203, .08);
+}
+:global(.fab) {
+  transition: transform .25s cubic-bezier(.45, 1.5, .57, 1);
+}
+/* springy */
+:global(.fab-menu) {
+  transform-origin: bottom right;
+  transition: opacity .25s, transform .25s;
+}
+:global(.fab.open+.fab-menu) {
+  animation: scaleIn .25s ease forwards;
+}
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@media (max-width: 480px) {
+  :global(.fab) {
+    width: 64px;
+    height: 64px;
+    font-size: 2.25rem;
+  }
+
+  /* bigger circle & glyph */
+  :global(.fab-menu li a) {
+    padding: 1.1rem 1.6rem;
+  }
+
+  /* ≈48 px tall rows   */
+}
+/* --- PULSE RING ----------------------------------------- */
+@keyframes pulseRing {
+  0% {
+    transform: scale(1);
+    opacity: .45;
+  }
+
+  70% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+
+  /* hold invisible to pause */
+}
+/* create the ring */
+:global(.fab:not(.open)::after) {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #06e6cb;
+  opacity: 0;
+  /* start hidden */
+  filter: blur(8px);
+  animation: pulseRing 2.7s ease-out infinite;
+  z-index: -1;
+  /* NEW – sits under the teal fill   */
+}
+/* respect “Reduce Motion” */
+@media (prefers-reduced-motion: reduce) {
+  :global(.fab:not(.open)::after) {
+    animation: none;
+  }
+}
+/* stop the pulse while menu is open */
+:global(.fab.open::after) {
+  animation: none;
+  opacity: 0;
+}

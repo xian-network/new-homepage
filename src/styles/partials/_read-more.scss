@@ -1,0 +1,29 @@
+/* ===== Modal and Showcase enhancements from main branch ===== */
+:global(.read-more-btn) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: transparent;
+  border: none;
+  color: #06e6cb;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+:global(.read-more-btn:hover) {
+  color: #04b8a3;
+  transform: translateX(2px);
+}
+:global(.read-more-arrow) {
+  transition: transform 0.2s ease;
+  transform: translateY(-3px);
+}
+:global(.read-more-btn:hover .read-more-arrow) {
+  transform: translateY(-3px) translateX(3px);
+}
+:global(.read-more-text) {
+  font-size: 0.75rem;
+  text-transform: lowercase;
+}

@@ -1,0 +1,96 @@
+:global(body *) {
+  box-sizing: border-box
+}
+:global(body *::-webkit-input-placeholder),
+:global(body *:-moz-placeholder),
+:global(body *::-moz-placeholder),
+:global(body *:-ms-input-placeholder) {
+  color: #666;
+  opacity: 1
+}
+:global(html) {
+  height: 100%;
+  overscroll-behavior: none;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+  scroll-padding-top: 5rem
+}
+:global(img) {
+  pointer-events: none
+}
+:global(body) {
+  background: #000;
+  font-family: "Roboto Mono";
+  overflow-x: hidden;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #fff;
+  height: 100%
+}
+:global(body.hidden) {
+  overflow: hidden
+}
+:global(шьп body input[type=submit]) {
+  cursor: pointer;
+  transition: .2s ease
+}
+:global(body button) {
+  outline: none;
+  border: none;
+  transition: .2s ease;
+  cursor: pointer
+}
+:global(body h1),
+:global(body h2),
+:global(body h3),
+:global(body h4),
+:global(body h5),
+:global(body h6) {
+  padding: 0;
+  margin: 0;
+  font-family: "Roboto Mono"
+}
+:global(body .page__wrapper) {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-x: hidden;
+  min-height: 100%;
+  position: relative
+}
+:global(body main) {
+  flex: 1 1 auto
+}
+:global(body button),
+:global(body a) {
+  text-decoration: none;
+  outline: none;
+  transition: all .2s ease
+}
+:global(body *) {
+  outline: none !important
+}
+:global(body ul) {
+  padding: 0;
+  margin: 0
+}
+:global(body ul li) {
+  list-style-type: none;
+  outline: none
+}
+:global(body img) {
+  outline: none;
+  display: block;
+  max-width: 100%
+}
+:global(body p) {
+  padding: 0;
+  margin: 0
+}
+:global(button),
+:global(a) {
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  outline: none
+}
