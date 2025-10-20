@@ -250,4 +250,9 @@
     padding-left: .625rem;
     padding-right: .625rem
   }
+  :global(.meet__content) {
+    margin-top: 1.875rem!important;
+    padding-left: .625rem!important;
+    padding-right: .625rem!important;
+  }
 }
