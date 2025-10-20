@@ -103,20 +103,10 @@ export function initOrbitingSun(cleanups) {
     vign.setAttribute('gradientUnits', 'userSpaceOnUse');
     vign.setAttribute('cx', String(cw * 0.08));
     vign.setAttribute('cy', String(ch * 0.06));
-
-    // On ultra-wide canvases the previous radius calculation (based on the
-    // maximum dimension) caused the cool light to reach the bottom edge of the
-    // hero, making the transition to the black page background abrupt.  Limit
-    // the radius with the smallest dimension so it feathers out sooner and add
-    // a final transparent stop to ease the fade.
-    const minDim = Math.min(cw, ch);
-    const gradientRadius = minDim * 0.9;
-    vign.setAttribute('r', String(gradientRadius));
+    vign.setAttribute('r', String(Math.max(cw, ch) * 0.6));
     vign.innerHTML = `
       <stop offset="0%"   stop-color="rgb(28,177,212)" stop-opacity="0.22"/>
-      <stop offset="55%"  stop-color="rgb(28,177,212)" stop-opacity="0.08"/>
-      <stop offset="82%"  stop-color="rgb(28,177,212)" stop-opacity="0.0"/>
-      <stop offset="100%" stop-color="rgb(10,10,14)"   stop-opacity="0"/>
+      <stop offset="60%"  stop-color="rgb(28,177,212)" stop-opacity="0.0"/>
     `;
     defs.appendChild(vign);
 
