@@ -171,6 +171,11 @@
     padding: 3rem 1.3125rem 2.75rem 1.3125rem
   }
 
+  :global(.meet-card--drivers) {
+    padding-left: 0.625em!important;
+    padding-right: 0.625em!important;
+  }
+
   :global(.meet .container .meet-wrapper .meet-items .meet-item__block ul) {
     padding-left: 1.3125rem
   }
@@ -292,7 +297,12 @@
   display: flex;
   flex-direction: column;
   gap: .85rem;
-  min-height: 100%
+   height: auto;
+  min-height: auto;
+  position: relative;
+    min-width: 0;
+  min-height: 0;
+
 }
 :global(.meet-driver__badge) {
   display: inline-flex;
@@ -308,7 +318,9 @@
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
-  box-shadow: 0 .75rem 1.5rem rgba(6, 230, 203, .35)
+  box-shadow: 0 .75rem 1.5rem rgba(6, 230, 203, .35);
+  -webkit-box-shadow: 0 .75rem 1.5rem rgba(6, 230, 203, .35);
+  -moz-box-shadow: 0 .75rem 1.5rem rgba(6, 230, 203, .35);
 }
 :global(.meet-driver h3) {
   margin: 0;
