@@ -11,71 +11,67 @@ function MeetSection() {
       </div>
       <div className="container">
         <div className="main-block">
+          <span className="meet__label">Token economics</span>
           <h2>Meet $XIAN</h2>
           <p>
             $XIAN is the native gas&nbsp;&amp; governance asset of Xian—the first Python Layer‑1 blockchain. The genesis mint created{' '}
-            <strong>111 million</strong> tokens, but <strong>100&nbsp;% of gas is redistributed</strong> every transaction, with 1 %
-            permanently burned—so supply trends down.
+            <strong>111 million</strong> tokens, and <strong>100&nbsp;% of gas is redistributed</strong> every transaction with 1&nbsp;%
+            permanently burned—driving deflationary pressure as network activity grows.
           </p>
         </div>
-        <div className="meet-wrapper">
-          <div className="star">
-            <img src={assetPath('assets/img/star.svg')} alt="star" loading="lazy" decoding="async" />
-          </div>
-          <div className="meet-items">
-            <div className="meet-item__img">
+        <div className="meet__content">
+          <div className="meet__column">
+            <div className="meet-card meet-card--visual">
               <picture>
                 <source srcSet={assetPath('assets/img/meet-mob-2.png')} media="(max-width: 700px)" />
                 <source srcSet={assetPath('assets/img/meet-mob.png')} media="(max-width: 1180px)" />
-                <img src={assetPath('assets/img/meet.png')} alt="meet image" loading="lazy" decoding="async" />
+                <img src={assetPath('assets/img/meet.png')} alt="Xian validators and builders" loading="lazy" decoding="async" />
               </picture>
+              <p className="meet-card__caption">
+                Builders, validators, and the treasury are aligned around the same asset, so growth in network activity translates directly into
+                value for the people maintaining it.
+              </p>
             </div>
-            <div className="meet-item__block">
-              <p>Core Economic Drivers Behind $XIAN's Value:</p>
-              <ul>
-                <li>
-                  <strong>Main Token for All Trading Pairs:</strong> Essential liquidity and consistent demand across the ecosystem.
-                </li>
-                <li>
-                  <strong>Validator Staking Requirement:</strong> Validators must stake at least <strong>100,000 $XIAN</strong>, ensuring
-                  token scarcity and long-term holding.
-                </li>
-                <li>
-                  <strong>Gas Payments Exclusively in $XIAN:</strong> Guarantees ongoing token utility through constant usage for
-                  transactions.
-                </li>
-                <li>
-                  <strong>Gas Redistribution (live)</strong>
-                  <ul className="sublist">
-                    <li>Validators – 30 %</li>
-                    <li>Contract Developer – 68 %</li>
-                    <li>Foundation – 1 %</li>
-                    <li>Burn – 1 %</li>
-                  </ul>
-                  <a
-                    href="https://gas.xian.org/"
-                    style={{ color: '#06e6cb', textDecoration: 'underline' }}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    See it in action!
-                  </a>
-                  <br />
-                  <span className="small">Ratios adjustable via DAO vote.</span>
-                  <br />
-                </li>
-              </ul>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: '3.125rem',
-                  gap: '1rem',
-                  flexDirection: 'column',
-                }}
-              >
-                <a href="https://dex.xian.org/#pair=1" target="_blank" rel="noreferrer" className="main-button bg-color" style={{ margin: 0 }}>
+            <div className="meet__stat-grid">
+              <div className="meet-stat">
+                <span className="meet-stat__label">Genesis supply</span>
+                <span className="meet-stat__value">111M $XIAN</span>
+                <p className="meet-stat__body">Minted at genesis with a provable cap—no extra inflation or hidden unlocks.</p>
+              </div>
+              <div className="meet-stat">
+                <span className="meet-stat__label">Perpetual burn</span>
+                <span className="meet-stat__value">1% / txn</span>
+                <p className="meet-stat__body">Every block permanently removes 1&nbsp;% of gas, compounding scarcity as usage scales.</p>
+              </div>
+            </div>
+          </div>
+          <div className="meet__column">
+            <div className="meet-card meet-card--drivers">
+              <div className="meet-card__header">
+                <span className="meet-card__eyebrow">Network utility</span>
+                <h3>$XIAN powers every layer of the Xian economy</h3>
+              </div>
+              <div className="meet-driver-grid">
+                <article className="meet-driver">
+                  <span className="meet-driver__badge">DEX</span>
+                  <h3>Anchor asset across liquidity pools</h3>
+                  <p>Protocol-owned liquidity pairs every major token against $XIAN to keep price discovery stable.</p>
+                </article>
+                <article className="meet-driver">
+                  <span className="meet-driver__badge">POS</span>
+                  <h3>Bonded collateral for validator slots</h3>
+                  <p>
+                    Validators stake a minimum of <strong>100,000 $XIAN</strong>, hardwiring economic alignment with chain security.
+                  </p>
+                </article>
+                <article className="meet-driver">
+                  <span className="meet-driver__badge">GAS</span>
+                  <h3>Settlement currency for every transaction</h3>
+                  <p>$XIAN pays execution costs, rewarding active participants as throughput scales.</p>
+                </article>
+              </div>
+              <div className="meet-card__actions">
+                <a href="https://dex.xian.org/#pair=1" target="_blank" rel="noreferrer" className="main-button bg-color">
                   Get $XIAN on Xian DEX
                 </a>
                 <a
@@ -83,34 +79,58 @@ function MeetSection() {
                   target="_blank"
                   rel="noreferrer"
                   className="main-button bg-color"
-                  style={{ margin: 0 }}
                 >
                   Get $XIAN on Raydium
                 </a>
-                <a href="https://bridge.xian.org" target="_blank" rel="noreferrer" className="main-button" style={{ margin: 0 }}>
+                <a href="https://bridge.xian.org" target="_blank" rel="noreferrer" className="main-button">
                   Bridge Assets
                 </a>
               </div>
             </div>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                marginTop: '3.125rem',
-                gap: '1rem',
-                flexDirection: 'column',
-                maxWidth: '100%',
-                width: '600px',
-              }}
-            >
-              <canvas id="xianPieChart" width="300" height="300" style={{ margin: '1rem', display: 'block' }} />
+            <div className="meet-card meet-card--chart">
+              <div className="meet-card__header">
+                <span className="meet-card__eyebrow">Redistribution</span>
+                <h3>Every transaction recycles gas back to the community</h3>
+              </div>
+              <div className="meet-redistribution">
+                <div className="meet-redistribution__chart" aria-hidden="true">
+                  <div className="meet-redistribution__label">Gas Flow</div>
+                </div>
+                <ul className="meet-redistribution__legend">
+                  <li className="meet-redistribution__legend-item">
+                    <span className="meet-legend__dot meet-legend__dot--validators" />
+                    <div>
+                      <strong>30&nbsp;% Validators</strong>
+                      <p>Rewards uptime and security.</p>
+                    </div>
+                  </li>
+                  <li className="meet-redistribution__legend-item">
+                    <span className="meet-legend__dot meet-legend__dot--developers" />
+                    <div>
+                      <strong>68&nbsp;% Contract Developers</strong>
+                      <p>Incentivises building real applications.</p>
+                    </div>
+                  </li>
+                  <li className="meet-redistribution__legend-item">
+                    <span className="meet-legend__dot meet-legend__dot--foundation" />
+                    <div>
+                      <strong>1&nbsp;% Foundation</strong>
+                      <p>Funds grants and ecosystem growth.</p>
+                    </div>
+                  </li>
+                  <li className="meet-redistribution__legend-item">
+                    <span className="meet-legend__dot meet-legend__dot--burn" />
+                    <div>
+                      <strong>1&nbsp;% Burn</strong>
+                      <p>Continuously reduces supply.</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <a href="https://gas.xian.org/" target="_blank" rel="noreferrer" className="meet-driver__link">
+                See it in action
+              </a>
+              <span className="meet__footnote">Ratios adjustable via DAO vote.</span>
             </div>
           </div>
         </div>
