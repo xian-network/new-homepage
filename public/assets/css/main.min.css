@@ -441,16 +441,7 @@
     height: auto;
   }
 
-  .hero:before {
-    content: "";
-    width: 1000px;
-    height: 100.75rem;
-    position: absolute;
-    top: 191%;
-    right: -139px;
-    background: #000;
-    z-index: 0
-  }
+  
 }
 
 @media(width < 90em) {
