@@ -82,16 +82,7 @@ function HeroSection() {
           </div>
         </div>
 
-        <div className="xian-stats-container" id="xian-stats-container">
-          <strong style={{ display: 'block', marginBottom: '0.5rem' }}>$XIAN Powers the Xian Blockchain</strong>
-          <p
-            style={{ margin: 0, fontSize: '0.9rem', opacity: 0.85, textAlign: 'center', maxWidth: '600px', marginInline: 'auto' }}
-          >
-            XIAN token is the backbone of the Xian blockchain ecosystem. It's used to pay for transaction fees across the network
-            and is required for validators to secure the blockchain through staking, ensuring the network remains decentralized
-            and robust.
-          </p>
-        </div>
+        
       </div>
     </section>
   );
