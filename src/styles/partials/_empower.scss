@@ -1,0 +1,106 @@
+:global(.empower) {
+  position: relative;
+}
+:global(.empower .container .empower-block) {
+  overflow: hidden;
+  min-height: 18.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  position: relative;
+  padding-left: 9.1875rem;
+  padding-top: 4.375rem;
+  padding-bottom: 5.5625rem;
+  border-radius: 3.125rem;
+  border: .0625rem solid rgba(255, 255, 255, .47);
+  background: rgba(11, 11, 15, .7);
+  backdrop-filter: blur(3.125rem);
+  -webkit-backdrop-filter: blur(3.125rem);
+}
+:global(.empower .container .empower-block .empower-block__img) {
+  position: absolute;
+  right: 0;
+  top: 0
+}
+:global(.empower .container .empower-block .empower-block__img.mobile) {
+  display: none
+}
+:global(.empower .container .empower-block p) {
+  max-width: 37rem;
+  font-size: clamp(1.5rem, 1.25rem + 1.1111111111vw, 2.25rem);
+  font-style: normal;
+  font-weight: 700;
+  line-height: 130%
+}
+:global(.empower .container .empower-block p span) {
+  display: block
+}
+@media (max-width: 68.75em) {
+  :global(.empower .container .empower-block) {
+    padding-left: 3.75rem
+  }
+
+  :global(.empower .container .empower-block .empower-block__img) {
+    display: none
+  }
+
+  :global(.empower .container .empower-block .empower-block__img.mobile) {
+    display: block;
+    top: 41%
+  }
+}
+@media (max-width: 43.75em) {
+  :global(.empower .container .empower-block) {
+    padding-right: 1.875rem;
+    padding-top: 2.6875rem;
+    padding-bottom: 2.5625rem;
+    padding-left: 3.1875rem;
+    height: auto;
+    min-height: 0rem
+  }
+
+  :global(.empower .container .empower-block .empower-block__img.mobile) {
+    display: none
+  }
+}
+:global(.empower .container .empower-description) {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.875rem;
+  padding: 4.1875rem 4.0625rem;
+  max-width: 47.9375rem;
+  margin: 0 auto;
+  font-size: 16px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, .47);
+  margin-top: -4.375rem;
+  background: rgba(11, 11, 15, .1);
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+}
+@media (max-width: 62em) {
+  :global(.empower .container .empower-description) {
+    max-width: 40rem
+  }
+}
+@media (max-width: 48em) {
+  :global(.empower .container .empower-description) {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    margin-top: 1.125rem
+  }
+}
+@media (max-width: 43.75em) {
+  :global(.empower .container .empower-description) {
+    margin-top: 1.125rem
+  }
+}
+@media (max-width: 30em) {
+  :global(.empower .container .empower-description) {
+    padding-right: 2.75rem;
+    padding-top: 2.6875rem;
+    padding-bottom: 2.5625rem;
+    padding-left: 3.1875rem
+  }
+}

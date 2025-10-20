@@ -1,0 +1,287 @@
+:global(.card-modal),
+:global(.wallet-modal) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+:global(.card-modal.show),
+:global(.wallet-modal.show) {
+  opacity: 1;
+}
+:global(.modal-overlay) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+}
+:global(.modal-content),
+:global(.wallet-modal-content) {
+  position: relative;
+  background: linear-gradient(135deg, #0B0B0F 0%, #1a1a2e 100%);
+  border: 1px solid rgba(6, 230, 203, 0.3);
+  border-radius: 16px;
+  padding: 0;
+  width: min(700px, 90vw);
+  max-height: 85vh;
+  overflow: hidden;
+  transform: scale(0.8) translateY(20px);
+  transition: transform 0.3s ease;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(6, 230, 203, 0.1);
+}
+:global(.card-modal.show .modal-content),
+:global(.wallet-modal.show .wallet-modal-content) {
+  transform: scale(1) translateY(0);
+}
+:global(.modal-header),
+:global(.wallet-modal-header) {
+  background: rgba(6, 230, 203, 0.05);
+  border-bottom: 1px solid rgba(6, 230, 203, 0.2);
+  padding: 2rem 2rem 1.5rem 2rem;
+  position: relative;
+}
+:global(.modal-close) {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+:global(.modal-close:hover) {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+:global(.modal-content h2),
+:global(.wallet-modal-header h2) {
+  margin: 0 3rem 1rem 0;
+  color: #06e6cb;
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+:global(.wallet-modal-header h2) {
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+:global(.wallet-modal-header p) {
+  margin: 0;
+  color: #e0e0e0;
+  opacity: 0.8;
+  text-align: center;
+}
+:global(.modal-labels) {
+  margin-top: 1rem;
+}
+:global(.modal-body) {
+  padding: 2rem;
+  overflow-y: auto;
+  max-height: calc(85vh - 180px);
+}
+:global(.modal-description) {
+  color: #e0e0e0;
+  line-height: 1.7;
+  font-size: 1rem;
+  text-align: left;
+}
+:global(.modal-description h1),
+:global(.modal-description h2),
+:global(.modal-description h3),
+:global(.modal-description h4),
+:global(.modal-description h5),
+:global(.modal-description h6) {
+  color: #06e6cb;
+  margin: 1.5rem 0 1rem 0;
+  font-weight: 600;
+}
+:global(.modal-description h1) {
+  font-size: 1.5rem;
+}
+:global(.modal-description h2) {
+  font-size: 1.3rem;
+}
+:global(.modal-description h3) {
+  font-size: 1.2rem;
+}
+:global(.modal-description h4) {
+  font-size: 1.1rem;
+}
+:global(.modal-description h5) {
+  font-size: 1rem;
+}
+:global(.modal-description h6) {
+  font-size: 0.9rem;
+}
+:global(.modal-description p) {
+  margin-bottom: 1.2rem;
+}
+:global(.modal-description p:last-child) {
+  margin-bottom: 0;
+}
+:global(.modal-description ul),
+:global(.modal-description ol) {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+:global(.modal-description li) {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+:global(.modal-description blockquote) {
+  border-left: 3px solid #06e6cb;
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  background: rgba(6, 230, 203, 0.05);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: #b0b0b0;
+}
+:global(.modal-description code) {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.9rem;
+  color: #06e6cb;
+}
+:global(.modal-description pre) {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+:global(.modal-description pre code) {
+  background: none;
+  padding: 0;
+  color: #e0e0e0;
+}
+:global(.modal-description strong) {
+  font-weight: 600;
+  color: #ffffff;
+}
+:global(.modal-description em) {
+  font-style: italic;
+  color: #c0c0c0;
+}
+:global(.modal-description a) {
+  color: #06e6cb;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+:global(.modal-description a:hover) {
+  color: #04b8a3;
+  text-decoration: underline;
+}
+:global(.wallet-options) {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+:global(.wallet-option) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  text-decoration: none;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  min-height: 80px;
+  height: 80px;
+}
+:global(.wallet-option:hover:not(.disabled)) {
+  background: rgba(6, 230, 203, 0.1);
+  border-color: rgba(6, 230, 203, 0.3);
+  transform: translateY(-2px);
+}
+:global(.wallet-option.disabled) {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+:global(.wallet-option h3) {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #06e6cb;
+}
+:global(#walletModal .wallet-option) {
+  min-width: 220px !important;
+  width: auto !important;
+  max-width: 320px !important;
+}
+:global(#walletModal .wallet-option img) {
+  width: 200px !important;
+  max-width: none !important;
+  min-width: 200px !important;
+  min-height: 60px !important;
+  object-fit: contain;
+  flex-shrink: 0 !important;
+  display: block !important;
+}
+:global(#exchangeModal .wallet-option) {
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+  padding: 1.5rem 1rem !important;
+  height: auto !important;
+  min-height: 100px !important;
+}
+:global(#exchangeModal .wallet-option img) {
+  height: 48px !important;
+  max-width: none !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  object-fit: contain;
+  flex-shrink: 0 !important;
+  display: block !important;
+}
+:global(#exchangeModal .wallet-option h3) {
+  margin: 0 !important;
+  font-size: 1rem !important;
+  text-align: center !important;
+}
+:global(.coming-soon-overlay) {
+  position: absolute;
+  top: 10px;
+  right: -10px;
+  transform: rotate(15deg);
+  background: rgba(255, 107, 107, 0.95);
+  color: white;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
