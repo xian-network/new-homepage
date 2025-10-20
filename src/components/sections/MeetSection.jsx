@@ -2,7 +2,7 @@ import { assetPath } from '../../utils/assetPath.js';
 
 function MeetSection() {
   return (
-    <section className="meet" id="meet">
+    <section className="meet section-spacing" id="meet">
       <div className="meet-bg">
         <img src={assetPath('assets/img/meet.svg')} alt="line" loading="lazy" decoding="async" />
       </div>

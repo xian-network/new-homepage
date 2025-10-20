@@ -1,8 +1,9 @@
 import { assetPath } from '../../utils/assetPath.js';
+import ProgressiveDisclosure from '../support/ProgressiveDisclosure.jsx';
 
 function WhySection() {
   return (
-    <section className="why">
+    <section className="why section-spacing" id="why">
       <div className="why-bg">
         <picture>
           <source srcSet={assetPath('assets/img/orange-mob.png')} media="(max-width: 480px)" />

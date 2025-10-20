@@ -48,7 +48,7 @@ const PROJECTS = [
 
 function ShowcaseSection() {
   return (
-    <section className="showcase" id="showcase">
+    <section className="showcase section-spacing" id="showcase">
       <div className="container">
         <div className="main-block">
           <h2>Built on Xian</h2>

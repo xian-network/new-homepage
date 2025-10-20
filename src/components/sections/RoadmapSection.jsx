@@ -2,7 +2,7 @@ import { assetPath } from '../../utils/assetPath.js';
 
 function RoadmapSection() {
   return (
-    <section className="roadmap" id="roadmap">
+    <section className="roadmap section-spacing" id="roadmap">
       <div className="roadmap-gradient">
         <img src={assetPath('assets/img/roadmap-gradient.png')} alt="gradient" loading="lazy" decoding="async" />
       </div>

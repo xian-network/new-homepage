@@ -2,7 +2,7 @@ import { assetPath } from '../../utils/assetPath.js';
 
 function HeroSection() {
   return (
-    <section className="hero">
+    <section className="hero" id="hero">
       <div className="bg-hero-gradient">
         <img src={assetPath('assets/img/bg-gradient.png')} alt="" />
       </div>

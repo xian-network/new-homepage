@@ -24,3 +24,8 @@
 @use './partials/read-more';
 @use './partials/modals';
 @use './partials/showcase-overrides';
+
+// New layout improvement styles
+@use './partials/cadence';
+@use './partials/minimap';
+@use './partials/progressive-disclosure';

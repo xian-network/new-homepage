@@ -1,4 +1,5 @@
 import { assetPath } from '../../utils/assetPath.js';
+import ProgressiveDisclosure from '../support/ProgressiveDisclosure.jsx';
 
 const CONTRACT_CODE = `
 <span class="py-keyword">import</span> <span class="py-builtin">currency</span><span class="py-comment">  # currency is the main token/currency of the network</span>
@@ -22,7 +23,7 @@ const CONTRACT_CODE = `
 
 function EmpowerSection() {
   return (
-    <section className="empower">
+    <section className="empower section-spacing" id="empower">
       <div className="blue-planet">
         <picture>
           <source srcSet={assetPath('assets/img/gradient-mob.png')} media="(max-width: 480px)" />
@@ -38,15 +39,26 @@ function EmpowerSection() {
             <img src={assetPath('assets/img/bg-tablet.png')} alt="python logo" loading="lazy" decoding="async" />
           </div>
         </div>
-        <div className="empower-description">
+        <div className="empower-description content-rhythm">
           <p>
             Xian eliminates the learning curve, allowing Python developers to build blockchain applications instantly—without
             mastering new programming languages or complex frameworks.
           </p>
-          <p>
-            By bridging Python with blockchain, AI, and fintech, Xian removes barriers and expands what's possible. Whether
-            you're building smart contracts, AI-powered dApps, or financial applications, one language does it all.
-          </p>
+          
+          <ProgressiveDisclosure
+            title="Why Python for Blockchain?"
+            preview="Discover how Python bridges the gap between traditional development and blockchain innovation..."
+            variant="minimal"
+          >
+            <p>
+              By bridging Python with blockchain, AI, and fintech, Xian removes barriers and expands what's possible. Whether
+              you're building smart contracts, AI-powered dApps, or financial applications, one language does it all.
+            </p>
+            <p>
+              Python's simplicity and extensive ecosystem make it the perfect choice for blockchain development. With over 13 million 
+              Python developers worldwide, Xian opens blockchain development to a massive community of skilled programmers.
+            </p>
+          </ProgressiveDisclosure>
         </div>
         <h2 style={{ marginTop: '6rem', marginBottom: '2rem', textAlign: 'center' }}>
           The Python blockchain for real smart contracts

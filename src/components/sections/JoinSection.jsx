@@ -1,6 +1,6 @@
 function JoinSection() {
   return (
-    <section className="join" id="social">
+    <section className="join" id="join">
       <div className="container">
         <div className="main-block">
           <h2>Join our community</h2>

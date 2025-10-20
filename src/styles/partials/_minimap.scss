@@ -1,0 +1,122 @@
+:global(.minimap) {
+  position: fixed;
+  top: 50%;
+  right: 2rem;
+  transform: translateY(-50%);
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(6, 230, 203, 0.3);
+  border-radius: 12px;
+  padding: 1rem 0.5rem;
+  backdrop-filter: blur(10px);
+  max-height: 70vh;
+  overflow-y: auto;
+  width: 200px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(6, 230, 203, 0.5);
+    border-radius: 2px;
+  }
+
+  @media (max-width: 1200px) {
+    right: 1rem;
+    width: 180px;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+:global(.minimap-header) {
+  text-align: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(6, 230, 203, 0.2);
+}
+
+:global(.minimap-title) {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #06e6cb;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+:global(.minimap-nav) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+:global(.minimap-item) {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+
+  &:hover {
+    background: rgba(6, 230, 203, 0.1);
+    color: #06e6cb;
+    transform: translateX(2px);
+  }
+
+  &.active {
+    background: rgba(6, 230, 203, 0.2);
+    color: #06e6cb;
+    border-left: 2px solid #06e6cb;
+    
+    .minimap-icon {
+      transform: scale(1.1);
+    }
+  }
+}
+
+:global(.minimap-icon) {
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+:global(.minimap-label) {
+  font-family: "Roboto Mono", monospace;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Animation for minimap appearance
+:global(.minimap) {
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}

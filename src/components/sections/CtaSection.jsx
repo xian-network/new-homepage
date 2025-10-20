@@ -1,6 +1,6 @@
 function CtaSection() {
   return (
-    <section className="cta">
+    <section className="cta" id="cta">
       <div className="container">
         <div className="cta-block">
           <h2>Let's get started/</h2>

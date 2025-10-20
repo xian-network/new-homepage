@@ -13,6 +13,7 @@ import JoinSection from './sections/JoinSection.jsx';
 import Footer from './Footer.jsx';
 import Modals from './support/Modals.jsx';
 import FloatingActions from './support/FloatingActions.jsx';
+import Minimap from './support/Minimap.jsx';
 import { assetPath } from '../utils/assetPath.js';
 import styles from '../styles/main.module.scss';
 
@@ -47,6 +48,7 @@ function PageWrapper() {
       <Footer />
       <Modals />
       <FloatingActions />
+      <Minimap />
     </div>
   );
 }
