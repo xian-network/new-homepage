@@ -1502,9 +1502,12 @@ a {
 .meet__content {
   margin-top: 3.75rem;
   display: grid;
-  grid-template-columns: minmax(0, .95fr) minmax(0, 1.1fr);
   gap: 3.5rem;
-  align-items: start
+  align-items: start;
+  padding:2.5rem;
+  border-radius: 50px;
+    background: rgba(11, 11, 15, .7);
+    backdrop-filter: blur(50px);
 }
 
 .meet__column {
@@ -1515,9 +1518,7 @@ a {
 
 .meet-card {
   border-radius: 1.75rem;
-  border: .0625rem solid rgba(255, 255, 255, .1);
   background: rgba(11, 11, 15, .78);
-  box-shadow: 0 1.875rem 3.5rem rgba(11, 11, 15, .45);
   backdrop-filter: blur(1.5rem);
   -webkit-backdrop-filter: blur(1.5rem);
   overflow: hidden

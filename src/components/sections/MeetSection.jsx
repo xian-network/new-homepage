@@ -11,7 +11,7 @@ function MeetSection() {
       </div>
       <div className="container">
         <div className="main-block">
-          <span className="meet__label">Token economics</span>
+          
           <h2>Meet $XIAN</h2>
           <p>
             $XIAN is the native gas&nbsp;&amp; governance asset of Xian—the first Python Layer‑1 blockchain. The genesis mint created{' '}
@@ -21,17 +21,7 @@ function MeetSection() {
         </div>
         <div className="meet__content">
           <div className="meet__column">
-            <div className="meet-card meet-card--visual">
-              <picture>
-                <source srcSet={assetPath('assets/img/meet-mob-2.png')} media="(max-width: 700px)" />
-                <source srcSet={assetPath('assets/img/meet-mob.png')} media="(max-width: 1180px)" />
-                <img src={assetPath('assets/img/meet.png')} alt="Xian validators and builders" loading="lazy" decoding="async" />
-              </picture>
-              <p className="meet-card__caption">
-                Builders, validators, and the treasury are aligned around the same asset, so growth in network activity translates directly into
-                value for the people maintaining it.
-              </p>
-            </div>
+            
             <div className="meet__stat-grid">
               <div className="meet-stat">
                 <span className="meet-stat__label">Genesis supply</span>
