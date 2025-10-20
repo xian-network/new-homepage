@@ -17,8 +17,9 @@ import { assetPath } from '../utils/assetPath.js';
 import styles from '../styles/main.module.scss';
 
 function PageWrapper() {
+  const pageWrapperClass = styles?.pageWrapper ? `${styles.pageWrapper} page__wrapper` : 'page__wrapper';
   return (
-    <div className={`${styles.pageWrapper} page__wrapper`}>
+    <div className={pageWrapperClass}>
       <div className="main-gradient-right">
         <img src={assetPath('assets/img/bg-main-gradient-right.png')} alt="alt" />
       </div>
