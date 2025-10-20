@@ -1,0 +1,43 @@
+:global(.join) {
+  margin-bottom: 4.5625rem;
+  margin-top: 10.0625rem
+}
+:global(.join .container .main-block) {
+  margin-bottom: 0rem
+}
+:global(.join .container .join-links) {
+  margin-top: 2.5rem;
+  display: flex;
+  row-gap: 1.25rem;
+  column-gap: 1.25rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+:global(.join .container .join-links a) {
+  --community-accent: #06e6cb;
+  --community-icon-foreground: #0b0b0f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+:global(.join .container .join-links a svg circle),
+:global(.join .container .join-links a svg path) {
+  transition: fill .2s ease;
+}
+:global(.join .container .join-links a:hover svg circle),
+:global(.join .container .join-links a:hover svg path:not(.community-icon-detail)) {
+  fill: var(--community-accent)
+}
+:global(.join .container .join-links a svg path.community-icon-detail) {
+  transition: fill .2s ease
+}
+:global(.join .container .join-links a:hover svg path.community-icon-detail) {
+  fill: var(--community-icon-foreground)
+}
+@media (max-width: 48em) {
+  :global(.join) {
+    margin-top: 3.75rem;
+    margin-bottom: 0rem
+  }
+}

@@ -1,0 +1,94 @@
+:global(.token-warning) {
+  margin: 1.5rem 0 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ff914a;
+  background: rgba(255, 145, 74, 0.1);
+  border-radius: 12px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+:global(.token-warning u) {
+  text-decoration-thickness: 2px;
+}
+:global(.sticky-buy-buttons) {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 9999;
+}
+:global(.sticky-button) {
+  background: #06e6cb;
+  color: #0a0a0e;
+  padding: 0.75rem 1.25rem;
+  border-radius: 2rem;
+  font-weight: 700;
+  text-align: center;
+  font-family: 'Roboto Mono', monospace;
+  box-shadow: 0 0 12px rgba(6, 230, 203, 0.4);
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+:global(.sticky-button:hover) {
+  transform: scale(1.05);
+}
+@media (max-width: 480px) {
+  :global(.sticky-buy-buttons) {
+    right: 0.75rem;
+    bottom: 0.75rem;
+  }
+
+  :global(.sticky-button) {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+:global(#xian-stats-bar) {
+  font-size: 0.85rem;
+  background: transparent;
+  border: 1px solid #333;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  color: #bbb;
+  
+}
+:global(.hero .bg-hero picture) { position: relative; }
+:global(.orbit-overlay) { pointer-events: none; }
+:global(.xian-stats-container) {
+  padding: 1.25rem;
+  color: white;
+  text-align: center;
+  font-family: "Roboto Mono", monospace;
+  margin-top: 2.5rem;
+      border: .0625rem solid rgba(255, 255, 255, .47);
+    background: rgba(11, 11, 15, .7);
+    backdrop-filter: blur(3.125rem);
+    -webkit-backdrop-filter: blur(3.125rem);
+  border-radius: 50px;
+}
+@media (max-width: 600px) {
+  :global(.xian-stats-container ul) {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+:global(#xian-stats-bar strong) {
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+:global(.center) {
+  text-align: center;
+}
+:global(.core .container .core-items .core-item span) {
+  color: #fff;
+}
+:global(select option) {
+  background: #0a0a0e;
+  color: #fff;
+}
+:global(.empower-block .empower-block .empower-block .lang-en) {
+  max-width: 40rem;
+}

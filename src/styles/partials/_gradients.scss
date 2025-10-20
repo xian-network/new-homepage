@@ -1,0 +1,44 @@
+:global(.main-gradient) {
+  position: absolute;
+  bottom: 100px;
+  left: 0;
+  z-index: -1
+}
+@media (max-width: 62em) {
+  :global(.main-gradient) {
+    top: 40%
+  }
+}
+@media (max-width: 62em) and (max-width: 30em) {
+  :global(.main-gradient) {
+    width: 100%;
+    top: 28%
+  }
+
+  :global(.main-gradient picture) {
+    display: block
+  }
+
+  :global(.main-gradient picture img) {
+    max-width: none;
+    width: 100%
+  }
+}
+:global(.main-gradient-right) {
+  display: none;
+  z-index: -1
+}
+@media (max-width: 30em) {
+  :global(.main-gradient-right) {
+    display: block;
+    position: absolute;
+    width: 100%;
+    top: 19%;
+    right: 0
+  }
+
+  :global(.main-gradient-right img) {
+    max-width: none;
+    width: 100%
+  }
+}

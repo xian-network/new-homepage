@@ -1,0 +1,118 @@
+/* The container background, border, etc. */
+:global(.contract-example) {
+  border: 1px solid rgba(255, 255, 255, 0.47);
+  background: rgba(11, 11, 15, 0.7);
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  border-radius: 50px;
+  padding: 2rem;
+}
+:global(.contract-example h3) {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 130%;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+:global(.contract-example pre) {
+  background: #0a0a0e;
+  border-radius: 8px;
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin: 0;
+}
+:global(.contract-example code) {
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  white-space: pre;
+  /* preserves spacing/indentation */
+}
+:global(.py-decorator) {
+  color: #933ffe;
+}
+:global(.py-keyword) {
+  color: #ff914a;
+}
+:global(.py-builtin) {
+  color: #06e6cb;
+}
+:global(.py-identifier) {
+  color: #ffffff;
+}
+:global(.py-string) {
+  color: #e7f300;
+}
+:global(.py-number) {
+  color: #00f335;
+}
+:global(.py-comment) {
+  color: #7a7a7a;
+}
+/* Simple style for language selector. */
+@media (max-width: 480px) {}
+:global(#language-select-mobile) {
+  margin-left: 0;
+}
+@media (min-width: 481px) {
+  :global(.top-desk) {
+    align-items: start;
+  }
+}
+:global(.contract-example) {
+  padding: 2rem;
+}
+:global(.contract-header) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+:global(.contract-header h3) {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: white;
+}
+:global(.toggle-code) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #06e6cb;
+  border-radius: 8px;
+  color: #06e6cb;
+  background: transparent;
+  font-family: "Roboto Mono", monospace;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+:global(.toggle-code:hover) {
+  background: rgba(6, 230, 203, 0.1);
+}
+:global(.toggle-code .chevron) {
+  transition: transform 0.3s ease;
+}
+:global(.toggle-code.open .chevron) {
+  transform: rotate(180deg);
+}
+:global(.code-block) {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.5s ease;
+}
+:global(.code-block.expanded) {
+  max-height: 1000px;
+  /* adjust if needed */
+}
+:global(.code-block pre) {
+  background: #0a0a0e;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: white;
+  overflow-x: auto;
+}

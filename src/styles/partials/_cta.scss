@@ -1,0 +1,83 @@
+:global(.cta) {
+  margin-top: 6rem;
+}
+:global(.cta .container .cta-block) {
+  padding: 3.875rem 2.5rem 3.1875rem 4.75rem;
+  color: #202020;
+  border-radius: 15px;
+  border: .0625rem solid rgba(255, 255, 255, .47);
+  background: #06e6cb;
+  backdrop-filter: blur(3.125rem);
+  -webkit-backdrop-filter: blur(3.125rem);
+}
+:global(.cta .container .cta-block h2) {
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 130%
+}
+:global(.cta .container .cta-block .buttons-wrap) {
+  margin-top: 3.375rem;
+  width: 100%;
+  justify-content: flex-start
+}
+:global(.cta .container .cta-block .buttons-wrap .main-button) {
+  width: auto;
+  max-width: none;
+  border-color: #202020;
+  color: #202020
+}
+:global(.cta .container .cta-block .buttons-wrap .main-button:first-child) {
+  background: #fff
+}
+@media (hover: hover) {
+  :global(.cta .container .cta-block .buttons-wrap .main-button:first-child:hover) {
+    background: rgba(0, 0, 0, 0)
+  }
+}
+@media (hover: none) {
+  :global(.cta .container .cta-block .buttons-wrap .main-button:first-child:active) {
+    background: rgba(0, 0, 0, 0)
+  }
+}
+@media (hover: hover) {
+  :global(.cta .container .cta-block .buttons-wrap .main-button:hover) {
+    background: #fff
+  }
+}
+@media (hover: none) {
+  :global(.cta .container .cta-block .buttons-wrap .main-button:active) {
+    background: #fff
+  }
+}
+@media (max-width: 48em) {
+  :global(.cta .container .cta-block .buttons-wrap) {
+    flex-direction: column;
+    align-items: center;
+    row-gap: 1rem
+  }
+
+  :global(.cta .container .cta-block .buttons-wrap .main-button) {
+    max-width: 18.75rem;
+    width: 100%
+  }
+}
+@media (max-width: 30em) {
+  :global(.cta .container .cta-block) {
+    padding: 1.25rem 1.25rem 2.25rem 1.25rem
+  }
+
+  :global(.cta .container .cta-block .buttons-wrap) {
+    margin-top: 1.375rem
+  }
+
+  :global(.cta .container .cta-block .buttons-wrap .main-button) {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem
+  }
+}
+@media (max-width: 30em) {
+  :global(.cta) {
+    margin-top: 3.75rem
+  }
+}
