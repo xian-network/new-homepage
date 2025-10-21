@@ -202,8 +202,8 @@ const createStarfield = (cw, ch, starBlurId) => {
     const img = imageEl || picture.querySelector('img');
     if (!img) return;
 
-    const cw = picture.clientWidth || 1432;
-    const ch = picture.clientHeight || 821;
+    const cw = picture.clientWidth || 1632;
+    const ch = picture.clientHeight || 1021;
 
     const src = img.currentSrc || img.src;
     const sizeKey = `${cw}x${ch}-s${sunPx()}`;
