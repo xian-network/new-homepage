@@ -1,6 +1,6 @@
 const LABELS = {
-  show: 'Show Code',
-  hide: 'Hide Code',
+  show: 'Show Demo',
+  hide: 'Hide Demo',
 };
 
 function findElements(button) {
@@ -9,8 +9,9 @@ function findElements(button) {
   }
 
   const container = button.closest('.contract-example');
-  const codeBlock = container ? container.querySelector('.code-block') : null;
-  return { container, codeBlock };
+  const contractBody = container ? container.querySelector('.contract-body') : null;
+  const codeBlock = contractBody ? contractBody.querySelector('.code-block') : null;
+  return { container, contractBody, codeBlock };
 }
 
 function updateLabel(button, expanded) {
@@ -26,13 +27,24 @@ function toggleCode(button) {
     return;
   }
 
-  const { codeBlock } = findElements(button);
-  if (!codeBlock) {
+  const { contractBody, codeBlock } = findElements(button);
+  if (!contractBody) {
     return;
   }
 
-  const expanded = !codeBlock.classList.contains('expanded');
-  codeBlock.classList.toggle('expanded', expanded);
+  const expanded = contractBody.hasAttribute('hidden');
+  if (expanded) {
+    contractBody.removeAttribute('hidden');
+    contractBody.setAttribute('aria-hidden', 'false');
+  } else {
+    contractBody.setAttribute('hidden', '');
+    contractBody.setAttribute('aria-hidden', 'true');
+  }
+
+  if (codeBlock) {
+    codeBlock.classList.toggle('expanded', expanded);
+  }
+
   button.classList.toggle('open', expanded);
   updateLabel(button, expanded);
 }
@@ -43,11 +55,21 @@ export function registerCodeToggle() {
 
   const button = document.getElementById('toggle-code');
   if (button instanceof HTMLElement) {
-    updateLabel(button, button.classList.contains('open'));
-    const { codeBlock } = findElements(button);
-    if (codeBlock && !codeBlock.id) {
-      codeBlock.id = 'contract-code-block';
-      button.setAttribute('aria-controls', codeBlock.id);
+    const { contractBody, codeBlock } = findElements(button);
+    const expanded = contractBody ? !contractBody.hasAttribute('hidden') : button.classList.contains('open');
+    button.classList.toggle('open', expanded);
+    updateLabel(button, expanded);
+
+    if (contractBody) {
+      if (!contractBody.id) {
+        contractBody.id = 'contract-demo-body';
+      }
+      contractBody.setAttribute('aria-hidden', expanded ? 'false' : 'true');
+      button.setAttribute('aria-controls', contractBody.id);
+    }
+
+    if (codeBlock) {
+      codeBlock.classList.toggle('expanded', expanded);
     }
   }
 
