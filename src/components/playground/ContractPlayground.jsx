@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-const CONTRACT_SOURCE = `import currency  # currency is the network's main token
+const CONTRACT_SOURCE = `#con_safe
+import currency  # currency is the network's main token
 
 safe = Hash(default_value=0)
 
@@ -25,6 +26,7 @@ def get_balance(account: str):
 `;
 
 const CONTRACT_CODE_HTML = `
+<span class="py-comment"># con_safe</span>
 <span class="py-keyword">import</span> <span class="py-builtin">currency</span><span class="py-comment">  # currency is the network's main token</span>
 
 <span class="py-identifier">safe</span> = <span class="py-builtin">Hash</span>(default_value=<span class="py-number">0</span>)
