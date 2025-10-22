@@ -142,6 +142,62 @@ function formatTime(timestamp) {
   }
 }
 
+function formatStateValue(value) {
+  if (value === undefined) {
+    return 'undefined';
+  }
+  return formatResult(value);
+}
+
+function summarizeStateChanges(previousSnapshot, nextSnapshot) {
+  const previousDriver = previousSnapshot?.driver ?? {};
+  const nextDriver = nextSnapshot?.driver ?? {};
+  const sections = [
+    { id: 'contract', label: 'Contract' },
+    { id: 'runtime', label: 'Runtime' },
+  ];
+  const changes = [];
+
+  sections.forEach(({ id, label }) => {
+    const prevSection = previousDriver[id] ?? {};
+    const nextSection = nextDriver[id] ?? {};
+    const keys = Array.from(new Set([...Object.keys(prevSection), ...Object.keys(nextSection)])).sort();
+
+    keys.forEach((key) => {
+      const hadPrev = Object.prototype.hasOwnProperty.call(prevSection, key);
+      const hasNext = Object.prototype.hasOwnProperty.call(nextSection, key);
+      const prevValue = hadPrev ? prevSection[key] : undefined;
+      const nextValue = hasNext ? nextSection[key] : undefined;
+
+      if (hadPrev && hasNext && Object.is(prevValue, nextValue)) {
+        return;
+      }
+
+      if (!hasNext) {
+        changes.push(`${label} ${key} removed (was ${formatStateValue(prevValue)})`);
+        return;
+      }
+
+      if (!hadPrev) {
+        changes.push(`${label} ${key} set to ${formatStateValue(nextValue)}`);
+        return;
+      }
+
+      let message = `${label} ${key}: ${formatStateValue(prevValue)} → ${formatStateValue(nextValue)}`;
+      if (typeof prevValue === 'number' && typeof nextValue === 'number') {
+        const delta = nextValue - prevValue;
+        if (delta !== 0) {
+          const sign = delta > 0 ? '+' : '';
+          message += ` (${sign}${delta})`;
+        }
+      }
+      changes.push(message);
+    });
+  });
+
+  return changes;
+}
+
 
 function cloneState(state) {
   if (state === null || state === undefined) {
@@ -164,6 +220,7 @@ function ContractPlayground() {
   const pendingRequestsRef = useRef(new Map());
   const hasLoadedRef = useRef(false);
   const baseStateRef = useRef(cloneState(example.baseState));
+  const stateSnapshotRef = useRef(cloneState(example.baseState));
   const logContainerRef = useRef(null);
 
   const appendLog = useCallback((entry) => {
@@ -263,7 +320,7 @@ function ContractPlayground() {
 
   const ensureInitialized = useCallback(async () => {
     if (hasLoadedRef.current) {
-      return stateSnapshot;
+      return stateSnapshotRef.current;
     }
     appendLog({ type: 'info', title: 'Initializing', message: 'Preparing Python sandbox…' });
     const { state } = await sendWorkerRequest('load', {
@@ -276,16 +333,20 @@ function ContractPlayground() {
     });
     hasLoadedRef.current = true;
     baseStateRef.current = cloneState(example.baseState);
+    const nextState = cloneState(state);
     setPyReady(true);
-    setStateSnapshot(state);
+    stateSnapshotRef.current = nextState;
+    setStateSnapshot(nextState);
     appendLog({ type: 'info', title: 'Sandbox ready', message: 'Python runtime loaded in your browser.' });
-    return state;
-  }, [appendLog, example, sendWorkerRequest, stateSnapshot]);
+    return nextState;
+  }, [appendLog, example, sendWorkerRequest]);
 
   useEffect(() => {
     setFunctionName(example.defaultFunction);
     setKwargsInput(example.defaultKwargs);
-    setStateSnapshot(cloneState(example.baseState));
+    const baseSnapshot = cloneState(example.baseState);
+    stateSnapshotRef.current = baseSnapshot;
+    setStateSnapshot(baseSnapshot);
     setLogs([]);
     hasLoadedRef.current = false;
     baseStateRef.current = cloneState(example.baseState);
@@ -327,18 +388,23 @@ function ContractPlayground() {
       setIsBusy(true);
       try {
         await ensureInitialized();
+        const previousState = stateSnapshotRef.current;
         const response = await sendWorkerRequest('call', {
           functionName: trimmedName,
           kwargs,
           context,
         });
-        setStateSnapshot(response.state);
+        const nextState = cloneState(response.state);
+        const stateChanges = summarizeStateChanges(previousState, nextState);
+        stateSnapshotRef.current = nextState;
+        setStateSnapshot(nextState);
         appendLog({
           type: 'success',
           title: `Called ${trimmedName}`,
           message: `Returned ${formatResult(response.result)}`,
           details: JSON.stringify({ kwargs, context }, null, 2),
           pythonLogs: response.logs || [],
+          stateChanges,
         });
       } catch (error) {
         appendLog({ type: 'error', title: `Call ${trimmedName} failed`, message: error.message || 'Execution error.' });
@@ -360,7 +426,9 @@ function ContractPlayground() {
         restoreState: cloneState(baseStateRef.current),
         initKwargs: example.initKwargs,
       });
-      setStateSnapshot(state);
+      const nextState = cloneState(state);
+      stateSnapshotRef.current = nextState;
+      setStateSnapshot(nextState);
       appendLog({ type: 'info', title: 'Sandbox reset', message: 'State restored to defaults.' });
     } catch (error) {
       appendLog({ type: 'error', title: 'Reset failed', message: error.message || 'Unable to reset sandbox.' });
@@ -464,6 +532,22 @@ function ContractPlayground() {
                   </div>
                   <p className="log-entry__message">{entry.message}</p>
                   {entry.details ? <pre className="log-entry__details">{entry.details}</pre> : null}
+                  {entry.stateChanges
+                    ? entry.stateChanges.length > 0
+                      ? (
+                          <details className="log-entry__state">
+                            <summary>State changes</summary>
+                            <ul>
+                              {entry.stateChanges.map((change, index) => (
+                                <li key={`${entry.id}-state-${index}`}>{change}</li>
+                              ))}
+                            </ul>
+                          </details>
+                        )
+                      : (
+                          <p className="log-entry__state-empty">No driver state changes.</p>
+                        )
+                    : null}
                   {entry.pythonLogs && entry.pythonLogs.length > 0 ? (
                     <details className="log-entry__python">
                       <summary>Runtime log</summary>

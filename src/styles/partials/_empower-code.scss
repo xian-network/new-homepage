@@ -310,6 +310,27 @@
   white-space: pre-wrap;
   word-break: break-word;
 }
+:global(.log-entry__state) {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+}
+:global(.log-entry__state summary) {
+  cursor: pointer;
+  color: #4ff3dd;
+}
+:global(.log-entry__state ul) {
+  margin: 0.35rem 0 0 1rem;
+  padding: 0;
+  list-style: disc;
+}
+:global(.log-entry__state li) {
+  margin-bottom: 0.25rem;
+}
+:global(.log-entry__state-empty) {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
 :global(.log-entry__python) {
   margin-top: 0.5rem;
   font-size: 0.8rem;
