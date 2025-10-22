@@ -1,4 +1,7 @@
-const TIMEOUT_MS = 3000;
+const TIMEOUT_DEFAULT_MS = 3000;
+const TIMEOUTS = {
+  load: 15000,
+};
 let pyodideReadyPromise = null;
 let pyodide = null;
 let runtimeApi = {};
@@ -362,7 +365,7 @@ function toJs(result) {
     return result;
   }
   if (typeof result.toJs === 'function') {
-    const converted = result.toJs({ create_proxies: false });
+    const converted = result.toJs({ create_proxies: false, dict_converter: Object.fromEntries });
     if (typeof result.destroy === 'function') {
       result.destroy();
     }
@@ -494,11 +497,12 @@ self.onmessage = function onmessage(event) {
     return;
   }
   let finished = false;
+  const timeoutMs = TIMEOUTS[type] || TIMEOUT_DEFAULT_MS;
   const timer = setTimeout(() => {
     if (!finished) {
       respondTimeout(id);
     }
-  }, TIMEOUT_MS);
+  }, timeoutMs);
 
   (async () => {
     try {
