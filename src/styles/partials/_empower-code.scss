@@ -19,6 +19,9 @@
   border-radius: 8px;
   padding: 1.5rem;
   overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
   margin: 0;
 }
 :global(.contract-example code) {
@@ -131,13 +134,19 @@
   font-size: 0.95rem;
   line-height: 1.4;
   color: white;
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 :global(.playground-grid) {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
   gap: 2.5rem;
   align-items: flex-start;
+}
+:global(.playground-grid > *) {
+  min-width: 0;
 }
 :global(.code-column .code-block) {
   margin-top: 0;
