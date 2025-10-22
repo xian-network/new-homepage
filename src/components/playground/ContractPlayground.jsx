@@ -69,6 +69,14 @@ const DEFAULT_BASE_STATE = {
     },
     state: [],
   },
+  driver: {
+    contract: {
+      'currency.balances:alice': 1000,
+      'currency.balances:con_safe': 0,
+      'currency.approvals:alice:con_safe': 1000,
+    },
+    runtime: {},
+  },
 };
 
 const EXAMPLE = {
@@ -541,11 +549,8 @@ function ContractPlayground() {
   }, [appendLog, ensureInitialized, example.id, example.initKwargs, isBusy, sendWorkerRequest]);
 
   const stateText = useMemo(() => {
-    if (!stateSnapshot) {
-      return 'State loads on first interaction.';
-    }
     try {
-      return JSON.stringify(stateSnapshot, null, 2);
+      return JSON.stringify(stateSnapshot ?? {}, null, 2);
     } catch (error) {
       return 'State unavailable.';
     }
@@ -665,6 +670,11 @@ function ContractPlayground() {
           <details className="state-viewer" open aria-live="polite">
             <summary>State</summary>
             <pre id="xp-state" role="status" aria-busy={!pyReady || isBusy}>{stateText}</pre>
+            {pyReady ? (
+              <p className="state-note">
+                Driver entries mirror the live engine&apos;s key-value store (<code>contract.variable:keys</code>).
+              </p>
+            ) : null}
             {!pyReady ? <p className="state-hint">Sandbox loads on first interaction.</p> : null}
           </details>
         </div>

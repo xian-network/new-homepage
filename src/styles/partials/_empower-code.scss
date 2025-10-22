@@ -343,6 +343,15 @@
   overflow: auto;
   white-space: pre;
 }
+:global(.state-note) {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+:global(.state-note code) {
+  font-family: 'Roboto Mono', monospace;
+  color: #06e6cb;
+}
 :global(.state-hint) {
   margin-top: 0.75rem;
   font-size: 0.8rem;

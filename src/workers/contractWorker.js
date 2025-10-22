@@ -45,12 +45,59 @@ SAFE_BUILTINS = {
 };
 
 runtime_logs = []
+driver_contract_entries = {}
+driver_runtime_entries = {}
+
 
 def _print(*args, **kwargs):
     message = ' '.join(str(a) for a in args)
     runtime_logs.append({'type': 'print', 'message': message})
 
+
 SAFE_BUILTINS['print'] = _print
+
+
+def _driver_reset():
+    driver_contract_entries.clear()
+    driver_runtime_entries.clear()
+
+
+def _driver_contract_key(contract, variable, key=None):
+    base = f"{contract}.{variable}"
+    if key in (None, ''):
+        return base
+    if isinstance(key, (list, tuple)):
+        parts = [str(part) for part in key]
+    else:
+        parts = [str(key)]
+    suffix = ':'.join(parts)
+    return f"{base}:{suffix}"
+
+
+def _driver_clear_contract_var(contract, variable):
+    prefix = f"{contract}.{variable}"
+    targets = [k for k in list(driver_contract_entries.keys()) if k == prefix or k.startswith(f"{prefix}:")]
+    for target in targets:
+        driver_contract_entries.pop(target, None)
+
+
+def _driver_set_contract(contract, variable, key, value):
+    full_key = _driver_contract_key(contract, variable, key)
+    if value is None:
+        driver_contract_entries.pop(full_key, None)
+    else:
+        driver_contract_entries[full_key] = to_native(value)
+
+
+def _driver_set_runtime(name, key, value):
+    if key in (None, ''):
+        full_key = name
+    else:
+        full_key = f"{name}:{key}"
+    if value is None:
+        driver_runtime_entries.pop(full_key, None)
+    else:
+        driver_runtime_entries[full_key] = to_native(value)
 
 def to_native(value):
     if value is None:
@@ -74,31 +121,63 @@ def to_native(value):
     return value
 
 class State(dict):
+    def __setitem__(self, key, value):
+        super().__setitem__(key, value)
+        _driver_set_runtime('__state__', key, value)
+
+    def __delitem__(self, key):
+        super().__delitem__(key)
+        _driver_set_runtime('__state__', key, None)
+
+    def clear(self):
+        keys = list(self.keys())
+        super().clear()
+        for key in keys:
+            _driver_set_runtime('__state__', key, None)
+
     def get(self, key, default=None):
         return super().get(key, default)
 
     def set(self, key, value):
-        self[key] = value
+        self.__setitem__(key, value)
 
 class Hash:
     def __init__(self, default_value=None):
         self._storage = {}
         self.default_value = default_value
 
+    def _normalize_key(self, key):
+        if isinstance(key, (list, tuple)):
+            return ':'.join(str(part) for part in key)
+        return str(key)
+
     def __getitem__(self, key):
-        return self._storage.get(key, self.default_value)
+        normalized = self._normalize_key(key)
+        return self._storage.get(normalized, self.default_value)
 
     def __setitem__(self, key, value):
-        self._storage[key] = value
+        normalized = self._normalize_key(key)
+        self._storage[normalized] = value
+        variable_name = getattr(self, '__xp_name__', 'hash')
+        _driver_set_contract(current_name, variable_name, normalized if normalized != '' else None, value)
 
     def __delitem__(self, key):
-        del self._storage[key]
+        normalized = self._normalize_key(key)
+        if normalized in self._storage:
+            del self._storage[normalized]
+        variable_name = getattr(self, '__xp_name__', 'hash')
+        _driver_set_contract(current_name, variable_name, normalized if normalized != '' else None, None)
 
     def items(self):
         return self._storage.items()
 
     def clear(self):
+        keys = list(self._storage.keys())
         self._storage.clear()
+        variable_name = getattr(self, '__xp_name__', 'hash')
+        _driver_clear_contract_var(current_name, variable_name)
+        for key in keys:
+            _driver_set_contract(current_name, variable_name, key if key != '' else None, None)
 
     def snapshot(self):
         return {
@@ -108,12 +187,15 @@ class Hash:
         }
 
     def restore(self, data):
-        self._storage.clear()
+        self.clear()
         if not data:
             return
         self.default_value = data.get('default', self.default_value)
         for key, value in data.get('items', []):
-            self._storage[key] = value
+            normalized = self._normalize_key(key)
+            self._storage[normalized] = value
+            variable_name = getattr(self, '__xp_name__', 'hash')
+            _driver_set_contract(current_name, variable_name, normalized if normalized != '' else None, value)
 
 class CurrencyStub:
     def __init__(self):
@@ -122,6 +204,23 @@ class CurrencyStub:
     def reset(self):
         self.balances = {}
         self.approvals = {}
+        _driver_clear_contract_var('currency', 'balances')
+        _driver_clear_contract_var('currency', 'approvals')
+
+    def _set_balance(self, account, amount):
+        if amount is None:
+            self.balances.pop(account, None)
+        else:
+            self.balances[account] = amount
+        _driver_set_contract('currency', 'balances', account, amount)
+
+    def _set_approval(self, owner, spender, amount):
+        key = (owner, spender)
+        if amount is None:
+            self.approvals.pop(key, None)
+        else:
+            self.approvals[key] = amount
+        _driver_set_contract('currency', 'approvals', key, amount)
 
     def snapshot(self):
         return {
@@ -134,32 +233,32 @@ class CurrencyStub:
         if not snap:
             return
         for account, amount in snap.get('balances', []):
-            self.balances[account] = amount
+            self._set_balance(account, amount)
         for pair, amount in snap.get('approvals', []):
             if isinstance(pair, (list, tuple)) and len(pair) == 2:
-                self.approvals[(pair[0], pair[1])] = amount
+                self._set_approval(pair[0], pair[1], amount)
 
     def _ensure_account(self, account):
         if account not in self.balances:
-            self.balances[account] = 0
+            self._set_balance(account, 0)
 
     def balance_of(self, account):
         return self.balances.get(account, 0)
 
     def mint(self, amount: float, to: str):
         self._ensure_account(to)
-        self.balances[to] += amount
+        self._set_balance(to, self.balances[to] + amount)
 
     def approve(self, amount: float, to: str, signer: str):
-        self.approvals[(signer, to)] = amount
+        self._set_approval(signer, to, amount)
 
     def transfer(self, amount: float, to: str):
         source = ctx.this
         if self.balances.get(source, 0) < amount:
             raise AssertionError('currency: insufficient funds')
-        self.balances[source] -= amount
+        self._set_balance(source, self.balances[source] - amount)
         self._ensure_account(to)
-        self.balances[to] += amount
+        self._set_balance(to, self.balances[to] + amount)
 
     def transfer_from(self, amount: float, to: str, main_account: str):
         spender = ctx.this
@@ -168,10 +267,10 @@ class CurrencyStub:
             raise AssertionError('not approved')
         if self.balances.get(main_account, 0) < amount:
             raise AssertionError('insufficient funds')
-        self.approvals[(main_account, spender)] = allowed - amount
-        self.balances[main_account] -= amount
+        self._set_approval(main_account, spender, allowed - amount)
+        self._set_balance(main_account, self.balances[main_account] - amount)
         self._ensure_account(to)
-        self.balances[to] += amount
+        self._set_balance(to, self.balances[to] + amount)
 
 currency = CurrencyStub()
 ctx = SimpleNamespace(caller='alice', signer='alice', this='con_safe')
@@ -229,6 +328,10 @@ def serialize_state():
             'currency': currency.snapshot(),
             'state': [[key, value] for key, value in state.items()],
         },
+        'driver': {
+            'contract': dict(sorted(driver_contract_entries.items())),
+            'runtime': dict(sorted(driver_runtime_entries.items())),
+        },
     }
     for name, value in contract_globals.items():
         if isinstance(value, Hash):
@@ -240,6 +343,7 @@ def restore_state(snapshot):
     snapshot = to_native(snapshot)
     if not snapshot or not isinstance(snapshot, dict):
         return
+    _driver_reset()
     contract_snapshot = snapshot.get('contract', {})
     for name, data in contract_snapshot.items():
         target = contract_globals.get(name)
@@ -267,6 +371,7 @@ def runtime_load(source, contract_name, snapshot=None, init_kwargs=None):
     exports.clear()
     constructors.clear()
     contract_globals.clear()
+    _driver_reset()
     state.clear()
     reset_logs()
     currency.reset()
