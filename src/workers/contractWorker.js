@@ -49,6 +49,27 @@ def _print(*args, **kwargs):
 
 SAFE_BUILTINS['print'] = _print
 
+def to_native(value):
+    if value is None:
+        return None
+    if isinstance(value, (str, int, float, bool)):
+        return value
+    if hasattr(value, 'to_py'):
+        try:
+            value = value.to_py()
+        except TypeError:
+            try:
+                value = value.to_py(dict_converter=dict)
+            except TypeError:
+                pass
+    if isinstance(value, dict):
+        return {key: to_native(val) for key, val in value.items()}
+    if isinstance(value, list):
+        return [to_native(item) for item in value]
+    if isinstance(value, tuple):
+        return tuple(to_native(item) for item in value)
+    return value
+
 class State(dict):
     def get(self, key, default=None):
         return super().get(key, default)
@@ -213,7 +234,8 @@ def serialize_state():
 
 
 def restore_state(snapshot):
-    if not snapshot:
+    snapshot = to_native(snapshot)
+    if not snapshot or not isinstance(snapshot, dict):
         return
     contract_snapshot = snapshot.get('contract', {})
     for name, data in contract_snapshot.items():
@@ -228,8 +250,7 @@ def restore_state(snapshot):
 
 
 def prepare_context(payload=None):
-    if payload is None:
-        payload = {}
+    payload = to_native(payload) or {}
     ctx.caller = payload.get('caller', 'alice')
     ctx.signer = payload.get('signer', ctx.caller)
     ctx.this = payload.get('this', current_name)
@@ -239,7 +260,7 @@ def runtime_load(source, contract_name, snapshot=None, init_kwargs=None):
     global current_source, current_name, init_kwargs_cache
     current_source = source
     current_name = contract_name or 'contract'
-    init_kwargs_cache = init_kwargs or {}
+    init_kwargs_cache = to_native(init_kwargs) or {}
     exports.clear()
     constructors.clear()
     contract_globals.clear()
@@ -274,8 +295,8 @@ def runtime_load(source, contract_name, snapshot=None, init_kwargs=None):
 
 def runtime_call(fn_name, kwargs=None, context=None):
     reset_logs()
-    kwargs = kwargs or {}
-    context = context or {}
+    kwargs = to_native(kwargs) or {}
+    context = to_native(context) or {}
     prepare_context(context)
     if fn_name not in exports:
         raise KeyError(f'Function {fn_name} is not exported')
