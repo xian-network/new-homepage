@@ -557,14 +557,14 @@ function ContractPlayground() {
         <h3>Python Contracts in Action</h3>
         <div className="contract-toolbar">
           <button
-            className="toggle-code"
+            className="toggle-code open"
             id="toggle-code"
             type="button"
             aria-haspopup="true"
-            aria-expanded="false"
+            aria-expanded="true"
             onClick={(event) => window.toggleCode?.(event.currentTarget)}
           >
-            <span>Show Code</span>
+            <span>Hide Code</span>
             <svg className="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
               <path d="M6 9l6 6 6-6" stroke="#06e6cb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -583,7 +583,7 @@ function ContractPlayground() {
       <p className="contract-helper">Runs in your browser—no wallet needed.</p>
       <div className="playground-grid">
         <div className="code-column">
-          <div className="code-block">
+          <div className="code-block expanded">
             <pre id="xp-editor(ro)" tabIndex={0} aria-label="Contract code (read only)">
               <code className="language-python" dangerouslySetInnerHTML={{ __html: example.codeHtml }} />
             </pre>

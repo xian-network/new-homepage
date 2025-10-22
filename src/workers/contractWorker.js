@@ -152,6 +152,25 @@ class CurrencyStub:
 currency = CurrencyStub()
 ctx = SimpleNamespace(caller='alice', signer='alice', this='con_safe')
 
+
+def _import(name, globals=None, locals=None, fromlist=(), level=0):
+    if level not in (0, None):
+        raise ImportError('relative imports are not allowed')
+
+    target = (name or '').split('.', 1)[0]
+    allowed = {
+        'currency': currency,
+        'math': math,
+    }
+
+    if target in allowed:
+        return allowed[target]
+
+    raise ImportError(f"import of '{name}' is not permitted")
+
+
+SAFE_BUILTINS['__import__'] = _import
+
 exports = {}
 constructors = []
 state = State()
