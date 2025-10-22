@@ -92,60 +92,7 @@ const EXAMPLE = {
   initKwargs: {},
 };
 
-const SHARE_PREFIX = '#xp=';
 const DOC_URL = 'https://docs.xian.org/tutorials/your_first_smart_contract';
-
-function safeBtoa(data) {
-  if (typeof window === 'undefined') {
-    return '';
-  }
-  const utf8 = new TextEncoder().encode(data);
-  let binary = '';
-  utf8.forEach((byte) => {
-    binary += String.fromCharCode(byte);
-  });
-  return btoa(binary);
-}
-
-function safeAtob(data) {
-  if (typeof window === 'undefined') {
-    return null;
-  }
-  const binary = atob(data);
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i += 1) {
-    bytes[i] = binary.charCodeAt(i);
-  }
-  return new TextDecoder().decode(bytes);
-}
-
-function encodeSharePayload(payload) {
-  try {
-    return safeBtoa(JSON.stringify(payload));
-  } catch (error) {
-    return '';
-  }
-}
-
-function decodeSharePayload(hash) {
-  if (typeof hash !== 'string' || !hash.startsWith(SHARE_PREFIX)) {
-    return null;
-  }
-  const encoded = hash.slice(SHARE_PREFIX.length);
-  if (!encoded) {
-    return null;
-  }
-  try {
-    const json = safeAtob(encoded);
-    if (!json) {
-      return null;
-    }
-    const data = JSON.parse(json);
-    return typeof data === 'object' && data !== null ? data : null;
-  } catch (error) {
-    return null;
-  }
-}
 
 function splitKwargsInput(raw, defaults) {
   const context = { ...defaults };
@@ -193,30 +140,6 @@ function formatTime(timestamp) {
   }
 }
 
-async function copyToClipboard(text) {
-  if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
-    await navigator.clipboard.writeText(text);
-    return true;
-  }
-  if (typeof document === 'undefined') {
-    return false;
-  }
-  const textarea = document.createElement('textarea');
-  textarea.value = text;
-  textarea.setAttribute('readonly', '');
-  textarea.style.position = 'absolute';
-  textarea.style.left = '-9999px';
-  document.body.appendChild(textarea);
-  textarea.select();
-  let copied = false;
-  try {
-    copied = document.execCommand('copy');
-  } catch (error) {
-    copied = false;
-  }
-  document.body.removeChild(textarea);
-  return copied;
-}
 
 function cloneState(state) {
   if (state === null || state === undefined) {
@@ -232,7 +155,6 @@ function ContractPlayground() {
   const [stateSnapshot, setStateSnapshot] = useState(() => cloneState(example.baseState));
   const [logs, setLogs] = useState([]);
   const [isBusy, setIsBusy] = useState(false);
-  const [autoLoadingShare, setAutoLoadingShare] = useState(false);
   const [pyReady, setPyReady] = useState(false);
 
   const workerRef = useRef(null);
@@ -240,7 +162,6 @@ function ContractPlayground() {
   const pendingRequestsRef = useRef(new Map());
   const hasLoadedRef = useRef(false);
   const baseStateRef = useRef(cloneState(example.baseState));
-  const sharePayloadRef = useRef(null);
 
   const appendLog = useCallback((entry) => {
     setLogs((previous) => {
@@ -333,20 +254,17 @@ function ContractPlayground() {
     if (hasLoadedRef.current) {
       return stateSnapshot;
     }
-    const restoreState = sharePayloadRef.current?.state ?? cloneState(example.baseState);
-    const initKwargs = sharePayloadRef.current?.init_kwargs ?? example.initKwargs ?? {};
     appendLog({ type: 'info', title: 'Initializing', message: 'Preparing Python sandbox…' });
     const { state } = await sendWorkerRequest('load', {
       exampleId: example.id,
       code: example.code,
       contractName: example.contractName,
       baseState: cloneState(example.baseState),
-      restoreState,
-      initKwargs,
+      restoreState: cloneState(example.baseState),
+      initKwargs: example.initKwargs ?? {},
     });
     hasLoadedRef.current = true;
     baseStateRef.current = cloneState(example.baseState);
-    sharePayloadRef.current = null;
     setPyReady(true);
     setStateSnapshot(state);
     appendLog({ type: 'info', title: 'Sandbox ready', message: 'Python runtime loaded in your browser.' });
@@ -360,56 +278,7 @@ function ContractPlayground() {
     setLogs([]);
     hasLoadedRef.current = false;
     baseStateRef.current = cloneState(example.baseState);
-    sharePayloadRef.current = null;
   }, [example]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return undefined;
-    }
-    const payload = decodeSharePayload(window.location.hash);
-    if (payload && payload.exampleId === example.id) {
-      sharePayloadRef.current = payload;
-      setAutoLoadingShare(true);
-    }
-    const handleHashChange = () => {
-      const updated = decodeSharePayload(window.location.hash);
-      if (updated && updated.exampleId === example.id) {
-        sharePayloadRef.current = updated;
-        setAutoLoadingShare(true);
-      }
-    };
-    window.addEventListener('hashchange', handleHashChange);
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-    };
-  }, [example.id]);
-
-  useEffect(() => {
-    if (!autoLoadingShare) {
-      return undefined;
-    }
-    let cancelled = false;
-    (async () => {
-      try {
-        await ensureInitialized();
-        if (!cancelled) {
-          appendLog({ type: 'info', title: 'Share loaded', message: 'State restored from shared link.' });
-        }
-      } catch (error) {
-        if (!cancelled) {
-          appendLog({ type: 'error', title: 'Share load failed', message: error.message || 'Unable to load shared state.' });
-        }
-      } finally {
-        if (!cancelled) {
-          setAutoLoadingShare(false);
-        }
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [appendLog, autoLoadingShare, ensureInitialized]);
 
   useEffect(
     () => () => {
@@ -469,23 +338,6 @@ function ContractPlayground() {
     [appendLog, ensureInitialized, example.defaultContext, functionName, isBusy, kwargsInput, sendWorkerRequest],
   );
 
-  const handleReadState = useCallback(async () => {
-    if (isBusy) {
-      return;
-    }
-    setIsBusy(true);
-    try {
-      await ensureInitialized();
-      const response = await sendWorkerRequest('read_state', {});
-      setStateSnapshot(response.state);
-      appendLog({ type: 'info', title: 'State refreshed', message: 'Latest sandbox state loaded.' });
-    } catch (error) {
-      appendLog({ type: 'error', title: 'Read state failed', message: error.message || 'Unable to read state.' });
-    } finally {
-      setIsBusy(false);
-    }
-  }, [appendLog, ensureInitialized, isBusy, sendWorkerRequest]);
-
   const handleReset = useCallback(async () => {
     if (isBusy) {
       return;
@@ -499,9 +351,6 @@ function ContractPlayground() {
       });
       setStateSnapshot(state);
       appendLog({ type: 'info', title: 'Sandbox reset', message: 'State restored to defaults.' });
-      if (typeof window !== 'undefined') {
-        window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
-      }
     } catch (error) {
       appendLog({ type: 'error', title: 'Reset failed', message: error.message || 'Unable to reset sandbox.' });
     } finally {
@@ -509,48 +358,10 @@ function ContractPlayground() {
     }
   }, [appendLog, ensureInitialized, example.initKwargs, isBusy, sendWorkerRequest]);
 
-  const handleShare = useCallback(async () => {
-    if (isBusy) {
-      return;
-    }
-    if (typeof window === 'undefined') {
-      return;
-    }
-    setIsBusy(true);
-    try {
-      await ensureInitialized();
-      const { state } = await sendWorkerRequest('read_state', {});
-      setStateSnapshot(state);
-      const payload = {
-        exampleId: example.id,
-        state,
-      };
-      if (example.initKwargs && Object.keys(example.initKwargs).length > 0) {
-        payload.init_kwargs = example.initKwargs;
-      }
-      const encoded = encodeSharePayload(payload);
-      if (!encoded) {
-        throw new Error('Unable to encode share payload.');
-      }
-      const base = `${window.location.origin}${window.location.pathname}${window.location.search}`;
-      const shareUrl = `${base}${SHARE_PREFIX}${encoded}`;
-      const copied = await copyToClipboard(shareUrl);
-      if (!copied) {
-        appendLog({ type: 'info', title: 'Share link', message: 'Copy this link manually:', details: shareUrl });
-      } else {
-        appendLog({ type: 'success', title: 'Share link copied', message: 'URL saved to your clipboard.' });
-      }
-      window.history.replaceState(null, '', shareUrl);
-    } catch (error) {
-      appendLog({ type: 'error', title: 'Share failed', message: error.message || 'Unable to create share link.' });
-    } finally {
-      setIsBusy(false);
-    }
-  }, [appendLog, ensureInitialized, example.id, example.initKwargs, isBusy, sendWorkerRequest]);
-
   const stateText = useMemo(() => {
     try {
-      return JSON.stringify(stateSnapshot ?? {}, null, 2);
+      const driverState = stateSnapshot?.driver ?? {};
+      return JSON.stringify(driverState, null, 2);
     } catch (error) {
       return 'State unavailable.';
     }
@@ -573,15 +384,6 @@ function ContractPlayground() {
             <svg className="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
               <path d="M6 9l6 6 6-6" stroke="#06e6cb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </button>
-          <button
-            type="button"
-            className="xp-button"
-            id="xp-btn-share"
-            onClick={handleShare}
-            disabled={isBusy}
-          >
-            Share
           </button>
         </div>
       </div>
@@ -622,9 +424,6 @@ function ContractPlayground() {
             <div className="playground-actions">
               <button type="submit" id="xp-btn-call" className="xp-button xp-button--primary" disabled={isBusy}>
                 Call
-              </button>
-              <button type="button" id="xp-btn-read" className="xp-button" onClick={handleReadState} disabled={isBusy}>
-                Read State
               </button>
               <button type="button" id="xp-btn-reset" className="xp-button" onClick={handleReset} disabled={isBusy}>
                 Reset
@@ -673,7 +472,7 @@ function ContractPlayground() {
             <pre id="xp-state" role="status" aria-busy={!pyReady || isBusy}>{stateText}</pre>
             {pyReady ? (
               <p className="state-note">
-                Driver entries mirror the live engine&apos;s key-value store (<code>contract.variable:keys</code>).
+                Driver storage entries mirror the live engine&apos;s key-value store (<code>contract.variable:keys</code>) and are shown here.
               </p>
             ) : null}
             {!pyReady ? <p className="state-hint">Sandbox loads on first interaction.</p> : null}
