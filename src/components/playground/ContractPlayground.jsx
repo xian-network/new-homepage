@@ -164,6 +164,7 @@ function ContractPlayground() {
   const pendingRequestsRef = useRef(new Map());
   const hasLoadedRef = useRef(false);
   const baseStateRef = useRef(cloneState(example.baseState));
+  const logContainerRef = useRef(null);
 
   const appendLog = useCallback((entry) => {
     setLogs((previous) => {
@@ -176,6 +177,14 @@ function ContractPlayground() {
       return next;
     });
   }, []);
+
+  useEffect(() => {
+    const node = logContainerRef.current;
+    if (!node) {
+      return;
+    }
+    node.scrollTop = node.scrollHeight;
+  }, [logs]);
 
   const resetWorker = useCallback((reason) => {
     if (workerRef.current) {
@@ -443,7 +452,7 @@ function ContractPlayground() {
               </a>
             </div>
           </form>
-          <div id="xp-log" role="log" aria-live="polite">
+          <div id="xp-log" role="log" aria-live="polite" ref={logContainerRef}>
             {logs.length === 0 ? (
               <p className="log-placeholder">Interact with the contract to see output.</p>
             ) : (
