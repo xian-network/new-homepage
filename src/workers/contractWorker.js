@@ -263,12 +263,13 @@ class CurrencyStub:
     def transfer_from(self, amount: float, to: str, main_account: str):
         spender = ctx.this
         allowed = self.approvals.get((main_account, spender), 0)
+        balance = self.balances.get(main_account, 0)
+        if balance < amount:
+            raise AssertionError('insufficient funds')
         if allowed < amount:
             raise AssertionError('not approved')
-        if self.balances.get(main_account, 0) < amount:
-            raise AssertionError('insufficient funds')
         self._set_approval(main_account, spender, allowed - amount)
-        self._set_balance(main_account, self.balances[main_account] - amount)
+        self._set_balance(main_account, balance - amount)
         self._ensure_account(to)
         self._set_balance(to, self.balances[to] + amount)
 
