@@ -1,24 +1,5 @@
 import { assetPath } from '../../utils/assetPath.js';
-
-const CONTRACT_CODE = `
-<span class="py-keyword">import</span> <span class="py-builtin">currency</span><span class="py-comment">  # currency is the main token/currency of the network</span>
-<span class="py-builtin">safe</span> = <span class="py-builtin">Hash</span>(default_value=<span class="py-number">0</span>)
-
-<span class="py-decorator">@export</span>
-<span class="py-keyword">def</span> <span class="py-identifier">deposit</span>(amount: <span class="py-builtin">float</span>):
-    <span class="py-builtin">currency</span>.<span class="py-identifier">transfer_from</span>(
-        amount=amount,
-        to=<span class="py-builtin">ctx</span>.<span class="py-identifier">this</span>,
-        main_account=<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>
-    )
-    <span class="py-builtin">safe</span>[<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>] += amount
-
-<span class="py-decorator">@export</span>
-<span class="py-keyword">def</span> <span class="py-identifier">withdraw</span>(amount: <span class="py-builtin">float</span>):
-    <span class="py-keyword">assert</span> <span class="py-builtin">safe</span>[<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>] >= amount, <span class="py-string">'insufficient funds'</span>
-    <span class="py-builtin">currency</span>.<span class="py-identifier">transfer</span>(amount=amount, to=<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>)
-    <span class="py-builtin">safe</span>[<span class="py-builtin">ctx</span>.<span class="py-identifier">caller</span>] -= amount
-`;
+import ContractPlayground from '../playground/ContractPlayground.jsx';
 
 function EmpowerSection() {
   return (
@@ -51,29 +32,7 @@ function EmpowerSection() {
         <h2 style={{ marginTop: '6rem', marginBottom: '2rem', textAlign: 'center' }}>
           The Python blockchain for real smart contracts
         </h2>
-        <div className="contract-example">
-          <div className="contract-header">
-            <h3>Python Contracts in Action</h3>
-            <button
-              className="toggle-code"
-              id="toggle-code"
-              type="button"
-              aria-haspopup="true"
-              aria-expanded="false"
-              onClick={(event) => window.toggleCode?.(event.currentTarget)}
-            >
-              <span>Show Code</span>
-              <svg className="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9l6 6 6-6" stroke="#06e6cb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </div>
-          <div className="code-block">
-            <pre>
-              <code className="language-python" dangerouslySetInnerHTML={{ __html: CONTRACT_CODE }} />
-            </pre>
-          </div>
-        </div>
+        <ContractPlayground />
       </div>
     </section>
   );
