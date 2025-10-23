@@ -1,80 +1,128 @@
-function GetStartedSection() {
+const DEFAULT_STEPS = [
+  {
+    title: 'Install Xian Wallet',
+    description: 'Download the browser extension to manage your assets on Xian.',
+    links: [
+      {
+        label: 'Get Wallet',
+        href: '#wallet-modal',
+        onClick: (event) => {
+          event.preventDefault();
+          window.openWalletModal?.();
+        },
+      },
+    ],
+  },
+  {
+    title: 'Explore 20% Staking Yields',
+    description: 'Check DEX opportunities with high yields on Xian.',
+    links: [
+      {
+        label: 'View Staking',
+        href: 'https://dex.xian.org/#staking',
+        target: '_blank',
+        rel: 'noreferrer',
+      },
+    ],
+  },
+  {
+    title: 'Bridge Funds From Solana',
+    description: 'Securely move your assets into the Xian chain.',
+    links: [
+      {
+        label: 'Use Bridge',
+        href: 'https://bridge.xian.org',
+        target: '_blank',
+        rel: 'noreferrer',
+      },
+    ],
+  },
+  {
+    title: 'Buy $XIAN',
+    description: 'Purchase XIAN from multiple exchanges and trading platforms.',
+    links: [
+      {
+        label: 'View Exchanges',
+        href: '#exchange-modal',
+        onClick: (event) => {
+          event.preventDefault();
+          window.openExchangeModal?.();
+        },
+      },
+    ],
+  },
+  {
+    title: 'Join the Community',
+    description: 'Connect with others on Telegram & Discord.',
+    links: [
+      {
+        label: 'Join Us',
+        href: '#social',
+      },
+    ],
+  },
+  {
+    title: 'Stay Ahead with Updates',
+    description: 'Follow news and ecosystem announcements to stay informed.',
+    links: [
+      {
+        label: 'Visit X',
+        href: 'https://x.com/xian_network/',
+        target: '_blank',
+        rel: 'noreferrer',
+      },
+    ],
+  },
+];
+
+function GetStartedSection({
+  id = 'get-started',
+  title = 'Getting Started',
+  description = 'Take your first steps into the Xian ecosystem in just a few clicks.',
+  steps = DEFAULT_STEPS,
+}) {
   return (
-    <section className="get-started" id="get-started">
+    <section className="get-started" id={id}>
       <div className="container">
         <div className="main-block">
-          <h2>Getting Started</h2>
-          <p>Take your first steps into the Xian ecosystem in just a few clicks.</p>
+          <h2>{title}</h2>
+          {description ? <p>{description}</p> : null}
         </div>
         <div className="steps-grid">
-          <div className="step-card">
-            <span className="shine" />
-            <div className="step-number">1</div>
-            <h3>Install Xian Wallet</h3>
-            <p>Download the browser extension to manage your assets on Xian.</p>
-            <a
-              className="main-button"
-              href="#wallet-modal"
-              onClick={(event) => {
-                event.preventDefault();
-                window.openWalletModal?.();
-              }}
-            >
-              Get&nbsp;Wallet
-            </a>
-          </div>
-          <div className="step-card">
-            <span className="shine" />
-            <div className="step-number">2</div>
-            <h3>Explore 20% Staking Yields</h3>
-            <p>Check DEX opportunities with high yields on Xian.</p>
-            <a className="main-button" href="https://dex.xian.org/#staking" target="_blank" rel="noreferrer">
-              View Staking
-            </a>
-          </div>
-          <div className="step-card">
-            <span className="shine" />
-            <div className="step-number">3</div>
-            <h3>Bridge Funds From Solana</h3>
-            <p>Securely move your assets into the Xian chain.</p>
-            <a href="https://bridge.xian.org" className="main-button" target="_blank" rel="noreferrer">
-              Use Bridge
-            </a>
-          </div>
-          <div className="step-card">
-            <span className="shine" />
-            <div className="step-number">4</div>
-            <h3>Buy $XIAN</h3>
-            <p>Purchase XIAN from multiple exchanges and trading platforms.</p>
-            <a
-              className="main-button"
-              href="#exchange-modal"
-              onClick={(event) => {
-                event.preventDefault();
-                window.openExchangeModal?.();
-              }}
-            >
-              View Exchanges
-            </a>
-          </div>
-          <div className="step-card">
-            <span className="shine" />
-            <div className="step-number">5</div>
-            <h3>Join the Community</h3>
-            <p>Connect with others on Telegram &amp; Discord.</p>
-            <a href="#social" className="main-button">
-              Join Us
-            </a>
-          </div>
-          <div className="step-card">
-            <span className="shine" />
-            <div className="step-number">6</div>
-            <h3>Stay Ahead with Updates</h3>
-            <p>Follow news and ecosystem announcements to stay informed.</p>
-            <a href="https://x.com/xian_network/" target="_blank" rel="noreferrer" className="main-button">
-              Visit X
-            </a>
-          </div>
+          {steps.map((step, index) => (
+            <div className="step-card" key={`${step.title}-${index}`}>
+              <span className="shine" />
+              <div className="step-number">{index + 1}</div>
+              <h3>{step.title}</h3>
+              {Array.isArray(step.description)
+                ? step.description.map((paragraph, paragraphIndex) => (
+                    <p key={`desc-${paragraphIndex}`}>{paragraph}</p>
+                  ))
+                : step.description
+                ? <p>{step.description}</p>
+                : null}
+              {step.links?.length ? (
+                <div className="step-links" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                  {step.links.map((link) => (
+                    <a
+                      key={link.label}
+                      className={link.className || 'main-button'}
+                      href={link.href || '#'}
+                      target={link.target}
+                      rel={link.rel}
+                      onClick={(event) => {
+                        if (link.onClick) {
+                          link.onClick(event);
+                        }
+                      }}
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          ))}
         </div>
       </div>
     </section>

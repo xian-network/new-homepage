@@ -1,6 +1,73 @@
 import { assetPath } from '../../utils/assetPath.js';
 
-function HeroSection() {
+const HERO_CONTENT = {
+  home: {
+    title: 'Two fast tracks into the Python Layer‑1.',
+    description:
+      'Xian splits the experience for builders and users. Pick the track that fits your goal and move from idea to on-chain activity in minutes.',
+    pathCards: [
+      {
+        title: 'Developers',
+        body: [
+          'Ship production dApps with familiar tooling. Scaffold, test, and deploy contracts from Python without switching stacks.',
+          'Highlights: 60-second CLI quickstart, instant GraphQL APIs, and 68% of gas rewards routed to contract authors.',
+        ],
+        action: { label: 'Start Building', href: '/build/', className: 'main-button bg-color' },
+      },
+      {
+        title: 'Users & Tokenholders',
+        body: [
+          'Install the Xian Wallet, bridge liquidity securely, and explore curated DeFi, naming, and NFT apps already live on mainnet.',
+          'Highlights: self-custody wallet, Solana bridge, and real yields that reinforce $XIAN demand.',
+        ],
+        action: { label: 'Start Using', href: '/use/', className: 'main-button bg-color' },
+      },
+    ],
+  },
+  build: {
+    title: 'Build production dApps in Python.',
+    description:
+      'Install the CLI, scaffold your project, and deploy contracts without switching languages. The 60-second quickstart gets your first contract live immediately.',
+    primaryActions: [
+      { label: 'Run the Quickstart', href: '#get-started', className: 'main-button bg-color' },
+      {
+        label: 'Read the Docs',
+        href: 'https://docs.xian.org',
+        target: '_blank',
+        rel: 'noreferrer',
+        className: 'main-button',
+      },
+    ],
+  },
+  use: {
+    title: 'Use the Python-powered economy in minutes.',
+    description:
+      'Install the Xian Wallet, bridge liquidity, and dive into live apps offering staking, trading, and NFTs. Your first transaction is only a few steps away.',
+    primaryActions: [
+      {
+        label: 'Install Wallet',
+        href: '#wallet-modal',
+        className: 'main-button bg-color',
+        onClick: (event) => {
+          event.preventDefault();
+          window.openWalletModal?.();
+        },
+      },
+      {
+        label: 'Bridge Funds',
+        href: 'https://bridge.xian.org',
+        target: '_blank',
+        rel: 'noreferrer',
+        className: 'main-button',
+      },
+    ],
+  },
+};
+
+function HeroSection({ page = 'home' }) {
+  const content = HERO_CONTENT[page] ?? HERO_CONTENT.home;
+  const actions = Array.isArray(content.primaryActions) ? content.primaryActions.filter(Boolean) : [];
+  const pathCards = Array.isArray(content.pathCards) ? content.pathCards.filter(Boolean) : [];
   return (
     <section className="hero">
       <div className="bg-hero-gradient">
@@ -17,72 +84,67 @@ function HeroSection() {
       </div>
 
       <div className="container">
-        <h1>The Blockchain Where Python Runs the Economy.</h1>
-        <p>
-          Xian is a new Layer‑1 chain where developers earn 68% of all fees. Powered by code. Backed by users. You can buy $XIAN
-          today and ride the future of programmable value.
-        </p>
+        <h1>{content.title}</h1>
+        <p>{content.description}</p>
 
-        <div className="buttons-wrap top-desk" style={{ marginTop: '2.5rem' }}>
-          <div className="btn-group">
-            <button className="main-button bg-color buy-btn" type="button" aria-haspopup="true" aria-expanded="false">
-              Buy&nbsp;$XIAN
-              <span className="caret" />
-            </button>
-
-            <ul className="buy-menu">
-              <li>
-                <a href="https://dex.xian.org/#pair=1" target="_blank" rel="noreferrer">
-                  Xian DEX
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://raydium.io/swap/?inputMint=sol&outputMint=GnaXkbmMV1zGK6bRCQnM9Jd6Jv2Hjw5b2PFVBaKEE5At"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Raydium DEX (Solana)
-                </a>
-              </li>
-              <li>
-                <a href="https://dex-trade.com/spot/trading/XIANUSDT?interface=classic" target="_blank" rel="noreferrer">
-                  Dex-Trade CEX
-                </a>
-              </li>
-            </ul>
+        {actions.length ? (
+          <div
+            className="buttons-wrap top-desk"
+            style={{ marginTop: '2.5rem', display: 'flex', flexWrap: 'wrap', gap: '1rem' }}
+          >
+            {actions.map((action) => (
+              <a
+                key={action.label}
+                className={action.className || 'main-button bg-color'}
+                href={action.href || '#'}
+                target={action.target}
+                rel={action.rel}
+                onClick={(event) => {
+                  if (action.onClick) {
+                    action.onClick(event);
+                  }
+                }}
+              >
+                {action.label}
+              </a>
+            ))}
           </div>
-
-          <div className="btn-group2">
-            <button className="main-button bg-color get-wallet-btn" type="button" aria-haspopup="true" aria-expanded="false">
-              Get&nbsp;Wallet
-              <span className="caret" />
-            </button>
-
-            <ul className="get-wallet-menu">
-              <li>
-                <a
-                  href="https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Chrome Extension
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://play.google.com/store/apps/details?id=net.xian.xianwalletapp&hl=en&pli=1"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Android Wallet
-                </a>
-              </li>
-            </ul>
+        ) : null}
+        {pathCards.length ? (
+          <div className="steps-grid" style={{ marginTop: '3rem' }}>
+            {pathCards.map((card, index) => (
+              <div className="step-card" key={`${card.title}-${index}`}>
+                <span className="shine" />
+                <div className="step-number">{index + 1}</div>
+                <h3>{card.title}</h3>
+                {Array.isArray(card.body)
+                  ? card.body.map((paragraph, paragraphIndex) => (
+                      <p key={`body-${paragraphIndex}`}>{paragraph}</p>
+                    ))
+                  : card.body
+                  ? <p>{card.body}</p>
+                  : null}
+                {card.action ? (
+                  <div className="step-links" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                    <a
+                      className={card.action.className || 'main-button bg-color'}
+                      href={card.action.href || '#'}
+                      target={card.action.target}
+                      rel={card.action.rel}
+                      onClick={(event) => {
+                        if (card.action.onClick) {
+                          card.action.onClick(event);
+                        }
+                      }}
+                    >
+                      {card.action.label}
+                    </a>
+                  </div>
+                ) : null}
+              </div>
+            ))}
           </div>
-        </div>
-
-        
+        ) : null}
       </div>
     </section>
   );

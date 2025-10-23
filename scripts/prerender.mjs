@@ -18,22 +18,32 @@ async function buildStaticHtml() {
   });
 
   try {
+    const pages = [
+      { name: 'home', output: 'index.html' },
+      { name: 'build', output: path.join('build', 'index.html') },
+      { name: 'use', output: path.join('use', 'index.html') },
+    ];
+
     const { render } = await vite.ssrLoadModule('/src/entry-server.jsx');
-    const appHtml = await render();
 
-    const indexPath = path.resolve(projectRoot, 'dist/index.html');
-    let indexHtml = await readFile(indexPath, 'utf-8');
+    for (const page of pages) {
+      globalThis.__APP_PAGE__ = page.name;
+      const appHtml = await render(page.name);
 
-    const placeholder = '<div id="root"><!--app-html--></div>';
-    if (!indexHtml.includes(placeholder)) {
-      throw new Error('Root placeholder not found in dist/index.html');
+      const indexPath = path.resolve(projectRoot, 'dist', page.output);
+      let indexHtml = await readFile(indexPath, 'utf-8');
+
+      const placeholder = '<div id="root"><!--app-html--></div>';
+      if (!indexHtml.includes(placeholder)) {
+        throw new Error(`Root placeholder not found in dist/${page.output}`);
+      }
+
+      const hydratedHtml = `<div id="root">${appHtml}</div>`;
+      indexHtml = indexHtml.replace(placeholder, hydratedHtml);
+
+      await writeFile(indexPath, indexHtml, 'utf-8');
+      console.log(`Pre-rendered static HTML written to dist/${page.output}`);
     }
-
-    const hydratedHtml = `<div id="root">${appHtml}</div>`;
-    indexHtml = indexHtml.replace(placeholder, hydratedHtml);
-
-    await writeFile(indexPath, indexHtml, 'utf-8');
-    console.log('Pre-rendered static HTML written to dist/index.html');
   } finally {
     await vite.close();
   }
