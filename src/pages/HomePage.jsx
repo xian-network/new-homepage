@@ -54,7 +54,7 @@ function HomePage() {
       />
       <MeetSection />
       <CtaSection
-        title="Ready to explore both tracks/"
+        title="Ready to explore both tracks?"
         buttons={[
           { label: 'Start Building', href: '/build/' },
           { label: 'Start Using', href: '/use/' },

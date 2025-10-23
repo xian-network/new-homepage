@@ -1,63 +1,28 @@
 import { assetPath } from '../../utils/assetPath.js';
 
-const createDropdowns = ({ includeWallet = true } = {}) => {
-  const dropdowns = [
-    {
-      key: 'buy',
-      wrapperClassName: 'btn-group',
-      className: 'main-button bg-color buy-btn',
-      label: 'Buy $XIAN',
-      menuClassName: 'buy-menu',
-      items: [
-        {
-          label: 'Xian DEX',
-          href: 'https://dex.xian.org/#pair=1',
-        },
-        {
-          label: 'Raydium DEX (Solana)',
-          href: 'https://raydium.io/swap/?inputMint=sol&outputMint=GnaXkbmMV1zGK6bRCQnM9Jd6Jv2Hjw5b2PFVBaKEE5At',
-        },
-        {
-          label: 'Dex-Trade CEX',
-          href: 'https://dex-trade.com/spot/trading/XIANUSDT?interface=classic',
-        },
-      ],
-    },
-  ];
-
-  if (includeWallet) {
-    dropdowns.push({
-      key: 'wallet',
-      wrapperClassName: 'btn-group2',
-      className: 'main-button bg-color get-wallet-btn',
-      label: 'Get Wallet',
-      menuClassName: 'get-wallet-menu',
-      items: [
-        {
-          label: 'Chrome Extension',
-          href: 'https://chromewebstore.google.com/detail/xian-wallet/kcimjjhplbcgkcnanijkolfillgfanlc/',
-        },
-        {
-          label: 'Android Wallet',
-          href: 'https://play.google.com/store/apps/details?id=net.xian.xianwalletapp&hl=en&pli=1',
-        },
-      ],
-    });
-  }
-
-  return dropdowns;
-};
-
 const HERO_CONTENT = {
   home: {
     title: 'Two fast tracks into the Python Layer‑1.',
     description:
-      'Xian splits the experience for builders and users. Choose your path, deploy Python smart contracts, or run your first on-chain transaction in minutes.',
-    primaryActions: [
-      { label: 'Start Building', href: '/build/', className: 'main-button bg-color' },
-      { label: 'Start Using', href: '/use/', className: 'main-button' },
+      'Xian splits the experience for builders and users. Pick the track that fits your goal and move from idea to on-chain activity in minutes.',
+    pathCards: [
+      {
+        title: 'Developers',
+        body: [
+          'Ship production dApps with familiar tooling. Scaffold, test, and deploy contracts from Python without switching stacks.',
+          'Highlights: 60-second CLI quickstart, instant GraphQL APIs, and 68% of gas rewards routed to contract authors.',
+        ],
+        action: { label: 'Start Building', href: '/build/', className: 'main-button bg-color' },
+      },
+      {
+        title: 'Users & Tokenholders',
+        body: [
+          'Install the Xian Wallet, bridge liquidity securely, and explore curated DeFi, naming, and NFT apps already live on mainnet.',
+          'Highlights: self-custody wallet, Solana bridge, and real yields that reinforce $XIAN demand.',
+        ],
+        action: { label: 'Start Using', href: '/use/', className: 'main-button bg-color' },
+      },
     ],
-    dropdowns: () => createDropdowns(),
   },
   build: {
     title: 'Build production dApps in Python.',
@@ -73,7 +38,6 @@ const HERO_CONTENT = {
         className: 'main-button',
       },
     ],
-    dropdowns: () => createDropdowns(),
   },
   use: {
     title: 'Use the Python-powered economy in minutes.',
@@ -97,13 +61,13 @@ const HERO_CONTENT = {
         className: 'main-button',
       },
     ],
-    dropdowns: () => createDropdowns({ includeWallet: false }),
   },
 };
 
 function HeroSection({ page = 'home' }) {
   const content = HERO_CONTENT[page] ?? HERO_CONTENT.home;
-  const dropdowns = typeof content.dropdowns === 'function' ? content.dropdowns() : content.dropdowns ?? [];
+  const actions = Array.isArray(content.primaryActions) ? content.primaryActions.filter(Boolean) : [];
+  const pathCards = Array.isArray(content.pathCards) ? content.pathCards.filter(Boolean) : [];
   return (
     <section className="hero">
       <div className="bg-hero-gradient">
@@ -123,50 +87,64 @@ function HeroSection({ page = 'home' }) {
         <h1>{content.title}</h1>
         <p>{content.description}</p>
 
-        <div
-          className="buttons-wrap top-desk"
-          style={{ marginTop: '2.5rem', display: 'flex', flexWrap: 'wrap', gap: '1rem' }}
-        >
-          {content.primaryActions?.map((action) => (
-            <a
-              key={action.label}
-              className={action.className || 'main-button bg-color'}
-              href={action.href || '#'}
-              target={action.target}
-              rel={action.rel}
-              onClick={(event) => {
-                if (action.onClick) {
-                  action.onClick(event);
-                }
-              }}
-            >
-              {action.label}
-            </a>
-          ))}
-          {dropdowns.map((dropdown) => (
-            <div className={dropdown.wrapperClassName} key={dropdown.key}>
-              <button
-                className={dropdown.className || 'main-button'}
-                type="button"
-                aria-haspopup="true"
-                aria-expanded="false"
+        {actions.length ? (
+          <div
+            className="buttons-wrap top-desk"
+            style={{ marginTop: '2.5rem', display: 'flex', flexWrap: 'wrap', gap: '1rem' }}
+          >
+            {actions.map((action) => (
+              <a
+                key={action.label}
+                className={action.className || 'main-button bg-color'}
+                href={action.href || '#'}
+                target={action.target}
+                rel={action.rel}
+                onClick={(event) => {
+                  if (action.onClick) {
+                    action.onClick(event);
+                  }
+                }}
               >
-                {dropdown.label}
-                <span className="caret" />
-              </button>
-
-              <ul className={dropdown.menuClassName}>
-                {dropdown.items?.map((item) => (
-                  <li key={item.label}>
-                    <a href={item.href} target="_blank" rel="noreferrer">
-                      {item.label}
+                {action.label}
+              </a>
+            ))}
+          </div>
+        ) : null}
+        {pathCards.length ? (
+          <div className="steps-grid" style={{ marginTop: '3rem' }}>
+            {pathCards.map((card, index) => (
+              <div className="step-card" key={`${card.title}-${index}`}>
+                <span className="shine" />
+                <div className="step-number">{index + 1}</div>
+                <h3>{card.title}</h3>
+                {Array.isArray(card.body)
+                  ? card.body.map((paragraph, paragraphIndex) => (
+                      <p key={`body-${paragraphIndex}`}>{paragraph}</p>
+                    ))
+                  : card.body
+                  ? <p>{card.body}</p>
+                  : null}
+                {card.action ? (
+                  <div className="step-links" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                    <a
+                      className={card.action.className || 'main-button bg-color'}
+                      href={card.action.href || '#'}
+                      target={card.action.target}
+                      rel={card.action.rel}
+                      onClick={(event) => {
+                        if (card.action.onClick) {
+                          card.action.onClick(event);
+                        }
+                      }}
+                    >
+                      {card.action.label}
                     </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+                  </div>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        ) : null}
       </div>
     </section>
   );
