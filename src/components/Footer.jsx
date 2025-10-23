@@ -1,6 +1,7 @@
 import { assetPath } from '../utils/assetPath.js';
 
-function Footer() {
+function Footer({ page = 'home' }) {
+  const homeHref = page === 'home' ? assetPath('') : assetPath('../');
   return (
     <footer className="footer">
       <div className="container">
@@ -16,6 +17,12 @@ function Footer() {
           </a>
         </div>
         <ul className="footer-menu">
+          <li>
+            <a href="/build/">Developers</a>
+          </li>
+          <li>
+            <a href="/use/">Users</a>
+          </li>
           <li>
             <a href="https://dex.xian.org/#pair=1" target="_blank" rel="noreferrer">
               Buy $XIAN
@@ -43,7 +50,7 @@ function Footer() {
         <div className="copyright mob">All rights reserved. XIAN (c) 2025</div>
         <div className="footer-bottom">
           <div className="footer-logo__block">
-            <a href={assetPath('')} className="logo">
+            <a href={homeHref} className="logo">
               <img src={assetPath('assets/img/logo.svg')} alt="logo" loading="lazy" decoding="async" />
             </a>
             <p>

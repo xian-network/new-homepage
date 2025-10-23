@@ -6,9 +6,15 @@ const rootElement = document.getElementById('root');
 if (typeof window !== 'undefined') {
   window.__BASE_URL__ = import.meta.env.BASE_URL;
 }
+
+const initialPage =
+  (typeof document !== 'undefined' && document.body?.dataset?.page) ||
+  (typeof window !== 'undefined' && window.__APP_PAGE__) ||
+  'home';
+
 const app = (
   <React.StrictMode>
-    <App />
+    <App page={initialPage} />
   </React.StrictMode>
 );
 
