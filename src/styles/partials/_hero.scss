@@ -1,5 +1,5 @@
 :global(.hero) {
-  padding-top: 11.25rem;
+  padding-top: 7.5rem;
   position: relative
 }
 :global(.hero .bg-hero) {
@@ -88,6 +88,48 @@
   font-size: clamp(2.5rem, 1.5625rem + 4.1666666667vw, 3.3125rem);
   text-align: center
 }
+:global(.migration-notice) {
+  display: grid;
+  grid-template-columns: minmax(17rem, .8fr) minmax(0, 1.7fr);
+  gap: 1.5rem;
+  align-items: center;
+  max-width: 73rem;
+  margin: 0 auto 2.75rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid rgba(6, 230, 203, .48);
+  border-radius: 1rem;
+  background: linear-gradient(105deg, rgba(6, 230, 203, .14), rgba(9, 13, 17, .92) 42%);
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, .28);
+  backdrop-filter: blur(.75rem)
+}
+:global(.migration-notice__heading) {
+  padding-right: 1.5rem;
+  border-right: 1px solid rgba(255, 255, 255, .16)
+}
+:global(.migration-notice__eyebrow) {
+  display: block;
+  margin-bottom: .4rem;
+  color: #06e6cb;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  line-height: 1.3;
+  text-transform: uppercase
+}
+:global(.migration-notice h2) {
+  margin: 0;
+  font-size: clamp(1.2rem, 1rem + .65vw, 1.65rem);
+  line-height: 1.25
+}
+:global(.migration-notice p) {
+  margin: 0;
+  color: rgba(255, 255, 255, .86);
+  font-size: .9rem;
+  line-height: 1.55
+}
+:global(.migration-notice strong) {
+  color: #fff
+}
 :global(.hero .container h1 .typewriter-text) {
   color: #06e6cb;
   padding-right: 10px;
@@ -119,11 +161,34 @@
 }
 @media (max-width: 62em) {
   :global(.hero) {
-    padding-top: 8rem
+    padding-top: 6rem
+  }
+
+  :global(.migration-notice) {
+    grid-template-columns: 1fr;
+    gap: .85rem;
+    margin-bottom: 2.25rem
+  }
+
+  :global(.migration-notice__heading) {
+    padding-right: 0;
+    padding-bottom: .85rem;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, .16)
   }
 }
 @media (max-width: 30em) {
   :global(.hero) {
-    padding-top: 6rem
+    padding-top: 4.75rem
+  }
+
+  :global(.migration-notice) {
+    padding: 1rem;
+    border-radius: .75rem
+  }
+
+  :global(.migration-notice p) {
+    font-size: .82rem;
+    line-height: 1.45
   }
 }
