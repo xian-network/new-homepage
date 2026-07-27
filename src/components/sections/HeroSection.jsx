@@ -17,6 +17,20 @@ function HeroSection() {
       </div>
 
       <div className="container">
+        <aside className="migration-notice" aria-labelledby="migration-notice-title">
+          <div className="migration-notice__heading">
+            <span className="migration-notice__eyebrow">Important network update</span>
+            <h2 id="migration-notice-title">New chain snapshot: <time dateTime="2026-09-20">20 September 2026</time></h2>
+          </div>
+          <p>
+            We’re preparing a new blockchain based on Xian’s reworked codebase. Your existing address and private key will
+            remain compatible. Only wallet-held <strong>XIAN</strong> and <strong>xUSDC</strong> balances will carry over. All
+            other tokens and contract-held balances are excluded; contracts must be redeployed, except selected core
+            infrastructure. Before the snapshot, unstake and withdraw XIAN and xUSDC into your wallet. Launch date to be
+            announced.
+          </p>
+        </aside>
+
         <h1>The Blockchain Where Python Runs the Economy.</h1>
         <p>
           Xian is a new Layer‑1 chain where developers earn 68% of all fees. Powered by code. Backed by users. You can buy $XIAN
